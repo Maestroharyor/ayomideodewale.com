@@ -18,6 +18,8 @@
 			class="w-full h-auto hover:opacity-75 transition rounded-md"
 			src={project.img}
 			alt={project.title || ''}
+			loading="lazy"
+			width="300"
 		/>
 	</div>
 	<!-- {#if project.inDevelopment}

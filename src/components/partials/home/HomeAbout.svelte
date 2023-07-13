@@ -98,6 +98,7 @@
 				src="/personal/ayomide-odewale-maestro.png"
 				width={100 * value}
 				height={'auto'}
+				loading="lazy"
 			/>
 		</div>
 	</div>
