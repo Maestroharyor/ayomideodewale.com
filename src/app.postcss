@@ -1,0 +1,239 @@
+/*place global styles here */
+@import url('https://fonts.googleapis.com/css2?family=KoHo:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+:root {
+	--theme-font-family-base: 'KoHo', sans-serif;
+	--theme-font-family-heading: 'KoHo', sans-serif;
+
+	/* =~= Theme Properties =~= */
+	--theme-font-family-base: system-ui;
+	--theme-font-family-heading: system-ui;
+	--theme-font-color-base: 0 0 0;
+	--theme-font-color-dark: 255 255 255;
+	--theme-rounded-base: 9999px;
+	--theme-rounded-container: 8px;
+	--theme-border-base: 1px;
+	/* =~= Theme On-X Colors =~= */
+	--on-primary: 255 255 255;
+	--on-secondary: 0 0 0;
+	--on-tertiary: 255 255 255;
+	--on-success: 0 0 0;
+	--on-warning: 255 255 255;
+	--on-error: 255 255 255;
+	--on-surface: 0 0 0;
+	/* =~= Theme Colors  =~= */
+	/* primary | #42489E */
+	--color-primary-50: 227 228 240; /* ⬅ #e3e4f0 */
+	--color-primary-100: 217 218 236; /* ⬅ #d9daec */
+	--color-primary-200: 208 209 231; /* ⬅ #d0d1e7 */
+	--color-primary-300: 179 182 216; /* ⬅ #b3b6d8 */
+	--color-primary-400: 123 127 187; /* ⬅ #7b7fbb */
+	--color-primary-500: 66 72 158; /* ⬅ #42489E */
+	--color-primary-600: 59 65 142; /* ⬅ #3b418e */
+	--color-primary-700: 50 54 119; /* ⬅ #323677 */
+	--color-primary-800: 40 43 95; /* ⬅ #282b5f */
+	--color-primary-900: 32 35 77; /* ⬅ #20234d */
+	/* secondary | #0c56d0 */
+	--color-secondary-50: 219 230 248; /* ⬅ #dbe6f8 */
+	--color-secondary-100: 206 221 246; /* ⬅ #ceddf6 */
+	--color-secondary-200: 194 213 243; /* ⬅ #c2d5f3 */
+	--color-secondary-300: 158 187 236; /* ⬅ #9ebbec */
+	--color-secondary-400: 85 137 222; /* ⬅ #5589de */
+	--color-secondary-500: 12 86 208; /* ⬅ #0c56d0 */
+	--color-secondary-600: 11 77 187; /* ⬅ #0b4dbb */
+	--color-secondary-700: 9 65 156; /* ⬅ #09419c */
+	--color-secondary-800: 7 52 125; /* ⬅ #07347d */
+	--color-secondary-900: 6 42 102; /* ⬅ #062a66 */
+	/* tertiary | #B23CFD */
+	--color-tertiary-50: 243 226 255; /* ⬅ #f3e2ff */
+	--color-tertiary-100: 240 216 255; /* ⬅ #f0d8ff */
+	--color-tertiary-200: 236 206 255; /* ⬅ #ecceff */
+	--color-tertiary-300: 224 177 254; /* ⬅ #e0b1fe */
+	--color-tertiary-400: 201 119 254; /* ⬅ #c977fe */
+	--color-tertiary-500: 178 60 253; /* ⬅ #B23CFD */
+	--color-tertiary-600: 160 54 228; /* ⬅ #a036e4 */
+	--color-tertiary-700: 134 45 190; /* ⬅ #862dbe */
+	--color-tertiary-800: 107 36 152; /* ⬅ #6b2498 */
+	--color-tertiary-900: 87 29 124; /* ⬅ #571d7c */
+	/* success | #00B74A */
+	--color-success-50: 217 244 228; /* ⬅ #d9f4e4 */
+	--color-success-100: 204 241 219; /* ⬅ #ccf1db */
+	--color-success-200: 191 237 210; /* ⬅ #bfedd2 */
+	--color-success-300: 153 226 183; /* ⬅ #99e2b7 */
+	--color-success-400: 77 205 128; /* ⬅ #4dcd80 */
+	--color-success-500: 0 183 74; /* ⬅ #00B74A */
+	--color-success-600: 0 165 67; /* ⬅ #00a543 */
+	--color-success-700: 0 137 56; /* ⬅ #008938 */
+	--color-success-800: 0 110 44; /* ⬅ #006e2c */
+	--color-success-900: 0 90 36; /* ⬅ #005a24 */
+	/* warning | #FFA900 */
+	--color-warning-50: 255 242 217; /* ⬅ #fff2d9 */
+	--color-warning-100: 255 238 204; /* ⬅ #ffeecc */
+	--color-warning-200: 255 234 191; /* ⬅ #ffeabf */
+	--color-warning-300: 255 221 153; /* ⬅ #ffdd99 */
+	--color-warning-400: 255 195 77; /* ⬅ #ffc34d */
+	--color-warning-500: 255 169 0; /* ⬅ #FFA900 */
+	--color-warning-600: 230 152 0; /* ⬅ #e69800 */
+	--color-warning-700: 191 127 0; /* ⬅ #bf7f00 */
+	--color-warning-800: 153 101 0; /* ⬅ #996500 */
+	--color-warning-900: 125 83 0; /* ⬅ #7d5300 */
+	/* error | #F93154 */
+	--color-error-50: 254 224 229; /* ⬅ #fee0e5 */
+	--color-error-100: 254 214 221; /* ⬅ #fed6dd */
+	--color-error-200: 254 204 212; /* ⬅ #feccd4 */
+	--color-error-300: 253 173 187; /* ⬅ #fdadbb */
+	--color-error-400: 251 111 135; /* ⬅ #fb6f87 */
+	--color-error-500: 249 49 84; /* ⬅ #F93154 */
+	--color-error-600: 224 44 76; /* ⬅ #e02c4c */
+	--color-error-700: 187 37 63; /* ⬅ #bb253f */
+	--color-error-800: 149 29 50; /* ⬅ #951d32 */
+	--color-error-900: 122 24 41; /* ⬅ #7a1829 */
+	/* surface | #42489E */
+	--color-surface-50: 227 228 240; /* ⬅ #e3e4f0 */
+	--color-surface-100: 217 218 236; /* ⬅ #d9daec */
+	--color-surface-200: 208 209 231; /* ⬅ #d0d1e7 */
+	--color-surface-300: 179 182 216; /* ⬅ #b3b6d8 */
+	--color-surface-400: 123 127 187; /* ⬅ #7b7fbb */
+	--color-surface-500: 66 72 158; /* ⬅ #42489E */
+	--color-surface-600: 59 65 142; /* ⬅ #3b418e */
+	--color-surface-700: 50 54 119; /* ⬅ #323677 */
+	--color-surface-800: 40 43 95; /* ⬅ #282b5f */
+	--color-surface-900: 32 35 77; /* ⬅ #20234d */
+
+	--primary-color: #42489e;
+	--primary-accent-color: #0c56d0;
+	--dark-theme-color: #000a1f;
+	--warning: #ffa900;
+}
+
+html,
+body {
+	@apply h-full overflow-hidden;
+	scroll-behavior: smooth;
+}
+
+html {
+	scroll-behavior: smooth;
+	scrollbar-width: thin;
+	scrollbar-color: var(--primary-accent-color) #f3f4f6;
+}
+
+html.dark {
+	scrollbar-color: #f3f4f6 var(--dark-theme-color);
+}
+
+body {
+	font-family: 'KoHo', sans-serif;
+}
+
+/* Scroll Bar - Webkit */
+/* width */
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f3f4f6;
+}
+
+html.dark ::-webkit-scrollbar-track {
+	background: var(--dark-theme-color);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: var(--primary-color);
+	border-radius: 10px;
+	transition: all 0.3s ease-in-out;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: var(--primary-accent-color);
+}
+
+.section__title:before {
+	content: '';
+	position: absolute;
+	left: 105%;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	height: 4px;
+	width: 100vw;
+	background-color: var(--primary-accent-color);
+	border-radius: 100%;
+}
+
+@media (max-width: 768px) {
+	.sectionTitle::before {
+		left: 50%;
+		right: auto;
+		top: -20px;
+		transform: translate(-50%, -50%);
+		height: 8px;
+		width: 150px;
+	}
+}
+
+.testimonialQuote::before {
+	content: '“';
+	position: absolute;
+	top: -10px;
+	left: -46px;
+	opacity: 0.75;
+	font-size: 80px;
+}
+
+@keyframes float {
+	0% {
+		transform: translateY(0px);
+	}
+
+	50% {
+		transform: translateY(5px);
+	}
+
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+._floating {
+	position: absolute;
+	animation: float 2s infinite ease-in-out;
+	/* z-index: -1; */
+}
+
+.profile__details a {
+	text-decoration: underline;
+	color: var(--primary-color);
+	font-style: italic;
+	transition: all 0.3s ease-in-out;
+}
+.profile__details a:hover {
+	color: var(--primary-accent-color);
+}
+
+html.dark .profile__details a {
+	color: var(--warning);
+}
+html.dark .profile__details a:hover {
+	color: var(--primary-accent-color);
+}
+
+.profile__details p {
+	margin-bottom: 20px;
+}
+
+/* Project Card */
+.project_card {
+	/* From https://css.glass */
+	/* background: rgba(255, 255, 255, 0.05); */
+	/* border-radius: 16px; */
+	/* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); */
+	/* backdrop-filter: blur(5.2px);
+	-webkit-backdrop-filter: blur(7.2px); */
+	/* border: 1px solid rgba(255, 255, 255, 0.05); */
+}
