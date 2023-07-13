@@ -22,6 +22,7 @@
 			alt={project.title || ''}
 			loading="lazy"
 			width="300"
+			height="300"
 		/>
 	</div>
 	<!-- {#if project.inDevelopment}
@@ -70,7 +71,7 @@
 			<div
 				class="inline-flex items-center gap-3 group-hover:translate-x-1 group-hover:-translate-y-1 duration-300 ease-in-out"
 			>
-				<div aria-label="open link">
+				<div>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 20 20"

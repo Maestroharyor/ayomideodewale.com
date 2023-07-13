@@ -73,6 +73,7 @@
 								class=""
 								title="Svelte"
 								alt="Svelte"
+								loading="lazy"
 							/>
 							<span class="sr-only">Svelte</span>
 						</span>
@@ -85,6 +86,7 @@
 								class=""
 								title="TailwindCSS"
 								alt="TailwindCSS"
+								loading="lazy"
 							/>
 							<span class="sr-only">TailwindCSS</span>
 						</span>
@@ -96,6 +98,7 @@
 								class=""
 								title="Skeleton"
 								alt="Skeleton"
+								loading="lazy"
 							/>
 							<span class="sr-only">Skeleton</span>
 						</span>

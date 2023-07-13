@@ -102,6 +102,7 @@
 						height={50}
 						class:invert={item.skill.toLowerCase() === 'nextjs' ||
 							item.skill.toLowerCase() === 'solidity'}
+						loading="lazy"
 					/>
 					<p class="text-sm text-gray-600 dark:text-gray-100 font-bold mt-3 opacity-80">
 						{item.skill}
