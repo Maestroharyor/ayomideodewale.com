@@ -13,7 +13,6 @@
 
 	afterUpdate(() => {
 		lightMode = $modeCurrent.valueOf();
-	
 	});
 	// console.log($modeCurrent.valueOf());
 
@@ -96,7 +95,7 @@
 					enable: true,
 					minimumValue: 0.05
 				},
-				value: 1
+				value: 0.5
 			},
 			shape: {
 				type: 'circle'

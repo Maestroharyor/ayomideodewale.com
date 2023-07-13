@@ -3,8 +3,6 @@
 	import FaExternalLinkAlt from 'svelte-icons-pack/fa/FaSolidExternalLinkAlt';
 	import FaGithub from 'svelte-icons-pack/fa/FaBrandsGithub';
 
-	import Icon from 'svelte-icons-pack/Icon.svelte';
-
 	export let experience: Experience;
 </script>
 
@@ -50,7 +48,7 @@
 				>
 			</div>
 		</h3>
-		<p class=" text-sm leading-normal">
+		<p class=" text-[16px] leading-normal">
 			{experience.description}
 		</p>
 		<ul class=" flex flex-wrap gap-x-2 gap-y-2 mt-1" aria-label="Technologies used">

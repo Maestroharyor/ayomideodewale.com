@@ -2,43 +2,21 @@ import type { Design } from '../types';
 
 export const designs: Design[] = [
 	{
-		label: 'Mobile Shopping App',
-		image: '/static/designs/mobile-shopping-app.jpg',
-		link: 'https://dribbble.com/shots/9458498-Mobile-Shopping-App'
+		label: 'Data Mirror Mobile App',
+		image: '/designs/data_mirror.png',
+		link: 'https://dribbble.com/shots/21991067-Data-Mirror-Mobile-App-Design',
+		desc: 'A mobile app to monitor Data Usage, Internet speed and more'
 	},
 	{
-		label: 'Modern App Design',
-		image: '/static/designs/modern-app-design.png',
-		link: 'https://dribbble.com/shots/15485626-Modern-App-Design'
+		label: 'Lifetechfacts Blog',
+		image: '/designs/lifetechfacts.png',
+		link: 'https://dribbble.com/shots/21991051-Lifetechfacts-Blog-UI-Design',
+		desc: 'This Dribbble shot showcases the asthetically pleasing UI Design of my Blog. Check out the link.'
 	},
 	{
-		label: 'Landing Pages for Startups - Concept',
-		image: '/static/designs/startup-landing-pages.png',
-		link: 'https://dribbble.com/shots/15485635-Landing-Pages-for-Startups-Concept'
-	},
-	{
-		label: 'Luxury, Blue Portfolio',
-		image: '/static/designs/luxury-blue-portfolio.png',
-		link: 'https://dribbble.com/shots/15165547-Luxury-Blue-Portfolio'
-	},
-	{
-		label: 'Mobile Deal Page',
-		image: '/static/designs/mobile-deal-page.jpg',
-		link: 'https://dribbble.com/shots/9462248-Mobile-Deal-Page'
-	},
-	{
-		label: 'Neon Signatures',
-		image: '/static/designs/neon-signatures.jpeg',
-		link: 'https://dribbble.com/shots/11134809-Neon-Signatures'
-	},
-	{
-		label: 'The Dentista - Logo Design',
-		image: '/static/designs/the-dentista-logo.png',
-		link: 'https://dribbble.com/shots/14571857-The-Dentista-Logo-Design'
-	},
-	{
-		label: 'iPhone Wallpapers',
-		image: '/static/designs/iphone-wallpapers.png',
-		link: 'https://dribbble.com/shots/14077089-Free-iPhone-Wallpapers'
+		label: 'Braandly SaaS',
+		image: '/designs/braandly.png',
+		link: 'https://dribbble.com/shots/21990981-Braandly-SaaS-UI-Design',
+		desc: 'Discover Braandly, a revolutionary branding software that empowers businesses of all sizes to create stunning and impactful brand identities effortlessly. This Dribbble shot showcases the sleek and user-friendly UI design of Braandly, offering a glimpse into the future of branding. Check it out now'
 	}
 ];

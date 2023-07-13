@@ -86,7 +86,7 @@
 		<p class="mb-9 text-lg text-gray-600 dark:text-gray-200">OR</p>
 
 		<button
-			class="border-2 rounded-full px-20 py-2 border-primary-500 dark:border-white text-lg font-medium text-primary hover:text-dark-theme hover:border-dark-theme transition duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning dark:hover:border-warning"
+			class="border-2 rounded-full px-8 py-2 border-primary-500 hover:border-primary-hov dark:border-white text-lg font-medium text-primary-500 hover:text-dark-theme transition duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning-500 dark:hover:border-warning-500"
 			on:click={openModal}
 		>
 			Get in Touch

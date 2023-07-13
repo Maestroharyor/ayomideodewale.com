@@ -96,7 +96,7 @@
 				{/if}
 			</div>
 		</div>
-		<p class="text-fun-gray text-left text-sm">{project.desc}</p>
+		<p class="text-fun-gray text-left text-[16px]">{project.desc}</p>
 		<ul class="flex flex-wrap items-center mt-4 list-none gap-3">
 			{#each project.tags as tag}
 				<li>

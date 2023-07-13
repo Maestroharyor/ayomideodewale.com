@@ -40,6 +40,7 @@ export interface Design {
 	label: string;
 	image: string;
 	link?: string;
+	desc?: string;
 }
 
 export interface Experience {

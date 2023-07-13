@@ -3,41 +3,22 @@
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import type { ModalSettings } from '@skeletonlabs/skeleton';
 	import { onMount, onDestroy } from 'svelte';
-	import { menuData } from '../../../data/menu';
+	import { homeMenuData } from '../../../data/menu';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
+	import { page } from '$app/stores';
 
-	let isLight;
+	let currentMenu = homeMenuData;
+	let currentPage = '/';
 
 	onMount(() => {
-		// isLight = $theme?.lightMode;
-		const header = document.querySelector('#desktop_header') as HTMLElement;
-
-		let lastScrollTop = 0;
-		const handleScrollBar = () => {
-			// console.log('Scrolling');
-			if (header !== null) {
-				let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-				if (scrollTop > lastScrollTop) {
-					header.style.top = '-80px';
-					header.classList.remove('bg-gray-100/90', 'dark:bg-[rgba(0,10,31,0.96)]');
-				} else {
-					header.style.top = '0px';
-					header.classList.add('bg-gray-100/90', 'dark:bg-[rgba(0,10,31,0.96)]');
-				}
-
-				if (window.pageYOffset <= 60) {
-					header.classList.remove('bg-gray-100/90', 'dark:bg-[rgba(0,10,31,0.96)]');
-				}
-				lastScrollTop = scrollTop;
+		page.subscribe((page) => {
+			currentPage = page.route.id as string;
+			if (currentPage === '/') {
+				currentMenu = homeMenuData.filter((menu) => menu.title.toLowerCase() !== '/');
+			} else {
+				currentMenu = homeMenuData.filter((menu) => !menu.isHomeLink);
 			}
-		};
-
-		window.addEventListener('scroll', handleScrollBar);
-
-		// onDestroy(() => {
-		// 	window.removeEventListener('scroll', handleScrollBar);
-		// });
+		});
 	});
 
 	const modal: ModalSettings = {
@@ -64,7 +45,7 @@
 			let:animate={{ opacity: 1, y: 0 }}
 			let:transition={{ duration: 0.5, delay: 0.5, stiffness: 500, type: 'spring' }}
 		> -->
-				<a href="/" class="font-black text-xl flex items-center gap-1.5">
+				<a href="/" class="font -black text-xl flex items-center gap-1.5">
 					<img
 						src={'/logos/light_logo.svg'}
 						alt="Ayomide Odewale Logo"
@@ -99,11 +80,15 @@
 			let:animate={{ opacity: 1, y: 0 }}
 			let:transition={{ duration: 0.5, delay: 0.8, stiffness: 500, type: 'spring' }}
 		> -->
-			{#each menuData as item, index}
+			{#each currentMenu as item, index}
 				<li>
 					<a
 						href={item.link}
-						class={`text-lg list-none transition duration-300 ease-in-out ${'text-primary-500 dark:text-white dark:hover:text-warning-500 hover:text-gray-800'}`}
+						class={`text-lg list-none transition duration-300 ease-in-out ${
+							currentPage === item.link
+								? 'text-dark-theme dark:text-warning-500'
+								: 'text-primary-500 dark:text-white dark:hover:text-warning-500 hover:text-dark-theme'
+						}`}
 					>
 						{item.title}
 					</a>

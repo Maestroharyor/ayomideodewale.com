@@ -1,24 +1,22 @@
-<script>
-	import FaSolidExternalLinkAlt from 'svelte-icons-pack/fa/FaSolidExternalLinkAlt';
-	import Icon from 'svelte-icons-pack/Icon.svelte';
+<script lang="ts">
 	import { onMount } from 'svelte';
 	import { footerMenu } from '../../../data/menu';
+	import { page } from '$app/stores';
 
 	let currentYear = new Date().getFullYear();
+	let currentMenu = footerMenu;
+	let currentPage = '/';
 
-	//   onMount(() => {
-	//     const sr = ScrollReveal();
-	//     sr.reveal(".reveal-bottom", {
-	//       origin: "bottom",
-	//       distance: "20px",
-	//       duration: 800,
-	//       delay: 200,
-	//       easing: "cubic-bezier(0.5, 0, 0, 1)",
-	//       opacity: 0,
-	//       useDelay: "onload",
-	//       reset: true,
-	//     });
-	//   });
+	onMount(() => {
+		page.subscribe((page) => {
+			currentPage = page.route.id as string;
+			if (currentPage === '/') {
+				currentMenu = footerMenu.filter((menu) => menu.title.toLowerCase() !== '/');
+			} else {
+				currentMenu = footerMenu.filter((menu) => !menu.isHomeLink);
+			}
+		});
+	});
 </script>
 
 <footer
@@ -28,31 +26,34 @@
 		<div class="mb-10">
 			<p class="uppercase text-lg font-bold text-center dark:text-warning-500 mb-10">MENU LINKS:</p>
 			<div class="flex flex-col md:flex-row flex-wrap gap-3 justify-between px-5">
-				{#each footerMenu as menu (menu.title)}
+				{#each currentMenu as menu (menu.title)}
 					<div class="">
-						{#if menu.external}
-							<a
-								href={menu.link}
-								target="_blank"
-								rel="noreferrer"
-								class="inline-flex items-center gap-2 text-xl hover:text-warning-500 dark:hover:text-warning-500 transition-all duration-300"
-							>
-								<span>{menu.title}</span>
-								<!-- <FaSolidExternalLinkAlt /> -->
-								<Icon
-									src={FaSolidExternalLinkAlt}
-									size={'10'}
-									className="text-gray-500 dark:text-gray-100"
-								/>
-							</a>
-						{:else}
-							<a
-								href={menu.link}
-								class="text-xl hover:text-warning-500 dark:hover:text-warning-500 transition-all duration-300"
-							>
-								{menu.title}
-							</a>
-						{/if}
+						<a
+							href={menu.link}
+							target="_blank"
+							rel="noreferrer"
+							class={`inline-flex gap-2 items-center text-lg list-none transition duration-300 ease-in-out ${
+								currentPage === menu.link
+									? 'text-dark-theme dark:text-warning-500'
+									: 'text-primary-500 dark:text-white dark:hover:text-warning-500 hover:text-dark-theme'
+							}`}
+						>
+							<span>{menu.title}</span>
+							{#if menu.external}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+									class="ml-1 inline-block h-4 w-4 shrink-0 translate-y-px transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 group-focus-visible/link:-translate-y-1 group-focus-visible/link:translate-x-1 motion-reduce:transition-none"
+									aria-hidden="true"
+									><path
+										fill-rule="evenodd"
+										d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+										clip-rule="evenodd"
+									/></svg
+								>
+							{/if}
+						</a>
 					</div>
 				{/each}
 			</div>

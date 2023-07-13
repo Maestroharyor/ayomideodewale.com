@@ -1,6 +1,11 @@
 import type { Menus } from '../types';
 
-export const menuData: Menus[] = [
+export const homeMenuData: Menus[] = [
+	{
+		title: 'Home',
+		link: '/',
+		hasSubmenu: false
+	},
 	{
 		title: 'About',
 		link: '#about',
