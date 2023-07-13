@@ -80,11 +80,12 @@
 		<div class="flex items-center justify-center gap-3 mb-8 w-full">
 			<p>Favourite Tech Stacks</p>
 			<SlideToggle
-				name="slide"
+				name="Tech Stacks"
 				on:change={handleChange}
 				bind:checked={fullSkills}
 				aria-label="Tech Stacks Button"
 				active="bg-primary-hov"
+				label="Tech Stacks"
 			/>
 
 			<p>All Tech Stacks</p>
