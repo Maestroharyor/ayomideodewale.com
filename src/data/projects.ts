@@ -25,17 +25,7 @@ export const projects: Project[] = [
 		desc: 'A multivendor ecommerce platform and marketplace',
 		img: '/projects/react-emoji-search.png',
 		link: 'https://virem.com.ng',
-		tags: ['ReactJS', 'NextJS', 'Bootstrap', 'SASS', 'WordPress', 'NodeJS'],
-		featured: true
-	},
-	{
-		id: 30,
-		title: 'Lifetechfacts Blog',
-		desc: 'A multivendor ecommerce platform and marketplace',
-		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['ReactJS', 'NextJS', 'Bootstrap', 'SASS', 'WordPress', 'NodeJS'],
-		featured: true
+		tags: ['ReactJS', 'NextJS', 'Bootstrap', 'SASS', 'WordPress', 'NodeJS']
 	},
 	{
 		id: 4,
@@ -48,10 +38,11 @@ export const projects: Project[] = [
 	{
 		id: 5,
 		title: 'Lifetechfacts',
-		desc: 'A multivendor ecommerce platform and marketplace',
+		desc: 'A very cool blog I run and manage',
 		img: '/projects/react-emoji-search.png',
-		link: 'https://training.thelifetechfacts.com',
-		tags: ['ReactJS', 'NextJS', 'TailwindCSS', 'WordPress', 'NodeJS', 'ExpressJS']
+		link: 'https://thelifetechfacts.com',
+		tags: ['ReactJS', 'NextJS', 'Bootstrap', 'SASS', 'WordPress', 'NodeJS'],
+		featured: true
 	},
 	{
 		id: 6,
@@ -63,121 +54,66 @@ export const projects: Project[] = [
 	},
 	{
 		id: 7,
-		title: 'Bible Stars Tv',
-		desc: 'A multivendor ecommerce platform and marketplace',
+		title: 'Ayomideodewale.com',
+		desc: 'My current portfolio site',
 		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['ReactJS', 'NextJS', 'TailwindCSS', 'NodeJS', 'ExpressJS']
+		link: 'https://ayomideodewale.com',
+		tags: ['Svelte', 'SvelteKit', 'TailwindCSS', 'NodeJS', 'ExpressJS']
 	},
 	{
 		id: 8,
-		title: 'Bible Stars Management Platform ',
-		desc: 'A multivendor ecommerce platform and marketplace',
+		title: 'FoodMood',
+		desc: 'A food recipe app built with VueJS',
 		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['ReactJS', 'NextJS', 'TailwindCSS', 'NodeJS', 'ExpressJS']
+		link: 'https://foodmood-final.vercel.app',
+		tags: ['VueJS', 'TailwindCSS'],
+		featured: true
 	},
 	{
 		id: 9,
-		title: 'Ayomideodewale.com',
-		desc: 'A multivendor ecommerce platform and marketplace',
+		title: 'Tailwind Blog',
+		desc: 'A SSR blog built with ExpressJS and rendered with the EJS templating system',
 		img: '/projects/react-emoji-search.png',
 		link: 'https://virem.com.ng',
-		tags: ['ReactJS', 'NextJS', 'TailwindCSS', 'NodeJS', 'ExpressJS']
+		tags: ['NodeJS', 'ExpressJS', 'CSS', 'TailwindCSS', 'EJS', 'HTML']
 	},
 	{
 		id: 10,
-		title: 'FoodMood',
-		desc: 'A multivendor ecommerce platform and marketplace',
+		title: 'Meals Recipe App',
+		desc: 'A meals recipe app built with React Native',
 		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['Vue', 'TailwindCSS']
+		github: 'https://github.com/Maestroharyor/meals-recipe-app',
+		tags: ['TypeScript', 'React Native']
 	},
 	{
 		id: 11,
-		title: 'Express Blog',
-		desc: 'A multivendor ecommerce platform and marketplace',
+		title: 'Guess the number game App',
+		desc: 'A number game app built with React Native and TypeScript',
 		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['NodeJS', 'ExpressJS', 'CSS', 'EJS', 'HTML']
+		github: 'https://github.com/Maestroharyor/guess-the-number-app',
+		tags: ['TypeScript', 'React Native']
 	},
 	{
 		id: 12,
-		title: 'Meals Recipe App',
-		desc: 'A multivendor ecommerce platform and marketplace',
+		title: 'Veegil Banking App',
+		desc: ' A banking app built with NextJS',
 		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['React Native']
+		github: 'https://github.com/Maestroharyor/Veegil-Banking-App',
+		tags: ['ReactJS', 'NextJS', 'TailwindCSS', 'CSS']
 	},
 	{
 		id: 13,
-		title: 'Simple Game Review App',
-		desc: 'A multivendor ecommerce platform and marketplace',
-		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['React Native']
-	},
-	{
-		id: 14,
-		title: 'Guess the number game App',
-		desc: 'A multivendor ecommerce platform and marketplace',
-		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['React Native']
-	},
-	{
-		id: 15,
-		title: 'PieBlog',
-		desc: 'A multivendor ecommerce platform and marketplace',
-		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['Python', 'Django', 'SQL', 'TailwindCSS', 'CSS']
-	},
-	{
-		id: 16,
-		title: 'Sloovi Task Manager',
-		desc: 'A multivendor ecommerce platform and marketplace',
-		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['ReactJS', 'NextJS', 'TailwindCSS', 'CSS']
-	},
-	{
-		id: 17,
-		title: 'Veegil Banking App',
-		desc: 'A multivendor ecommerce platform and marketplace',
-		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['ReactJS', 'NextJS', 'TailwindCSS', 'CSS']
-	},
-	{
-		id: 18,
-		title: 'BlockChain Inbox Project',
-		desc: 'A multivendor ecommerce platform and marketplace',
-		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['Solidity', 'NodeJS', 'ExpressJS']
-	},
-	{
-		id: 19,
-		title: 'Jobify',
-		desc: 'A multivendor ecommerce platform and marketplace',
-		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['VueJS', 'CSS']
-	},
-	{
-		id: 20,
 		title: 'Expense Tracker',
-		desc: 'A multivendor ecommerce platform and marketplace',
+		desc: 'A mobile expense tracker app built with flutter',
 		img: '/projects/react-emoji-search.png',
-		link: 'https://virem.com.ng',
-		tags: ['ReactJS', 'CSS']
+		github: 'https://github.com/Maestroharyor/expense-tracker-flutter',
+		tags: ['Flutter']
 	},
 
 	{
-		id: 21,
+		id: 14,
 		title: 'Text Editor',
-		desc: 'A multivendor ecommerce platform and marketplace',
+		desc: 'A simple text editor app built with HTML, CSS, and JavaScript',
 		img: '/projects/react-emoji-search.png',
 		link: 'https://virem.com.ng',
 		tags: ['HTML', 'CSS', 'JavaScript']

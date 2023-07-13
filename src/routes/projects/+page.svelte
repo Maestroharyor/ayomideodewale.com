@@ -23,7 +23,7 @@
 				href="https://github.com/maestroharyor"
 				target={'_blank'}
 				rel="noreferrer"
-				class="text-dark-theme underline dark:text-warning font-bold italic"
+				class="text-dark-theme hover:text-primary-500 underline dark:hover:text-warning-700 dark:text-warning-500 font-bold italic transition-all duration-300 ease-in-out"
 			>
 				GitHub Repo
 			</a>{' '}

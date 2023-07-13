@@ -4,7 +4,7 @@
 	import SectionHeading from '../../elements/SectionHeading.svelte';
 </script>
 
-<div class=" pt-20 pb-20 relative bg-dark/20 dark:bg-dark-background/20">
+<div class=" pt-20 pb-20 relative bg-dark/10 dark:bg-dark-background/20">
 	<div class="flex flex-col text-left justify-between px-5 max-w-[1200px] mx-auto">
 		<div>
 			<SectionHeading title="Here are some of my favourite projects" />

@@ -8,7 +8,9 @@
 	export let project: Project;
 </script>
 
-<div
+<a
+	href={project.link || project.github}
+	target="_blank"
 	class=" mx-auto flex flex-col md:flex-row items-start gap-5 group project_card px-5 py-5 h-full rounded-[16px] hover:bg-[rgba(0,0,0,0.02)] hover:dark:bg-[rgba(0,0,0,0.15)] hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.15)] hover:drop-shadow-md hover:backdrop-blur-[3.2px] hover:-translate-y-[2px] transition-all duration-300 cursor-pointer w-full"
 >
 	<div
@@ -68,32 +70,20 @@
 			<div
 				class="inline-flex items-center gap-3 group-hover:translate-x-1 group-hover:-translate-y-1 duration-300 ease-in-out"
 			>
-				{#if project.link}
-					<a href={project.link} target="_blank" rel="noreferrer" aria-label="open link">
-						<!-- <Icon
-							src={FaExternalLinkAlt}
-							size={'10'}
-							className="text-gray-500 dark:text-gray-100"
-						/> -->
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 20 20"
-							fill="currentColor"
-							class="ml-1 inline-block h-4 w-4 shrink-0 translate-y-px transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 group-focus-visible/link:-translate-y-1 group-focus-visible/link:translate-x-1 motion-reduce:transition-none"
-							aria-hidden="true"
-							><path
-								fill-rule="evenodd"
-								d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
-								clip-rule="evenodd"
-							/></svg
-						>
-					</a>
-				{/if}
-				{#if project.github}
-					<a href={project.github} target="_blank" rel="noreferrer" aria-label="Github link">
-						<Icon src={FaGithub} size={'10'} className="text-gray-500 dark:text-gray-100" />
-					</a>
-				{/if}
+				<div aria-label="open link">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+						class="ml-1 inline-block h-4 w-4 shrink-0 translate-y-px transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 group-focus-visible/link:-translate-y-1 group-focus-visible/link:translate-x-1 motion-reduce:transition-none"
+						aria-hidden="true"
+						><path
+							fill-rule="evenodd"
+							d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+							clip-rule="evenodd"
+						/></svg
+					>
+				</div>
 			</div>
 		</div>
 		<p class="text-fun-gray text-left text-[16px]">{project.desc}</p>
@@ -111,4 +101,4 @@
 			{/each}
 		</ul>
 	</div>
-</div>
+</a>
