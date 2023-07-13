@@ -13,7 +13,7 @@
 
 	afterUpdate(() => {
 		lightMode = $modeCurrent.valueOf();
-		console.log('Changed');
+	
 	});
 	// console.log($modeCurrent.valueOf());
 

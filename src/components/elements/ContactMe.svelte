@@ -31,7 +31,7 @@
 			});
 
 			// Handle the API response here
-			console.log('API response:', response);
+			// console.log('API response:', response);
 			const t: ToastSettings = {
 				message: response?.message || 'Message received successfully'
 			};

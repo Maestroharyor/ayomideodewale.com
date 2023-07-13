@@ -14,7 +14,7 @@
 
 		let lastScrollTop = 0;
 		const handleScrollBar = () => {
-			console.log('Scrolling');
+			// console.log('Scrolling');
 			if (header !== null) {
 				let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 

@@ -89,12 +89,12 @@
 						</span>
 						<span>
 							<img
-								src={'/favicon.png'}
+								src={'/skeleton.png'}
 								width={40}
 								height={40}
 								class=""
-								title="TailwindCSS"
-								alt="TailwindCSS"
+								title="Skeleton"
+								alt="Skeleton"
 							/>
 							<span class="sr-only">Skeleton</span>
 						</span>
