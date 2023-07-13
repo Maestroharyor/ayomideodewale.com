@@ -56,29 +56,30 @@
 	class="hidden lg:block pt-5 pb-3 px-5 sticky top-0 z-[50] backdrop-blur"
 >
 	<nav class="flex justify-between items-center">
-		<li class="list-none font-bold text-lg cursor-pointer">
-			<!-- <li
+		<ul>
+			<li class="list-none font-bold text-lg cursor-pointer">
+				<!-- <li
 			class="list-none font-bold text-lg cursor-pointer"
 			let:initial={{ opacity: 0, y: -30 }}
 			let:animate={{ opacity: 1, y: 0 }}
 			let:transition={{ duration: 0.5, delay: 0.5, stiffness: 500, type: 'spring' }}
 		> -->
-			<a href="/" class="font-black text-xl flex items-center gap-1.5">
-				<img
-					src={'/logos/light_logo.svg'}
-					alt="Ayomide Odewale Logo"
-					width={40}
-					height={40}
-					class="transform hover:rotate-[360deg] hover:scale-75 transition-transform duration-500"
-				/>
-				<!-- <img
+				<a href="/" class="font-black text-xl flex items-center gap-1.5">
+					<img
+						src={'/logos/light_logo.svg'}
+						alt="Ayomide Odewale Logo"
+						width={40}
+						height={40}
+						class="transform hover:rotate-[360deg] hover:scale-75 transition-transform duration-500"
+					/>
+					<!-- <img
 					src={$theme?.lightMode ? '/static/logos/light_logo.svg' : '/static/logos/dark_logo.svg'}
 					alt="Ayomide Odewale Logo"
 					width={40}
 					height={40}
 					class="transform hover:rotate-[360deg] hover:scale-75 transition-transform duration-500"
 				/> -->
-				<!-- <div>
+					<!-- <div>
           {Array.from("Maestro").map((letter, index) => (
             <span
               key={index}
@@ -88,8 +89,9 @@
             </span>
           ))}
         </div> -->
-			</a>
-		</li>
+				</a>
+			</li>
+		</ul>
 		<ul class="flex items-center gap-x-10">
 			<!-- <ul
 			class="flex items-center gap-x-10"

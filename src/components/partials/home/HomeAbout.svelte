@@ -91,7 +91,7 @@
 			</div>
 		</div>
 		<div
-			class="md:col-span-4 flex items-center justify-center bg-dark-theme rounded-t-lg border-2 border-gray-100 shadow-sm shadow-dark-theme"
+			class="md:col-span-4 hidden md:flex items-center justify-center bg-dark-theme rounded-t-lg border-2 border-gray-100 shadow-sm shadow-dark-theme"
 		>
 			<img
 				alt="Ayomide Odewale"

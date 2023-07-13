@@ -22,7 +22,7 @@
 >
 	<p class="text-xl mb-5">Hello, I&apos;m Ayomide (Maestro).</p>
 	<h1
-		class="heroTitle inline-block max-w-2xl lg:max-w-4xl w-auto relative text-5xl md:text-6xl lg:text-7xl tracking-tighter mb-10 font-bold dark:text-white"
+		class="heroTitle inline-block max-w-2xl lg:max-w-4xl w-auto relative text-5xl md:text-6xl lg:text-7xl tracking-tighter leading-snug mb-10 font-bold dark:text-white"
 	>
 		I love{' '}
 		<span class="text-primary-500 dark:text-warning-500">designing</span> and
