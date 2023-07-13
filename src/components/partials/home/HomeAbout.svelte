@@ -28,36 +28,36 @@
 	>
 		<div class="md:col-span-8">
 			<div class="profile__selector relative w-full md:max-w-[300px] mx-auto pb-10 mb-10">
-				<RadioGroup>
-					<RadioItem bind:group={value} name="justify" value={1}
+				<RadioGroup labelledby="Select profile details">
+					<RadioItem bind:group={value} name="justify" value={1} label="Shortest"
 						><Icon
 							src={VscCircleOutline}
 							size={'20'}
 							color={value === 1 ? '#42489e' : '#fff'}
 						/></RadioItem
 					>
-					<RadioItem bind:group={value} name="justify" value={2}
+					<RadioItem bind:group={value} name="justify" value={2} label="Short"
 						><Icon
 							src={VscCircleOutline}
 							size={'20'}
 							color={value === 2 ? '#42489e' : '#fff'}
 						/></RadioItem
 					>
-					<RadioItem bind:group={value} name="justify" value={3}
+					<RadioItem bind:group={value} name="justify" value={3} label="Mid"
 						><Icon
 							src={VscCircleOutline}
 							size={'20'}
 							color={value === 3 ? '#42489e' : '#fff'}
 						/></RadioItem
 					>
-					<RadioItem bind:group={value} name="justify" value={4}
+					<RadioItem bind:group={value} name="justify" value={4} label="Long"
 						><Icon
 							src={VscCircleOutline}
 							size={'20'}
 							color={value === 4 ? '#42489e' : '#fff'}
 						/></RadioItem
 					>
-					<RadioItem bind:group={value} name="justify" value={5}
+					<RadioItem bind:group={value} name="justify" value={5} label="Longest"
 						><Icon
 							src={VscCircleOutline}
 							size={'20'}

@@ -20,7 +20,7 @@
 				class="border-2 rounded-full px-5 md:px-32 py-2 border-primary-500 dark:border-white text-lg font-medium text-primary-500 hover:text-dark-theme hover:border-dark-theme transition duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning-500 dark:hover:border-warning-500"
 				aria-label="see more projects"
 			>
-				See More
+				See More Awesome Projects
 			</a>
 		</div>
 	</div>
