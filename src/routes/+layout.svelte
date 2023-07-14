@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { modeCurrent } from '@skeletonlabs/skeleton';
-	import { Modal, modalStore, Toast, toastStore } from '@skeletonlabs/skeleton';
+	import { Modal, Toast } from '@skeletonlabs/skeleton';
 
-	import type { ModalSettings, ModalComponent } from '@skeletonlabs/skeleton';
+	import type { ModalComponent } from '@skeletonlabs/skeleton';
 
 	let lightMode = $modeCurrent.valueOf();
 	// onMount(() => {
@@ -22,7 +22,7 @@
 	import '@skeletonlabs/skeleton/styles/skeleton.css';
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
-	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
+	// import { AppShell, AppBar } from '@skeletonlabs/skeleton';
 	import { autoModeWatcher } from '@skeletonlabs/skeleton';
 	import Header from '../components/partials/headers/Header.svelte';
 	import Footer from '../components/partials/footers/Footer.svelte';
@@ -152,14 +152,14 @@
 >
 <Toast />
 <Modal components={modalComponentRegistry} />
-<AppShell>
-	<svelte:fragment slot="header">
-		<!-- Header -->
+<!-- <AppShell>
+	<svelte:fragment slot="header"> -->
+<!-- Header -->
 
-		<Header />
-	</svelte:fragment>
+<Header />
+<!-- </svelte:fragment> -->
 
-	<!-- Page Route Content -->
-	<slot />
-	<Footer />
-</AppShell>
+<!-- Page Route Content -->
+<slot />
+<Footer />
+<!-- </AppShell> -->

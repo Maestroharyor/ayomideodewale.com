@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { modeCurrent } from '@skeletonlabs/skeleton';
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import type { ModalSettings } from '@skeletonlabs/skeleton';
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import { homeMenuData } from '../../../data/menu';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
