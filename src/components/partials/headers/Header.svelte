@@ -5,6 +5,8 @@
 	import { homeMenuData } from '../../../data/menu';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
+	import { fade, slide } from 'svelte/transition';
+	import { quartInOut } from 'svelte/easing';
 
 	let currentMenu = homeMenuData;
 	let currentPage = '/';
@@ -13,7 +15,7 @@
 		page.subscribe((page) => {
 			currentPage = page.route.id as string;
 			if (currentPage === '/') {
-				currentMenu = homeMenuData.filter((menu) => menu.title.toLowerCase() !== '/');
+				currentMenu = homeMenuData.filter((menu) => menu.link.toLowerCase() !== '/');
 			} else {
 				currentMenu = homeMenuData.filter((menu) => !menu.isHomeLink);
 			}
@@ -29,12 +31,83 @@
 	const openModal = () => {
 		modalStore.trigger(modal);
 	};
+
+	let showMobileNav = false;
+	const toggleMobileNav = (value: boolean) => {
+		showMobileNav = value;
+	};
 </script>
 
-<header
-	id="desktop_header"
-	class="hidden lg:block pt-5 pb-3 px-5 sticky top-0 z-[50] backdrop-blur"
->
+{#if showMobileNav}
+	<div
+		class="fixed w-full h-full top-0 left-0 backdrop-blur-lg z-[100]"
+		transition:fade={{ duration: 300, easing: quartInOut }}
+		on:click={() => toggleMobileNav(false)}
+		on:keyup={() => toggleMobileNav(false)}
+		on:keydown={() => toggleMobileNav(false)}
+	/>
+
+	<div
+		transition:slide={{ axis: 'x', delay: 100, duration: 300, easing: quartInOut }}
+		class="fixed z-[1000] h-full bg-white top-0 left-0 dark:bg-primary-500 shadow w-[calc(100%-40px)] sm:w-[calc(100%-100px)] text-white flex flex-col gap-4 py-10 px-5"
+	>
+		<button
+			class="text-red-500 hover:text-danger-hov dark:text-light hover:dark:text-warning-500 absolute right-3 text-2xl top-2 transition duration-300 ease-in-out"
+			on:click={() => toggleMobileNav(false)}
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				height="1em"
+				viewBox="0 0 384 512"
+				fill="currentColor"
+				stroke="currentColor"
+				><path
+					d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+				/></svg
+			>
+		</button>
+		<ul class="flex flex-col gap-5">
+			{#each currentMenu as item, index}
+				<li>
+					<a
+						href={item.link}
+						class={`text-lg list-none transition duration-300 ease-in-out ${
+							currentPage === item.link
+								? 'text-dark-theme dark:text-warning-500'
+								: 'text-primary-500 dark:text-white dark:hover:text-warning-500 hover:text-dark-theme'
+						}`}
+					>
+						{item.title}
+					</a>
+				</li>
+			{/each}
+			<li>
+				<a
+					href="https://thelifetechfacts.com"
+					target="_blank"
+					class="inline-flex gap-2 items-center text-lg list-none transition duration-300 ease-in-out text-primary-500 dark:text-white dark:hover:text-warning-500 hover:text-dark-theme"
+				>
+					<span>My Blog</span>
+
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+						class="ml-1 inline-block h-4 w-4 shrink-0 translate-y-px transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 group-focus-visible/link:-translate-y-1 group-focus-visible/link:translate-x-1 motion-reduce:transition-none"
+						aria-hidden="true"
+						><path
+							fill-rule="evenodd"
+							d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+							clip-rule="evenodd"
+						/></svg
+					>
+				</a>
+			</li>
+		</ul>
+	</div>
+{/if}
+
+<header id="header" class=" pt-5 pb-3 px-5 sticky top-0 z-[50] backdrop-blur">
 	<nav class="flex justify-between items-center">
 		<ul>
 			<li class="list-none font-bold text-lg cursor-pointer">
@@ -72,7 +145,7 @@
 				</a>
 			</li>
 		</ul>
-		<ul class="flex items-center gap-x-10">
+		<ul class=" items-center gap-x-10 hidden lg:flex">
 			<!-- <ul
 			class="flex items-center gap-x-10"
 			let:initial={{ opacity: 0, y: -30 }}
@@ -82,6 +155,10 @@
 			{#each currentMenu as item, index}
 				<li>
 					<a
+						on:click={() => {
+							console.log('CLicked');
+							// toggleMobileNav(false);
+						}}
 						href={item.link}
 						class={`text-lg list-none transition duration-300 ease-in-out ${
 							currentPage === item.link
@@ -115,8 +192,23 @@
 			</li>
 		</ul>
 
-		<div class="flex gap-6 items-center">
+		<div class="flex gap-3 items-center justify-end">
 			<LightSwitch />
+			<button
+				aria-label="Mobile Menu Navigation Button"
+				class="text-2xl text-dark dark:text-white hover:text-primary-500 dark:hover:text-warning-500 transition ease-in-out duration-300 px-2 lg:hidden"
+				on:click={() => toggleMobileNav(true)}
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					height="1em"
+					viewBox="0 0 448 512"
+					fill="currentColor"
+					><path
+						d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"
+					/></svg
+				>
+			</button>
 		</div>
 		<!-- <div
 			class="flex gap-6 items-center"
