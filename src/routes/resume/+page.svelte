@@ -6,7 +6,7 @@
 
 	onMount(() => {
 		// console.log('Yeah');
-		const pdfPath = import.meta.env.BASE_URL + 'test.pdf';
+		const pdfPath = import.meta.env.BASE_URL + 'resume.pdf';
 		window.location.replace(pdfPath);
 
 		document.body.style.display = 'none';

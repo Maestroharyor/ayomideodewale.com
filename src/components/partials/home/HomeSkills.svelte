@@ -29,7 +29,7 @@
 >
 	<div>
 		<div>
-			<h2 class="text-5xl font-bold mb-2 text-primary dark:text-warning">
+			<h2 class="text-5xl font-bold mb-2 text-primary-500 dark:text-warning-500">
 				{#if fullSkills}
 					The Top Tech Stacks I use
 				{:else}
