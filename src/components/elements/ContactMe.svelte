@@ -42,13 +42,17 @@
 					body: JSON.stringify(formData)
 				});
 
+				isSubmitLoading = false;
+				closeModal();
+
 				openToast({
 					message: response.message || 'Message sent successfully',
 					type: 'success'
 				});
-				isSubmitLoading = false;
 			} catch (error: any) {
 				// Handle error
+
+				closeModal();
 				openToast({
 					message: error.message || 'An error occured while sending the message',
 					type: 'error'
