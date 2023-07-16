@@ -1,52 +1,64 @@
 <script lang="ts">
 	// your script goes here
+	import {
+		useForm,
+		Hint,
+		HintGroup,
+		validators,
+		minLength,
+		email,
+		required
+	} from 'svelte-use-form';
 	import { modalStore, toastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import { openToast } from '../../utils';
+
+	const form = useForm();
+
+	let formData = {
+		name: '',
+		email: '',
+		message: ''
+	}; //we store the form values here
 
 	const closeModal = () => {
 		modalStore.clear();
 	};
 
-	let name = '';
-	let email = '';
-	let message = '';
 	let isSubmitLoading = false;
 
-	async function handleSubmit(event: SubmitEvent) {
-		event.preventDefault();
+	const handleSubmit = async (event: SubmitEvent) => {
+		$form.touched = true;
+		console.log(formData);
+		console.log($form.valid);
+		if ($form.valid) {
+			isSubmitLoading = true;
 
-		const formData = {
-			name,
-			email,
-			message
-		};
-		isSubmitLoading = true;
+			try {
+				const response: any = await fetch('/api/contact', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(formData)
+				});
 
-		try {
-			const response: any = await fetch('/api/contact', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(formData)
-			});
-
-			// Handle the API response here
-			// console.log('API response:', response);
-			const t: ToastSettings = {
-				message: response?.message || 'Message received successfully'
-			};
-			toastStore.trigger(t);
-			isSubmitLoading = false;
-		} catch (error: any) {
-			// Handle error
-			isSubmitLoading = false;
-
-			const t: ToastSettings = {
-				message: error?.message || 'An error occured'
-			};
-			toastStore.trigger(t);
+				openToast({
+					message: response.message || 'Message sent successfully',
+					type: 'success'
+				});
+				isSubmitLoading = false;
+			} catch (error: any) {
+				// Handle error
+				openToast({
+					message: error.message || 'An error occured while sending the message',
+					type: 'error'
+				});
+				isSubmitLoading = false;
+			}
+		} else {
+			console.log(formData);
 		}
-	}
+	};
 </script>
 
 <div
@@ -77,6 +89,7 @@
 		<form
 			class="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2"
 			on:submit|preventDefault={handleSubmit}
+			use:form
 		>
 			<div class="">
 				<label class="text-sm text-primary-500 dark:text-primary-300" for="name">Your Name</label>
@@ -85,8 +98,17 @@
 					class="border-b border-primary-600 dark:border-primary-200 py-3 text-lg bg-white dark:bg-primary-500 focus:outline-none w-full placeholder:text-primary-600 placeholder:dark:text-primary-200"
 					id="name"
 					name="name"
-					bind:value={name}
+					bind:value={formData.name}
+					use:validators={[required, minLength(5)]}
 				/>
+				<HintGroup for="name">
+					<div class="text-red-500 dark:text-300 mt-2">
+						<Hint on="required">Name is required</Hint>
+						<Hint on="minLength" hideWhenRequired let:value>
+							Name requires at least {value} characters.</Hint
+						>
+					</div>
+				</HintGroup>
 			</div>
 			<div class="">
 				<label class="text-sm text-primary-500 dark:text-primary-300" for="email"
@@ -96,10 +118,17 @@
 					type="email"
 					placeholder="Enter Your Email Address"
 					class="border-b border-primary-600 dark:border-primary-200 py-3 text-lg bg-white dark:bg-primary-500 focus:outline-none w-full placeholder:text-primary-600 placeholder:dark:text-primary-200"
-					id="name"
-					name="name"
-					bind:value={email}
+					id="email"
+					name="email"
+					use:validators={[required, email]}
+					bind:value={formData.email}
 				/>
+				<HintGroup for="email">
+					<div class="text-red-500 dark:text-red-300 mt-2">
+						<Hint on="required">Email is required</Hint>
+						<Hint on="email" hideWhenRequired>Email is not valid</Hint>
+					</div>
+				</HintGroup>
 			</div>
 			<div class="md:col-span-2">
 				<label class="text-sm text-primary-500 dark:text-primary-300" for="message">Message</label>
@@ -109,8 +138,17 @@
 					id="message"
 					cols="30"
 					class="border-b border-primary-600 dark:border-primary-200 py-3 text-lg bg-white dark:bg-primary-500 focus:outline-none w-full resize-none placeholder:text-primary-600 placeholder:dark:text-primary-200"
-					bind:value={message}
+					bind:value={formData.message}
+					use:validators={[required, minLength(10)]}
 				/>
+				<HintGroup for="message">
+					<div class="text-red-500 dark:text-red-300 mt-2">
+						<Hint on="required">Message is required</Hint>
+						<Hint on="minLength" hideWhenRequired let:value>
+							Message requires at least {value} characters.</Hint
+						>
+					</div>
+				</HintGroup>
 			</div>
 			<div class="md:col-span-2 flex justify-center items-center">
 				<button

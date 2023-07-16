@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { modalStore } from '@skeletonlabs/skeleton';
-	import type { ModalSettings } from '@skeletonlabs/skeleton';
+	import { modalStore, toastStore } from '@skeletonlabs/skeleton';
+	import type { ModalSettings, ToastSettings } from '@skeletonlabs/skeleton';
 
 	import Icon from 'svelte-icons-pack/Icon.svelte';
 	import FaGithub from 'svelte-icons-pack/fa/FaBrandsGithub';
@@ -9,6 +9,7 @@
 	import FaFacebook from 'svelte-icons-pack/fa/FaBrandsFacebook';
 	import FaInstagram from 'svelte-icons-pack/fa/FaBrandsInstagram';
 	import Tooltip from '../../elements/Tooltip.svelte';
+	import { openToast } from '../../../utils';
 
 	const socials = [
 		{
@@ -87,7 +88,7 @@
 
 		<button
 			class="border-2 rounded-full px-8 py-2 border-primary-500 hover:border-primary-hov dark:border-white text-lg font-medium text-primary-500 hover:text-dark-theme transition duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning-500 dark:hover:border-warning-500"
-			on:click={openModal}
+			on:click={() => openModal()}
 		>
 			Get in Touch
 		</button>

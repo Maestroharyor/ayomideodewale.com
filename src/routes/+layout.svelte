@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '@fontsource/koho';
 	import { modeCurrent } from '@skeletonlabs/skeleton';
 	import { Modal, Toast } from '@skeletonlabs/skeleton';
 
@@ -150,16 +151,9 @@
 <svelte:head
 	>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head
 >
-<Toast />
+
 <Modal components={modalComponentRegistry} />
-<!-- <AppShell>
-	<svelte:fragment slot="header"> -->
-<!-- Header -->
-
+<Toast position="br" />
 <Header />
-<!-- </svelte:fragment> -->
-
-<!-- Page Route Content -->
 <slot />
 <Footer />
-<!-- </AppShell> -->

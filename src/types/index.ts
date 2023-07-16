@@ -61,3 +61,9 @@ export interface ThemeData {
 export interface ModalData {
 	opened: boolean;
 }
+
+export interface ContactErrorResponse {
+	name?: string;
+	email?: string;
+	message?: string;
+}
