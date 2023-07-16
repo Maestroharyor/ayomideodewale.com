@@ -27,8 +27,8 @@
 	<meta name="twitter:creator" content={'maestroharyor'} />
 
 	<meta property="og:url" content={'/'} />
-	<meta property="og:image" content={'/logos/light_logo.svg'} />
-	<meta property="og:site_name" content={'Maestrojaruor'} />
+	<meta property="og:image" content={'/personal/ayomide-odewale-maestro.png'} />
+	<meta property="og:site_name" content={'Ayomide Odewale'} />
 	<meta property="og:title" content={titleView} />
 	<meta property="og:description" content={description} />
 </svelte:head>
