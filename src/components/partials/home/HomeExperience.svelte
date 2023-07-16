@@ -7,7 +7,7 @@
 <div class=" pt-20 pb-20 relative" id="experience">
 	<div class="flex flex-col text-left justify-between px-5 max-w-[1200px] mx-auto">
 		<div>
-			<SectionHeading title="Some Recent Work Experince" />
+			<SectionHeading title="Some Recent Work Experience" />
 		</div>
 		<div class="grid grid-cols-1 gap-5 md:gap-x-10 md:gap-y-16 lg:grid-cols-2 items-start pt-10">
 			{#each experiences as experience}
