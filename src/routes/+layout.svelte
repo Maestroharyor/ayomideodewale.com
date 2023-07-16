@@ -1,5 +1,10 @@
 <script lang="ts">
-	import '@fontsource/koho';
+	import '@fontsource/koho/200.css';
+	import '@fontsource/koho/300.css';
+	import '@fontsource/koho/400.css';
+	import '@fontsource/koho/500.css';
+	import '@fontsource/koho/600.css';
+	import '@fontsource/koho/700.css';
 	import { modeCurrent } from '@skeletonlabs/skeleton';
 	import { Modal, Toast } from '@skeletonlabs/skeleton';
 
