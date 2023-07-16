@@ -153,7 +153,7 @@
 >
 
 <Modal components={modalComponentRegistry} />
-<Toast position="br" />
+<Toast position="tr" />
 <Header />
 <slot />
 <Footer />

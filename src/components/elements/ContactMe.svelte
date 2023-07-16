@@ -156,11 +156,25 @@
 			</div>
 			<div class="md:col-span-2 flex justify-center items-center">
 				<button
-					class="border-2 rounded-full px-20 py-3 border-primary-500 dark:border-white text-lg font-medium text-primary hover:text-dark-theme hover:border-dark-theme transition-all duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning-500 dark:hover:border-warning-500 disabled:opacity-50"
+					class="border-2 rounded-full px-20 py-3 border-primary-500 dark:border-white text-lg font-medium text-primary-500 hover:text-dark-theme hover:border-dark-theme transition-all duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning-500 dark:hover:border-warning-500 disabled:opacity-50 flex gap-3 items-center disabled:hover:border-primary-500 disabled:dark:hover:border-white disabled:hover:text-primary-500 disabled:dark:hover:text-white"
 					type="submit"
 					disabled={isSubmitLoading}
 				>
-					{isSubmitLoading ? 'Submitting...' : 'Get Started'}
+					<span>{isSubmitLoading ? 'Sending...' : 'Get Started'}</span>
+
+					{#if isSubmitLoading}
+						<div class="animate-spin">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								height="1em"
+								viewBox="0 0 512 512"
+								stroke="currentColor"
+								><path
+									d="M222.7 32.1c5 16.9-4.6 34.8-21.5 39.8C121.8 95.6 64 169.1 64 256c0 106 86 192 192 192s192-86 192-192c0-86.9-57.8-160.4-137.1-184.1c-16.9-5-26.6-22.9-21.5-39.8s22.9-26.6 39.8-21.5C434.9 42.1 512 140 512 256c0 141.4-114.6 256-256 256S0 397.4 0 256C0 140 77.1 42.1 182.9 10.6c16.9-5 34.8 4.6 39.8 21.5z"
+								/></svg
+							>
+						</div>
+					{/if}
 				</button>
 			</div>
 		</form>
