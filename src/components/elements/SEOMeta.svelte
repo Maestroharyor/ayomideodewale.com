@@ -12,7 +12,7 @@
 		description = metadescription;
 	} else {
 		description =
-			"	'I am a Fullstack Software and Web Developer specialized in building TopNotch JavaScript Powered Software with extensive knowledge in other relevant skills and tech stacks.'";
+			'I am a Fullstack Software and Web Developer specialized in building TopNotch JavaScript Powered Software with extensive knowledge in other relevant skills and tech stacks.';
 	}
 </script>
 
@@ -27,7 +27,7 @@
 	<meta name="twitter:creator" content={'maestroharyor'} />
 
 	<meta property="og:url" content={'/'} />
-	<meta property="og:image" content={'/personal/ayomide-odewale-maestro.png'} />
+	<meta property="og:image" content={'/personal/og_image.png'} />
 	<meta property="og:site_name" content={'Ayomide Odewale'} />
 	<meta property="og:title" content={titleView} />
 	<meta property="og:description" content={description} />
