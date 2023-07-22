@@ -15,17 +15,13 @@ git clone url
 2. Don't forget to install the dependencies (and you might want to use force flag or legacy-peer-deps like so):
 
 ```bash
-npm install --force
-# or
-npm install --legacy-peer-deps
+npm install
 ````
 
 3. You can run the development server using:
 
 ```bash
 npm run dev
-# or
-npx next dev
 # or
 yarn dev
 ```
