@@ -2,6 +2,15 @@ import type { Project } from '../types';
 
 export const projects: Project[] = [
 	{
+		id: 52,
+		title: "Vickytees's Glamour",
+		desc: 'A top-notch e-commerce platform for a fashion brand',
+		img: '/projects/vickytees.webp',
+		link: 'https://vickyteesglamour.com',
+		featured: true,
+		tags: ['Svelte', 'Sveltekit', 'TailwindCSS', 'NodeJS', 'ExpressJS', 'WordPress']
+	},
+	{
 		id: 1,
 		title: 'Braandly SAAS',
 		desc: 'A branding software for businesses and developers',
