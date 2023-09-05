@@ -19,7 +19,7 @@
 	class="relative min-h-[100vh] w-full pt-20 pb-52 px-5 m-auto flex justify-center text-center flex-col items-center z-1 max-w-[1200px]"
 > -->
 <div
-	class="relative min-h-[100vh] w-full pt-20 pb-52 px-5 m-auto flex justify-center text-center flex-col items-center z-1 max-w-[1200px]"
+	class="relative min-h-[100vh] w-full overflow-x-hidden pt-20 pb-52 px-5 m-auto flex justify-center text-center flex-col items-center z-1 max-w-[1200px]"
 	in:scale={{ duration: 300, start: 0 }}
 >
 	<p class="text-xl mb-5">Hello, I&apos;m Ayomide (Maestro).</p>
