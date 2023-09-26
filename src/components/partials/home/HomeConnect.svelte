@@ -51,7 +51,12 @@
 </script>
 
 <div class="pt-20 relative max-w-[1200px] mx-auto px-5">
-	<img class="w-30 m-auto mb-2" src="/doodles/lineBreak.svg" alt="doodle-line" />
+	<img
+		class="w-30 m-auto mb-2 h-[20px]"
+		src="/doodles/lineBreak.svg"
+		alt="doodle-line"
+		loading="lazy"
+	/>
 	<div class="pt-14 pb-28 flex flex-col justify-center items-center">
 		<div class="max-w-[600px] mx-auto text-center">
 			<h2 class="text-4xl md:text-5xl font-bold mb-3 text-primary-500 dark:text-warning-500">

@@ -97,7 +97,7 @@
 				alt="Ayomide Odewale"
 				src="/personal/ayomide-odewale-maestro.png"
 				width={100 * value}
-				height={'auto'}
+				height={30 * value}
 				loading="lazy"
 			/>
 		</div>
