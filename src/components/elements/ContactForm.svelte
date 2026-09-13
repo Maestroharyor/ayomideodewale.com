@@ -5,10 +5,6 @@
 	const MESSAGE_MIN = 10;
 	const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-	// Called once the request settles, success or failure. The modal passes
-	// modal.close here; the /contact page passes nothing and stays put.
-	let { onSettled }: { onSettled?: () => void } = $props();
-
 	let formData = $state({
 		name: '',
 		email: '',
@@ -61,18 +57,16 @@
 				throw new Error(body.message || 'An error occured while sending the message');
 			}
 
-			// The modal unmounts this on close, but the /contact page does not, so
-			// the reset has to happen here rather than relying on a fresh mount.
+			// /contact stays mounted after a successful send, so clear the fields
+			// here rather than relying on a fresh mount to do it.
 			formData = { name: '', email: '', message: '' };
 			submitted = false;
 
-			onSettled?.();
 			openToast({
 				message: body.message || 'Message sent successfully',
 				type: 'success'
 			});
 		} catch (error) {
-			onSettled?.();
 			openToast({
 				message:
 					error instanceof Error ? error.message : 'An error occured while sending the message',

@@ -3,7 +3,6 @@
 	import { page } from '$app/state';
 	import { fade, slide } from 'svelte/transition';
 	import { quartInOut } from 'svelte/easing';
-	import { modal } from '../../ui/modal-state.svelte';
 	import ThemeToggle from '../../ui/ThemeToggle.svelte';
 
 	// $derived rather than a page.subscribe() in onMount, so the active menu is
@@ -15,14 +14,24 @@
 			: homeMenuData.filter((menu) => !menu.isHomeLink)
 	);
 
-	const openModal = () => {
-		modal.open();
-	};
-
 	let showMobileNav = $state(false);
 	const toggleMobileNav = (value: boolean) => {
 		showMobileNav = value;
 	};
+
+	// One declaration for both the desktop bar and the drawer. These used to be
+	// two hand-copied class strings on two buttons that opened the same modal.
+	const CTA_BASE =
+		'inline-block rounded-full border-2 px-8 py-2 text-lg font-medium transition duration-300 ease-in-out';
+
+	// The CTA is a nav destination now, not a dialog trigger, so it takes the same
+	// active treatment as the other nav items when you are already on the page.
+	const onContact = $derived(currentPage === '/contact');
+	const ctaClass = $derived(
+		onContact
+			? `${CTA_BASE} border-dark-theme text-dark-theme dark:border-warning-500 dark:text-warning-500`
+			: `${CTA_BASE} border-primary-500 text-primary-500 hover:border-primary-hov hover:text-dark-theme dark:border-white dark:text-gray-200 dark:hover:border-warning-500 dark:hover:text-warning-500`
+	);
 </script>
 
 {#if showMobileNav}
@@ -72,17 +81,14 @@
 				</li>
 			{/each}
 			<li>
-				<!-- The drawer had no contact entry, so the modal was desktop-only. -->
-				<button
-					type="button"
-					class="border-2 rounded-full px-8 py-2 border-primary-500 hover:border-primary-hov dark:border-white text-lg font-medium text-primary-500 hover:text-dark-theme transition duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning-500 dark:hover:border-warning-500"
-					onclick={() => {
-						toggleMobileNav(false);
-						openModal();
-					}}
+				<a
+					href="/contact"
+					class={ctaClass}
+					aria-current={onContact ? 'page' : undefined}
+					onclick={() => toggleMobileNav(false)}
 				>
 					Get In Touch
-				</button>
+				</a>
 			</li>
 		</ul>
 	</div>
@@ -160,12 +166,9 @@
 				</li> -->
 			{/each}
 			<li>
-				<button
-					class="border-2 rounded-full px-8 py-2 border-primary-500 hover:border-primary-hov dark:border-white text-lg font-medium text-primary-500 hover:text-dark-theme transition duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning-500 dark:hover:border-warning-500"
-					onclick={openModal}
-				>
+				<a href="/contact" class={ctaClass} aria-current={onContact ? 'page' : undefined}>
 					Get In Touch
-				</button>
+				</a>
 			</li>
 		</ul>
 

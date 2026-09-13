@@ -67,15 +67,6 @@ export interface EarlierExperience {
 	year: string;
 }
 
-// Redux state interfaces
-export interface ThemeData {
-	lightMode: boolean;
-}
-
-export interface ModalData {
-	opened: boolean;
-}
-
 export interface ContactErrorResponse {
 	name?: string;
 	email?: string;

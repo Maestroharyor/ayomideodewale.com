@@ -10,7 +10,6 @@
 	} from 'svelte-icons-pack/fa';
 	import { socialMenu } from '../../../data/menu';
 	import BraandlyIcon from '../../elements/BraandlyIcon.svelte';
-	import { modal } from '../../ui/modal-state.svelte';
 	import Tooltip from '../../elements/Tooltip.svelte';
 
 	// One source for the links (src/data/menu.ts); the icon is presentation and
@@ -22,10 +21,6 @@
 		Instagram: FaBrandsInstagram,
 		TikTok: FaBrandsTiktok,
 		Facebook: FaBrandsFacebook
-	};
-
-	const openModal = () => {
-		modal.open();
 	};
 </script>
 
@@ -46,7 +41,6 @@
 			</p>
 			<div class="flex gap-5 text-3xl mb-8 justify-center flex-wrap">
 				{#each socialMenu as social (social.link)}
-					<!-- <Tooltip title={social.title} class=""> -->
 					<Tooltip tooltip={social.title}>
 						<a
 							href={social.link}
@@ -55,11 +49,6 @@
 							class="block text-primary-500 hover:text-primary-hov dark:text-white dark:hover:text-warning-500"
 							aria-label={social.title}
 						>
-							<!-- <div class="card p-4 variant-filled" data-popup="popupHover">
-								<p class="text-lg">{social.title}</p>
-								<div class="arrow variant-filled-secondary" />
-							</div> -->
-
 							<!-- currentColor, so the anchor's text-primary-500 / dark:text-white classes drive
 					 it. A hardcoded #fff rendered these invisible in light mode. -->
 							{#if social.title === 'Braandly'}
@@ -69,18 +58,17 @@
 							{/if}
 						</a>
 					</Tooltip>
-					<!-- </Tooltip> -->
 				{/each}
 			</div>
 		</div>
 
 		<p class="mb-9 text-lg text-gray-600 dark:text-gray-200">OR</p>
 
-		<button
-			class="border-2 rounded-full px-8 py-2 border-primary-500 hover:border-primary-hov dark:border-white text-lg font-medium text-primary-500 hover:text-dark-theme transition duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning-500 dark:hover:border-warning-500"
-			onclick={() => openModal()}
+		<a
+			href="/contact"
+			class="inline-block rounded-full border-2 border-primary-500 px-8 py-2 text-lg font-medium text-primary-500 transition duration-300 ease-in-out hover:border-primary-hov hover:text-dark-theme dark:border-white dark:text-gray-200 dark:hover:border-warning-500 dark:hover:text-warning-500"
 		>
-			Get in Touch
-		</button>
+			Send me a message
+		</a>
 	</div>
 </div>

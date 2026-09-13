@@ -15,15 +15,13 @@
 
 	import Header from '../components/partials/headers/Header.svelte';
 	import Footer from '../components/partials/footers/Footer.svelte';
-	import ContactMe from '../components/elements/ContactMe.svelte';
-	import Modal from '../components/ui/Modal.svelte';
 	import Toast from '../components/ui/Toast.svelte';
 
 	let { children } = $props();
 
-	// The resume routes print to PDF. Site chrome (header, footer, particles, the
-	// contact modal) has no place in that document, and the footer was spilling
-	// onto a third page of every export.
+	// The resume routes print to PDF. Site chrome (header, footer, particles) has
+	// no place in that document, and the footer was spilling onto a third page of
+	// every export.
 	const isPrintRoute = $derived(
 		page.route.id === '/resume' || (page.route.id?.startsWith('/r/') ?? false)
 	);
@@ -37,6 +35,17 @@
 		if (type === 'popstate') return; // Browser back/forward restores its own position.
 		if (to?.url.hash) return; // Anchor targets should keep the smooth scroll.
 		window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+	});
+
+	// A continuously drifting background is exactly what this setting asks us not
+	// to paint, so the canvas is never mounted rather than mounted and stilled.
+	let allowsMotion = $state(true);
+	$effect(() => {
+		const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+		const sync = () => (allowsMotion = !query.matches);
+		sync();
+		query.addEventListener('change', sync);
+		return () => query.removeEventListener('change', sync);
 	});
 
 	// Must resolve before <Particles /> mounts, so we gate the component on it
@@ -125,15 +134,12 @@
 
 	<!-- Gated on the engine and the resolved mode, then keyed on the mode: exactly one
 	     mount per theme, with a stable options object for the life of that instance. -->
-	{#if engineReady && mode.current}
+	{#if engineReady && allowsMotion && mode.current}
 		{#key mode.current}
 			<Particles id="tsparticles" options={buildParticlesConfig(mode.current === 'light')} />
 		{/key}
 	{/if}
 
-	<Modal>
-		<ContactMe />
-	</Modal>
 	<Toast />
 	<Header />
 	{@render children()}
