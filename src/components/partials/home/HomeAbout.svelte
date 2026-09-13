@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 	import SectionHeading from '../../elements/SectionHeading.svelte';
 	import { profileDetails } from '../../../data/profile';
 
-	import VscCircleOutline from 'svelte-icons-pack/vsc/VscCircleOutline';
+	import { Icon } from 'svelte-icons-pack';
+	// v3 renamed VscCircleOutline to VscCircle
+	import { VscCircle } from 'svelte-icons-pack/vsc';
+	import Segment from '../../ui/Segment.svelte';
+	import SegmentItem from '../../ui/SegmentItem.svelte';
 
-	import Icon from 'svelte-icons-pack/Icon.svelte';
-
-	let value: number = 3;
+	let value: number = $state(3);
 </script>
 
 <!-- <div
@@ -28,43 +29,43 @@
 	>
 		<div class="md:col-span-8">
 			<div class="profile__selector relative w-full md:max-w-[300px] mx-auto pb-10 mb-10">
-				<RadioGroup labelledby="Select profile details">
-					<RadioItem bind:group={value} name="justify" value={1} label="Shortest"
+				<Segment name="justify" labelledby="Select profile details" bind:value>
+					<SegmentItem value={1} label="Shortest"
 						><Icon
-							src={VscCircleOutline}
-							size={'20'}
+							src={VscCircle}
+							size="20"
 							color={value === 1 ? '#42489e' : '#fff'}
-						/></RadioItem
+						/></SegmentItem
 					>
-					<RadioItem bind:group={value} name="justify" value={2} label="Short"
+					<SegmentItem value={2} label="Short"
 						><Icon
-							src={VscCircleOutline}
-							size={'20'}
+							src={VscCircle}
+							size="20"
 							color={value === 2 ? '#42489e' : '#fff'}
-						/></RadioItem
+						/></SegmentItem
 					>
-					<RadioItem bind:group={value} name="justify" value={3} label="Mid"
+					<SegmentItem value={3} label="Mid"
 						><Icon
-							src={VscCircleOutline}
-							size={'20'}
+							src={VscCircle}
+							size="20"
 							color={value === 3 ? '#42489e' : '#fff'}
-						/></RadioItem
+						/></SegmentItem
 					>
-					<RadioItem bind:group={value} name="justify" value={4} label="Long"
+					<SegmentItem value={4} label="Long"
 						><Icon
-							src={VscCircleOutline}
-							size={'20'}
+							src={VscCircle}
+							size="20"
 							color={value === 4 ? '#42489e' : '#fff'}
-						/></RadioItem
+						/></SegmentItem
 					>
-					<RadioItem bind:group={value} name="justify" value={5} label="Longest"
+					<SegmentItem value={5} label="Longest"
 						><Icon
-							src={VscCircleOutline}
-							size={'20'}
+							src={VscCircle}
+							size="20"
 							color={value === 5 ? '#42489e' : '#fff'}
-						/></RadioItem
+						/></SegmentItem
 					>
-				</RadioGroup>
+				</Segment>
 
 				<!-- <Radio.Group
               onChange={onChange}
@@ -87,6 +88,8 @@
 			<div
 				class="text-xl font-medium first-letter:text-6xl first-letter:font-bold leading-[45px] profile__details"
 			>
+				<!-- profileDetails is static author-written markup in src/data/profile.ts, never user input -->
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				{@html profileDetails[value - 1]}
 			</div>
 		</div>

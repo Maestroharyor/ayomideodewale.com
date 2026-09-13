@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Design } from '../../types';
 
-	export let design: Design;
+	let { design }: { design: Design } = $props();
 </script>
 
 <!-- <div class="w-full">

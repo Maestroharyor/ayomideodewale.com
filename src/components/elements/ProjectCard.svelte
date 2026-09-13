@@ -1,17 +1,11 @@
 <script lang="ts">
 	import type { Project } from '../../types';
-	import FaExternalLinkAlt from 'svelte-icons-pack/fa/FaSolidExternalLinkAlt';
-	import FaGithub from 'svelte-icons-pack/fa/FaBrandsGithub';
 
-	import Icon from 'svelte-icons-pack/Icon.svelte';
-
-	export let project: Project;
+	let { project }: { project: Project } = $props();
 </script>
 
-<a
-	href={project.link || project.github}
-	target="_blank"
-	class=" mx-auto flex flex-col md:flex-row items-start gap-5 group project_card px-5 py-5 h-full rounded-[16px] hover:bg-[rgba(0,0,0,0.02)] hover:dark:bg-[rgba(0,0,0,0.15)] hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.15)] hover:drop-shadow-md hover:backdrop-blur-[3.2px] hover:-translate-y-[2px] transition-all duration-300 cursor-pointer w-full"
+<div
+	class=" relative mx-auto flex flex-col md:flex-row items-start gap-5 group project_card px-5 py-5 h-full rounded-[16px] hover:bg-[rgba(0,0,0,0.02)] hover:dark:bg-[rgba(0,0,0,0.15)] hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.15)] hover:drop-shadow-md hover:backdrop-blur-[3.2px] hover:-translate-y-[2px] transition-all duration-300 cursor-pointer w-full"
 >
 	<div
 		class=" w-[200px] relative rounded-xl border-gray-400 dark:border-gray-600 border-2 p-2 transition group-hover:border-primary-hov dark:group-hover:border-warning-500"
@@ -55,18 +49,15 @@
 
 	<div class="w-full mt-5 flex-1">
 		<div class="flex projects-center justify-between mb-1">
-			{#if project.inDevelopment}
+			<a
+				href={project.link || project.github}
+				target="_blank"
+				rel="noreferrer"
+				aria-label="Project link"
+				class="after:absolute after:inset-0 after:rounded-[16px] after:content-['']"
+			>
 				<h3 class="text-primary-500 dark:text-warning-500 text-xl font-bold">{project.title}</h3>
-			{:else}
-				<a
-					href={project.link || project.github}
-					target="_blank"
-					rel="noreferrer"
-					aria-label="Project link"
-				>
-					<h3 class="text-primary-500 dark:text-warning-500 text-xl font-bold">{project.title}</h3>
-				</a>
-			{/if}
+			</a>
 
 			<div
 				class="inline-flex items-center gap-3 group-hover:translate-x-1 group-hover:-translate-y-1 duration-300 ease-in-out"
@@ -89,11 +80,11 @@
 		</div>
 		<p class="text-fun-gray text-left text-[16px]">{project.desc}</p>
 		<ul class="flex flex-wrap items-center mt-4 list-none gap-3">
-			{#each project.tags as tag}
+			{#each project.tags as tag (tag)}
 				<li>
 					<a
 						href={`/projects/tag/${tag.toLowerCase()}`}
-						class="rounded-lg text-sm bg-primary-500 text-white dark:bg-primary-hov hover:text-white py-1 px-2 cursor-pointer hover:opacity-75 block"
+						class="relative z-10 rounded-lg text-sm bg-primary-500 text-white dark:bg-primary-hov hover:text-white py-1 px-2 cursor-pointer hover:opacity-75 block"
 						aria-label="Project Category link"
 					>
 						{tag}
@@ -102,4 +93,4 @@
 			{/each}
 		</ul>
 	</div>
-</a>
+</div>

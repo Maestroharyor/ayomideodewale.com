@@ -1,59 +1,48 @@
 <script lang="ts">
-	import { modalStore } from '@skeletonlabs/skeleton';
-	import type { ModalSettings } from '@skeletonlabs/skeleton';
-	import { onMount } from 'svelte';
 	import { homeMenuData } from '../../../data/menu';
-	import { LightSwitch } from '@skeletonlabs/skeleton';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { fade, slide } from 'svelte/transition';
 	import { quartInOut } from 'svelte/easing';
+	import { modal } from '../../ui/modal-state.svelte';
+	import ThemeToggle from '../../ui/ThemeToggle.svelte';
 
-	let currentMenu = homeMenuData;
-	let currentPage = '/';
-
-	onMount(() => {
-		page.subscribe((page) => {
-			currentPage = page.route.id as string;
-			if (currentPage === '/') {
-				currentMenu = homeMenuData.filter((menu) => menu.link.toLowerCase() !== '/');
-			} else {
-				currentMenu = homeMenuData.filter((menu) => !menu.isHomeLink);
-			}
-		});
-	});
-
-	const modal: ModalSettings = {
-		type: 'component',
-		// Pass the component registry key as a string:
-		component: 'contactComponent'
-	};
+	// $derived rather than a page.subscribe() in onMount, so the active menu is
+	// correct during SSR and on first paint instead of flashing.
+	const currentPage = $derived(page.route.id ?? '/');
+	const currentMenu = $derived(
+		currentPage === '/'
+			? homeMenuData.filter((menu) => menu.link.toLowerCase() !== '/')
+			: homeMenuData.filter((menu) => !menu.isHomeLink)
+	);
 
 	const openModal = () => {
-		modalStore.trigger(modal);
+		modal.open();
 	};
 
-	let showMobileNav = false;
+	let showMobileNav = $state(false);
 	const toggleMobileNav = (value: boolean) => {
 		showMobileNav = value;
 	};
 </script>
 
 {#if showMobileNav}
-	<div
+	<button
+		type="button"
+		aria-label="Close navigation menu"
 		class="fixed w-full h-full top-0 left-0 backdrop-blur-lg z-[100]"
 		transition:fade={{ duration: 300, easing: quartInOut }}
-		on:click={() => toggleMobileNav(false)}
-		on:keyup={() => toggleMobileNav(false)}
-		on:keydown={() => toggleMobileNav(false)}
-	/>
+		onclick={() => toggleMobileNav(false)}
+	></button>
 
 	<div
 		transition:slide={{ axis: 'x', delay: 100, duration: 300, easing: quartInOut }}
-		class="fixed z-[1000] h-full bg-white top-0 left-0 dark:bg-primary-500 shadow w-[calc(100%-40px)] sm:w-[calc(100%-100px)] text-white flex flex-col gap-4 py-10 px-5"
+		class="fixed z-[1000] h-full bg-white top-0 right-0 dark:bg-primary-500 shadow w-[calc(100%-40px)] sm:w-[calc(100%-100px)] text-white flex flex-col gap-4 py-10 px-5"
 	>
 		<button
+			type="button"
+			aria-label="Close navigation menu"
 			class="text-red-500 hover:text-danger-hov dark:text-light hover:dark:text-warning-500 absolute right-3 text-2xl top-2 transition duration-300 ease-in-out"
-			on:click={() => toggleMobileNav(false)}
+			onclick={() => toggleMobileNav(false)}
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +56,7 @@
 			>
 		</button>
 		<ul class="flex flex-col gap-5">
-			{#each currentMenu as item, index}
+			{#each currentMenu as item (item.link)}
 				<li>
 					<a
 						href={item.link}
@@ -119,7 +108,7 @@
 		> -->
 				<a href="/" class="font -black text-xl flex items-center gap-1.5">
 					<img
-						src={'/logos/light_logo.svg'}
+						src="/logos/light_logo.svg"
 						alt="Ayomide Odewale Logo"
 						width={40}
 						height={40}
@@ -152,13 +141,10 @@
 			let:animate={{ opacity: 1, y: 0 }}
 			let:transition={{ duration: 0.5, delay: 0.8, stiffness: 500, type: 'spring' }}
 		> -->
-			{#each currentMenu as item, index}
+			{#each currentMenu as item (item.link)}
 				<li>
 					<a
-						on:click={() => {
-							console.log('CLicked');
-							// toggleMobileNav(false);
-						}}
+						onclick={() => toggleMobileNav(false)}
 						href={item.link}
 						class={`text-lg list-none transition duration-300 ease-in-out ${
 							currentPage === item.link
@@ -185,7 +171,7 @@
 			<li>
 				<button
 					class="border-2 rounded-full px-8 py-2 border-primary-500 hover:border-primary-hov dark:border-white text-lg font-medium text-primary-500 hover:text-dark-theme transition duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning-500 dark:hover:border-warning-500"
-					on:click={openModal}
+					onclick={openModal}
 				>
 					Get In Touch
 				</button>
@@ -193,11 +179,11 @@
 		</ul>
 
 		<div class="flex gap-3 items-center justify-end">
-			<LightSwitch />
+			<ThemeToggle />
 			<button
 				aria-label="Mobile Menu Navigation Button"
 				class="text-2xl text-dark dark:text-white hover:text-primary-500 dark:hover:text-warning-500 transition ease-in-out duration-300 px-2 lg:hidden"
-				on:click={() => toggleMobileNav(true)}
+				onclick={() => toggleMobileNav(true)}
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"

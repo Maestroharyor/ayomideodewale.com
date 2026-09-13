@@ -1,46 +1,23 @@
-import { toastStore, type ToastSettings } from '@skeletonlabs/skeleton';
-
 export function capitalizeString(str: string): string {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export function toJSONString(data: object | any[] | string | number): string {
+export function toJSONString(data: object | unknown[] | string | number): string {
 	return JSON.stringify(data);
 }
 
-export const openToast = ({
-	message,
-	type
-}: {
-	message: string;
-	type?: 'success' | 'error' | 'info';
-}) => {
-	let background = 'bg-gray-200 text-gray-700';
+/** Escapes user input before it is interpolated into the confirmation email HTML. */
+export function escapeHtml(value: string): string {
+	return value
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#39;');
+}
 
-	switch (type) {
-		case 'success':
-			background = 'bg-green-700 text-white';
-			break;
-		case 'error':
-			background = 'bg-red-700';
-			break;
-		case 'info':
-			background = 'bg-blue-700';
-
-			break;
-
-		default:
-			break;
-	}
-
-	const t: ToastSettings = {
-		message,
-		background
-	};
-	toastStore.trigger(t);
-};
-
-export function confirmHTMLResponse(name: string) {
+export function confirmHTMLResponse(rawName: string) {
+	const name = escapeHtml(rawName);
 	const html = `<!DOCTYPE html>
 <html>
 <head>

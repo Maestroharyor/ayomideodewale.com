@@ -2,11 +2,14 @@
 	// This is just here to show how it could be used in any component
 	// with zero dependency once the styles are in your stylesheet
 
-	export let tooltip = ''; // prevent blank tooltips
+	import type { Snippet } from 'svelte';
+
+	// tooltip defaults to '' to prevent blank tooltips
+	let { tooltip = '', children }: { tooltip?: string; children?: Snippet } = $props();
 </script>
 
 <button data-tooltip={tooltip}>
-	<slot />
+	{@render children?.()}
 </button>
 
 <svelte:head>

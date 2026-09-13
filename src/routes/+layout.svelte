@@ -5,160 +5,96 @@
 	import '@fontsource/koho/500.css';
 	import '@fontsource/koho/600.css';
 	import '@fontsource/koho/700.css';
-	import { modeCurrent } from '@skeletonlabs/skeleton';
-	import { Modal, Toast } from '@skeletonlabs/skeleton';
+	import '../app.css';
 
-	import type { ModalComponent } from '@skeletonlabs/skeleton';
+	import { ModeWatcher, mode } from 'mode-watcher';
+	import Particles, { particlesInit } from '@tsparticles/svelte';
+	import { loadSlim } from '@tsparticles/slim';
 
-	let lightMode = $modeCurrent.valueOf();
-	// onMount(() => {
-	// 	modeCurrent.subscribe((mode) => {
-	// 		lightMode = mode;
-	// 	});
-	// });
-
-	afterUpdate(() => {
-		lightMode = $modeCurrent.valueOf();
-	});
-	// console.log($modeCurrent.valueOf());
-
-	// The ordering of these imports is critical to your app working properly
-	import '@skeletonlabs/skeleton/themes/theme-crimson.css';
-	// If you have source.organizeImports set to true in VSCode, then it will auto change this ordering
-	import '@skeletonlabs/skeleton/styles/skeleton.css';
-	// Most of your app wide CSS should be put in this file
-	import '../app.postcss';
-	// import { AppShell, AppBar } from '@skeletonlabs/skeleton';
-	import { autoModeWatcher } from '@skeletonlabs/skeleton';
 	import Header from '../components/partials/headers/Header.svelte';
 	import Footer from '../components/partials/footers/Footer.svelte';
-
-	import { afterUpdate, onMount } from 'svelte';
-	import { loadFull } from 'tsparticles';
 	import ContactMe from '../components/elements/ContactMe.svelte';
+	import Modal from '../components/ui/Modal.svelte';
+	import Toast from '../components/ui/Toast.svelte';
 
-	let ParticlesComponent: any;
+	let { children } = $props();
 
-	onMount(async () => {
-		const module = await import('svelte-particles');
+	// Must resolve before <Particles /> mounts, so we gate the component on it
+	// rather than racing it.
+	let engineReady = $state(false);
+	void particlesInit(async (engine) => {
+		await loadSlim(engine);
+	})
+		.then(() => (engineReady = true))
+		.catch((err) => console.error('Failed to initialise tsParticles', err));
 
-		ParticlesComponent = module.default;
-	});
-
-	// let particlesUrl = "http://foo.bar/particles.json"; // placeholder, replace it with a real url
-
-	let particlesConfig = {
-		// particles: {
-		// 	color: {
-		// 		value: '#000'
-		// 	},
-		// 	links: {
-		// 		enable: true,
-		// 		color: '#000'
-		// 	},
-		// 	move: {
-		// 		enable: true
-		// 	},
-		// 	number: {
-		// 		value: 100
-		// 	}
-		// }
-		background: {
-			// color: lightMode ? '#f3f4f6' : '#000A1F'
-			// color: '#000A1F'
-		},
+	// A plain function, not $derived: @tsparticles/svelte is a legacy-mode component
+	// whose reactive block reloads (and destroys) the container every time the
+	// `options` identity changes. A $derived object churns that identity and the
+	// container ends up destroyed without ever painting. Built once per mount instead.
+	const buildParticlesConfig = (lightMode: boolean) => ({
 		detectRetina: false,
+		detectsOn: 'canvas',
 		fpsLimit: 30,
 		interactivity: {
-			detectsOn: 'canvas',
 			events: {
-				resize: true
+				resize: { enable: true }
 			}
 		},
-
 		particles: {
-			color: {
-				// value: $modeCurrent.valueOf() ? '#42489E' : '#f3f4f6'
-				value: lightMode ? '#000' : '#f3f4f6'
-				// value: '#f3f4f6'
+			// v4 renamed `particles.color` to `particles.paint.color`. The old key is
+			// silently dropped, which left every particle the default white: fine on
+			// the dark background, invisible on the light one.
+			paint: {
+				color: {
+					value: lightMode ? '#111827' : '#f3f4f6'
+				}
 			},
 			number: {
 				density: {
 					enable: true,
 					area: 1080
 				},
-				limit: 0,
 				value: 400
 			},
 			opacity: {
 				animation: {
 					enable: true,
-					minimumValue: 0.05,
+					minimumOpacity: 0.05,
 					speed: 0.25,
 					sync: false
 				},
-				random: {
-					enable: true,
-					minimumValue: 0.05
-				},
-				value: 0.5
+				value: { min: 0.05, max: 0.5 }
 			},
 			shape: {
 				type: 'circle'
 			},
 			size: {
-				random: {
-					enable: true,
-					minimumValue: 0.5
-				},
-				value: 2
+				value: { min: 0.5, max: 2 }
 			}
 		},
 		fullScreen: {
 			enable: true,
-			zIndex: -1 // or any value is good for you, if you use -1 set `interactivity.detectsOn` to `"window"` if you need mouse interactions
+			// if you set this to -1, set `detectsOn` to "window" for mouse interactions
+			zIndex: -1
 		}
-	};
-
-	let onParticlesLoaded = (event: any) => {
-		const particlesContainer = event.detail.particles;
-
-		// you can use particlesContainer to call all the Container class
-		// (from the core library) methods like play, pause, refresh, start, stop
-	};
-
-	let particlesInit = async (main: any) => {
-		// you can use main to customize the tsParticles instance adding presets or custom shapes
-		// this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-		// starting from v2 you can add only the features you need reducing the bundle size
-		await loadFull(main);
-	};
-
-	const modalComponentRegistry: Record<string, ModalComponent> = {
-		// Custom Modal 1
-		contactComponent: {
-			// Pass a reference to your custom component
-			ref: ContactMe
-		}
-	};
+	});
 </script>
 
-<svelte:component
-	this={ParticlesComponent}
-	id="tsparticles"
-	class="foo bar"
-	style=""
-	options={particlesConfig}
-	on:particlesLoaded={onParticlesLoaded}
-	{particlesInit}
-/>
-<!-- App Shell -->
-<svelte:head
-	>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head
->
+<ModeWatcher />
 
-<Modal components={modalComponentRegistry} />
-<Toast position="tr" />
+<!-- Gated on the engine and the resolved mode, then keyed on the mode: exactly one
+	 mount per theme, with a stable options object for the life of that instance. -->
+{#if engineReady && mode.current}
+	{#key mode.current}
+		<Particles id="tsparticles" options={buildParticlesConfig(mode.current === 'light')} />
+	{/key}
+{/if}
+
+<Modal>
+	<ContactMe />
+</Modal>
+<Toast />
 <Header />
-<slot />
+{@render children()}
 <Footer />

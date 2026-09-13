@@ -1,66 +1,83 @@
 <script lang="ts">
-	// your script goes here
-	import {
-		useForm,
-		Hint,
-		HintGroup,
-		validators,
-		minLength,
-		email,
-		required
-	} from 'svelte-use-form';
-	import { modalStore, toastStore, type ToastSettings } from '@skeletonlabs/skeleton';
-	import { openToast } from '../../utils';
+	import { modal } from '../ui/modal-state.svelte';
+	import { openToast } from '../ui/toast-state.svelte';
 
-	const form = useForm();
+	const NAME_MIN = 5;
+	const MESSAGE_MIN = 10;
+	const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-	let formData = {
+	let formData = $state({
 		name: '',
 		email: '',
 		message: ''
-	}; //we store the form values here
+	});
+
+	let submitted = $state(false);
+	let isSubmitLoading = $state(false);
+
+	const errors = $derived({
+		name: !formData.name
+			? 'Name is required'
+			: formData.name.length < NAME_MIN
+				? `Name requires at least ${NAME_MIN} characters.`
+				: '',
+		email: !formData.email
+			? 'Email is required'
+			: !EMAIL_RE.test(formData.email)
+				? 'Email is not valid'
+				: '',
+		message: !formData.message
+			? 'Message is required'
+			: formData.message.length < MESSAGE_MIN
+				? `Message requires at least ${MESSAGE_MIN} characters.`
+				: ''
+	});
+
+	const isValid = $derived(!errors.name && !errors.email && !errors.message);
 
 	const closeModal = () => {
-		modalStore.clear();
+		modal.close();
 	};
 
-	let isSubmitLoading = false;
+	const handleSubmit = async () => {
+		submitted = true;
+		if (!isValid) return;
 
-	const handleSubmit = async (event: SubmitEvent) => {
-		$form.touched = true;
-		console.log(formData);
-		console.log($form.valid);
-		if ($form.valid) {
-			isSubmitLoading = true;
+		isSubmitLoading = true;
 
-			try {
-				const response: any = await fetch('/api/contact', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(formData)
-				});
+		try {
+			const response = await fetch('/api/contact', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(formData)
+			});
 
-				isSubmitLoading = false;
-				closeModal();
+			// fetch only rejects on network failure, so a 4xx/5xx lands here too
+			// and has to be checked explicitly.
+			const body = await response.json().catch(() => ({}));
 
-				openToast({
-					message: response.message || 'Message sent successfully',
-					type: 'success'
-				});
-			} catch (error: any) {
-				// Handle error
-
-				closeModal();
-				openToast({
-					message: error.message || 'An error occured while sending the message',
-					type: 'error'
-				});
-				isSubmitLoading = false;
+			if (!response.ok) {
+				throw new Error(body.message || 'An error occured while sending the message');
 			}
-		} else {
-			console.log(formData);
+
+			// The modal unmounts this component on close, so there is no state to
+			// reset afterwards - the next open starts from fresh $state.
+			closeModal();
+			openToast({
+				message: body.message || 'Message sent successfully',
+				type: 'success'
+			});
+		} catch (error) {
+			closeModal();
+			openToast({
+				message:
+					error instanceof Error ? error.message : 'An error occured while sending the message',
+				type: 'error'
+			});
+		} finally {
+			isSubmitLoading = false;
 		}
 	};
 </script>
@@ -68,7 +85,11 @@
 <div
 	class="max-w-[1000px] mx-auto bg-white dark:bg-primary-500 w-full relative rounded-xl px-10 py-20"
 >
-	<button on:click={closeModal} class="absolute right-2 top-2 group"
+	<button
+		onclick={closeModal}
+		type="button"
+		aria-label="Close contact form"
+		class="absolute right-2 top-2 group"
 		><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
 				d="M9.17 14.83L14.83 9.17M14.83 14.83L9.17 9.17M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
@@ -92,8 +113,10 @@
 		</div>
 		<form
 			class="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2"
-			on:submit|preventDefault={handleSubmit}
-			use:form
+			onsubmit={(e) => {
+				e.preventDefault();
+				handleSubmit();
+			}}
 		>
 			<div class="">
 				<label class="text-sm text-primary-500 dark:text-primary-300" for="name">Your Name</label>
@@ -103,16 +126,10 @@
 					id="name"
 					name="name"
 					bind:value={formData.name}
-					use:validators={[required, minLength(5)]}
 				/>
-				<HintGroup for="name">
-					<div class="text-red-500 dark:text-300 mt-2">
-						<Hint on="required">Name is required</Hint>
-						<Hint on="minLength" hideWhenRequired let:value>
-							Name requires at least {value} characters.</Hint
-						>
-					</div>
-				</HintGroup>
+				{#if submitted && errors.name}
+					<div class="text-red-500 dark:text-red-300 mt-2">{errors.name}</div>
+				{/if}
 			</div>
 			<div class="">
 				<label class="text-sm text-primary-500 dark:text-primary-300" for="email"
@@ -124,15 +141,11 @@
 					class="border-b border-primary-600 dark:border-primary-200 py-3 text-lg bg-white dark:bg-primary-500 focus:outline-none w-full placeholder:text-primary-600 placeholder:dark:text-primary-200"
 					id="email"
 					name="email"
-					use:validators={[required, email]}
 					bind:value={formData.email}
 				/>
-				<HintGroup for="email">
-					<div class="text-red-500 dark:text-red-300 mt-2">
-						<Hint on="required">Email is required</Hint>
-						<Hint on="email" hideWhenRequired>Email is not valid</Hint>
-					</div>
-				</HintGroup>
+				{#if submitted && errors.email}
+					<div class="text-red-500 dark:text-red-300 mt-2">{errors.email}</div>
+				{/if}
 			</div>
 			<div class="md:col-span-2">
 				<label class="text-sm text-primary-500 dark:text-primary-300" for="message">Message</label>
@@ -142,17 +155,10 @@
 					id="message"
 					cols="30"
 					class="border-b border-primary-600 dark:border-primary-200 py-3 text-lg bg-white dark:bg-primary-500 focus:outline-none w-full resize-none placeholder:text-primary-600 placeholder:dark:text-primary-200"
-					bind:value={formData.message}
-					use:validators={[required, minLength(10)]}
-				/>
-				<HintGroup for="message">
-					<div class="text-red-500 dark:text-red-300 mt-2">
-						<Hint on="required">Message is required</Hint>
-						<Hint on="minLength" hideWhenRequired let:value>
-							Message requires at least {value} characters.</Hint
-						>
-					</div>
-				</HintGroup>
+					bind:value={formData.message}></textarea>
+				{#if submitted && errors.message}
+					<div class="text-red-500 dark:text-red-300 mt-2">{errors.message}</div>
+				{/if}
 			</div>
 			<div class="md:col-span-2 flex justify-center items-center">
 				<button
