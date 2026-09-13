@@ -122,6 +122,22 @@
 	}
 }
 
+/*
+ * The particles wrapper must never participate in layout.
+ *
+ * tsParticles creates its canvas at the default 300x150 and only switches it to
+ * `position: fixed` once fullScreen mode initialises. In between, the canvas is
+ * still static and its `height: 100% !important` gives the wrapper real height,
+ * which pushed the header ~720px down the page for over a second on first load.
+ * Fixing the wrapper ourselves makes that independent of the library's timing.
+ */
+#tsparticles {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+}
+
 html,
 body {
 	/* @apply h-full overflow-hidden; */

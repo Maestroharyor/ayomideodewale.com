@@ -84,6 +84,10 @@ export const POST: RequestHandler = async (event) => {
 		return json({ success: false, message: 'Too many requests. Please try again later.' }, 429);
 	}
 
+	// Email clients need absolute URLs for the social icons. SITE_URL pins them to
+	// the canonical domain; the request origin is a correct fallback per environment.
+	const origin = env.SITE_URL || event.url.origin;
+
 	const notification = `You have received a new email from ${name} (${email}).\n\nMessage:\n${message}`;
 
 	// The enquiry reaching a mailbox we own is what defines success, so those go
@@ -108,7 +112,7 @@ export const POST: RequestHandler = async (event) => {
 		await sendEmail({
 			to: email,
 			subject: 'Thanks for getting in touch',
-			html: confirmHTMLResponse(name)
+			html: confirmHTMLResponse(name, origin)
 		});
 	} catch (err) {
 		console.error('Error sending confirmation:', err);
