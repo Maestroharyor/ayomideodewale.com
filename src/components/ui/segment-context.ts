@@ -4,6 +4,13 @@ export type SegmentContext<T> = {
 	readonly name: string;
 	readonly value: T | undefined;
 	select: (next: T) => void;
+	/**
+	 * Each item hands its element to the parent so the sliding thumb can be
+	 * measured off the real layout. Positioning it arithmetically would have to
+	 * account for the group's padding and the gaps between items, and would go
+	 * wrong the moment either changed. Returns its own teardown.
+	 */
+	register: (value: T, el: HTMLElement) => () => void;
 };
 
 const KEY = Symbol('segment');

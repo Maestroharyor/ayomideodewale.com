@@ -3,7 +3,25 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/logos/light_logo.svg" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script>
+			// Blocking, before first paint. mode-watcher only applies .dark after
+			// hydration, so without this a visitor sees a white flash on every cold
+			// load. Mirrors mode-watcher's own storage key and its `defaultMode`.
+			(function () {
+				var dark = true; // dark is the default, so it is also the fallback
+				try {
+					var stored = localStorage.getItem('mode-watcher-mode');
+					dark =
+						stored !== 'light' &&
+						(stored !== 'system' || window.matchMedia('(prefers-color-scheme: dark)').matches);
+				} catch (e) {
+					// Private mode or blocked storage: keep the dark default.
+				}
+				document.documentElement.classList.toggle('dark', dark);
+				document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+			})();
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

@@ -36,6 +36,8 @@ export default ts.config(
 		}
 	},
 	{
-		ignores: ['build/', '.svelte-kit/', 'dist/', 'node_modules/', 'static/']
+		// '.vercel/' holds minified adapter output from `vercel build`; linting it
+		// produced 1382 errors and made this script permanently fail.
+		ignores: ['build/', '.svelte-kit/', '.vercel/', 'dist/', 'node_modules/', 'static/']
 	}
 );

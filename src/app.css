@@ -140,7 +140,6 @@
 
 html,
 body {
-	/* @apply h-full overflow-hidden; */
 	scroll-behavior: smooth;
 }
 
@@ -209,7 +208,7 @@ html.dark ::-webkit-scrollbar-track {
 }
 
 @media (max-width: 768px) {
-	.sectionTitle::before {
+	.section__title::before {
 		left: 50%;
 		right: auto;
 		top: -20px;
@@ -245,7 +244,17 @@ html.dark ::-webkit-scrollbar-track {
 ._floating {
 	position: absolute;
 	animation: float 2s infinite ease-in-out;
-	/* z-index: -1; */
+}
+
+@media (prefers-reduced-motion: reduce) {
+	._floating {
+		animation: none;
+	}
+
+	html,
+	body {
+		scroll-behavior: auto;
+	}
 }
 
 .profile__details a {
@@ -267,15 +276,4 @@ html.dark .profile__details a:hover {
 
 .profile__details p {
 	margin-bottom: 20px;
-}
-
-/* Project Card */
-.project_card {
-	/* From https://css.glass */
-	/* background: rgba(255, 255, 255, 0.05); */
-	/* border-radius: 16px; */
-	/* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); */
-	/* backdrop-filter: blur(5.2px);
-	-webkit-backdrop-filter: blur(7.2px); */
-	/* border: 1px solid rgba(255, 255, 255, 0.05); */
 }

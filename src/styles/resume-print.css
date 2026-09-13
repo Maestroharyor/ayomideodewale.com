@@ -1,0 +1,129 @@
+/* Loaded only by ResumeDocument.svelte, so Vite keeps it in that component's
+   chunk and the sheet never ships on /, /projects or /designs.
+
+   It cannot live in app.css: that is imported by the root layout and loads
+   everywhere, and @page is not expressible as a Tailwind utility at any rate.
+
+   Every rule is scoped under .resume-doc so app.css cannot reach in and this
+   cannot reach out. */
+
+@page {
+	size: A4;
+	/* Tight but still comfortably inside every printer's safe area. */
+	margin: 10mm 12mm;
+}
+
+.resume-doc {
+	--resume-page-w: 210mm;
+	--resume-page-h: 297mm;
+	--resume-ink: #111827;
+	--resume-muted: #4b5563;
+	--resume-accent: #42489e; /* mirrors --color-primary-500 in app.css */
+	--resume-rule: #d1d5db;
+	--resume-chip-bg: #eef0f8;
+
+	/* A system stack rather than KoHo. Subset-embedded webfonts sometimes
+	   extract badly in older ATS parsers, and that is how many applications get
+	   read before a human sees them. The website keeps KoHo. */
+	/* Arial first, not -apple-system: macOS's San Francisco is not embeddable, so
+	   Chrome rasterises it into Type 3 fonts that some ATS parsers extract badly.
+	   Arial embeds as TrueType and is the font every resume parser expects. */
+	font-family: Arial, Helvetica, 'Liberation Sans', sans-serif;
+	/* pt, not rem: these are print units and the page is a fixed physical size. */
+	font-size: 9.2pt;
+	line-height: 1.3;
+	color: var(--resume-ink);
+	background: #ffffff;
+	color-scheme: light;
+}
+
+/* Dark mode must never reach the document, even if a stale `.dark` survives a
+   client-side navigation before the full reload lands. */
+html.dark .resume-doc,
+.dark .resume-doc {
+	background: #ffffff;
+	color: var(--resume-ink);
+}
+
+.resume-doc a {
+	color: inherit;
+	text-decoration: none;
+}
+
+@media screen {
+	.resume-doc {
+		width: var(--resume-page-w);
+		min-height: var(--resume-page-h);
+		padding: 10mm 12mm;
+		margin: 0 auto;
+		box-shadow: 0 2px 24px rgb(0 0 0 / 0.15);
+	}
+
+	/* Narrow viewports scroll the fixed-width sheet rather than reflowing it, so
+	   what you see on screen really is what the PDF contains. */
+	.resume-shell {
+		overflow-x: auto;
+	}
+}
+
+@media print {
+	/* @page already supplies the frame; drop the simulated one. */
+	.resume-doc {
+		width: auto;
+		min-height: 0;
+		padding: 0;
+		margin: 0;
+		box-shadow: none;
+	}
+
+	html,
+	body {
+		background: #fff !important;
+	}
+
+	.screen-only {
+		display: none !important;
+	}
+
+	/* Chrome drops backgrounds in print unless told otherwise, which would strip
+	   the skill chips and the header rule. */
+	.resume-doc,
+	.resume-doc * {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+
+	/* Deliberately NOT applied to .resume-section: the Experience block holds
+	   eight roles and will never fit one page, so asking Chrome to keep it whole
+	   just pushes it onto a fresh page and wastes the rest of the previous one.
+	   Breaks are controlled per role instead. */
+	.resume-section--compact {
+		break-inside: avoid;
+	}
+
+	.resume-role {
+		break-inside: avoid;
+	}
+
+	/* Never orphan a job title at the foot of a page. */
+	.resume-role__head,
+	.resume-section__title {
+		break-after: avoid;
+	}
+
+	.resume-doc h1,
+	.resume-doc h2,
+	.resume-doc h3 {
+		break-after: avoid;
+	}
+
+	.resume-doc li {
+		break-inside: avoid;
+	}
+
+	.resume-doc p,
+	.resume-doc li {
+		orphans: 2;
+		widows: 2;
+	}
+}

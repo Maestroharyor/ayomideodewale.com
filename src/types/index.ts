@@ -1,3 +1,5 @@
+export * from './resume';
+
 type SubmenuMenus = {
 	title: string;
 	link: string;
@@ -27,6 +29,9 @@ export interface Project {
 	featured?: boolean;
 	link?: string;
 	github?: string;
+	/** Slug of a write-up in case-studies.ts. The card links here in preference
+	 *  to the live site, because the write-up is the stronger evidence. */
+	caseStudy?: string;
 	tags: string[];
 }
 
@@ -46,20 +51,20 @@ export interface Design {
 export interface Experience {
 	year: string;
 	role: string;
+	/** Company name alone. Location is a separate field so the timeline can
+	 *  render them on one line without the heading wrapping badly. */
 	company: string;
+	location: string;
 	isCurrent: boolean;
 	description: string;
 	stacks: string[];
 	link?: string;
 }
 
-// Redux state interfaces
-export interface ThemeData {
-	lightMode: boolean;
-}
-
-export interface ModalData {
-	opened: boolean;
+/** One line summarising roles too old to warrant their own timeline entry. */
+export interface EarlierExperience {
+	company: string;
+	year: string;
 }
 
 export interface ContactErrorResponse {

@@ -1,22 +1,26 @@
 <script lang="ts">
 	import type { Project } from '../../types';
+	import { tagSlug } from '../../utils';
 
-	let { project }: { project: Project } = $props();
+	// The cards above the fold are told to load eagerly. Lazy-loading them left a
+	// bordered empty box where the thumbnail should be on a cold load.
+	let { project, eager = false }: { project: Project; eager?: boolean } = $props();
 </script>
 
 <div
-	class=" relative mx-auto flex flex-col md:flex-row items-start gap-5 group project_card px-5 py-5 h-full rounded-[16px] hover:bg-[rgba(0,0,0,0.02)] hover:dark:bg-[rgba(0,0,0,0.15)] hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.15)] hover:drop-shadow-md hover:backdrop-blur-[3.2px] hover:-translate-y-[2px] transition-all duration-300 cursor-pointer w-full"
+	class="relative mx-auto flex flex-col items-start gap-4 group project_card px-5 py-5 h-full rounded-[16px] hover:bg-[rgba(0,0,0,0.02)] hover:dark:bg-[rgba(0,0,0,0.15)] hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.15)] hover:drop-shadow-md hover:backdrop-blur-[3.2px] hover:-translate-y-[2px] transition-all duration-300 cursor-pointer w-full"
 >
 	<div
-		class=" w-[200px] relative rounded-xl border-gray-400 dark:border-gray-600 border-2 p-2 transition group-hover:border-primary-hov dark:group-hover:border-warning-500"
+		class="w-full relative rounded-xl border-gray-400 dark:border-gray-600 border-2 p-2 transition group-hover:border-primary-hov dark:group-hover:border-warning-500"
 	>
 		<img
-			class="w-full h-auto hover:opacity-75 transition rounded-md"
+			class="w-full h-auto aspect-[1000/508] object-cover object-top hover:opacity-75 transition rounded-md"
 			src={project.img}
 			alt={project.title || ''}
-			loading="lazy"
-			width="300"
-			height="300"
+			loading={eager ? 'eager' : 'lazy'}
+			fetchpriority={eager ? 'high' : 'auto'}
+			width="1000"
+			height="508"
 		/>
 	</div>
 	<!-- {#if project.inDevelopment}
@@ -47,13 +51,13 @@
 		</a>
 	{/if} -->
 
-	<div class="w-full mt-5 flex-1">
+	<div class="w-full flex-1">
 		<div class="flex projects-center justify-between mb-1">
 			<a
-				href={project.link || project.github}
-				target="_blank"
-				rel="noreferrer"
-				aria-label="Project link"
+				href={project.caseStudy ? `/projects/${project.caseStudy}` : project.link || project.github}
+				target={project.caseStudy ? undefined : '_blank'}
+				rel={project.caseStudy ? undefined : 'noreferrer'}
+				aria-label={project.caseStudy ? `Read the ${project.title} case study` : 'Project link'}
 				class="after:absolute after:inset-0 after:rounded-[16px] after:content-['']"
 			>
 				<h3 class="text-primary-500 dark:text-warning-500 text-xl font-bold">{project.title}</h3>
@@ -78,13 +82,13 @@
 				</div>
 			</div>
 		</div>
-		<p class="text-fun-gray text-left text-[16px]">{project.desc}</p>
+		<p class="text-left text-[16px] text-gray-600 dark:text-gray-300">{project.desc}</p>
 		<ul class="flex flex-wrap items-center mt-4 list-none gap-3">
 			{#each project.tags as tag (tag)}
 				<li>
 					<a
-						href={`/projects/tag/${tag.toLowerCase()}`}
-						class="relative z-10 rounded-lg text-sm bg-primary-500 text-white dark:bg-primary-hov hover:text-white py-1 px-2 cursor-pointer hover:opacity-75 block"
+						href={`/projects/tag/${tagSlug(tag)}`}
+						class="relative z-10 block cursor-pointer rounded-lg bg-primary-500 px-2 py-1 text-sm text-white hover:text-white hover:opacity-75 dark:bg-primary-hov"
 						aria-label="Project Category link"
 					>
 						{tag}

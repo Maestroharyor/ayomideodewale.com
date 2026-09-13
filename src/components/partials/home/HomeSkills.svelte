@@ -13,88 +13,95 @@
 
 	let fullSkills = $state(false);
 	const skills = $derived(fullSkills ? skillsFull : skillsSummary);
+
+	// These marks are solid black, so they need inverting to stay legible, but only
+	// against a dark background. Inverting unconditionally turned them white and
+	// they vanished in light mode.
+	const MONOCHROME_MARKS = new Set(['nextjs', 'solidity', 'expressjs', 'prisma']);
+	const iconClass = (skill: string) =>
+		MONOCHROME_MARKS.has(skill.toLowerCase())
+			? 'h-11 w-11 object-contain dark:invert'
+			: 'h-11 w-11 object-contain';
+
+	// Decorations only. They are absolutely positioned against the section
+	// container, not the heading column, which is what spreads them over the full
+	// height of the band instead of piling them onto the heading.
+	const doodles = [
+		{ icon: FaCode, class: 'top-[100px] left-[50px] rotate-[70deg]', delay: '0.4s' },
+		{
+			icon: FaCodeBranch,
+			class: 'bottom-[100px] left-[calc(50%-70px)] rotate-[70deg]',
+			delay: '0.2s'
+		},
+		{ icon: FaLaptop, class: 'bottom-[70px] left-[60px] rotate-[70deg]', delay: '0.6s' },
+		{ icon: FaLaptopCode, class: 'top-[50px] left-[400px] rotate-[70deg]', delay: '0.2s' },
+		{ icon: FaStar, class: 'top-[50%] -left-[50px] rotate-[70deg]', delay: '0.7s' }
+	];
 </script>
 
-<hr class="border-1 gray-200 dark:border-gray-800" />
+<!-- `gray-200` is not a class, so the colour fell through to Tailwind's default
+     border-colour of currentColor and the rule rendered near-black in light mode. -->
+<hr class="border-t border-gray-300 dark:border-gray-600" />
 <div
-	class="grid grid-cols-1 md:grid-cols-2 justify-between relative max-w-[1200px] mx-auto pt-24 pb-24 px-5 gap-10 items-center"
+	class="relative mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-14 px-5 pt-24 pb-24 md:grid-cols-2 md:gap-10"
 >
 	<div>
 		<div>
-			<h2 class="text-5xl font-bold mb-2 text-primary-500 dark:text-warning-500">
-				{#if fullSkills}
-					The Top Tech Stacks I use
-				{:else}
-					My Favourite Dev. Stacks
-				{/if}
+			<h2 class="mb-2 text-4xl font-bold text-primary-500 lg:text-5xl dark:text-warning-500">
+				{fullSkills ? 'The Top Tech Stacks I use' : 'My Favourite Dev. Stacks'}
 			</h2>
-			<p class="text-lg">
-				{#if fullSkills}
-					(Here are the tools I use to implement my software solutions)
-				{:else}
-					(Some of the tools I use to work my magic)
-				{/if}
+			<p class="text-lg text-gray-600 dark:text-gray-300">
+				{fullSkills
+					? 'Everything I reach for, across the stack.'
+					: 'The tools I reach for first, across the stack.'}
 			</p>
 		</div>
 
-		<div
-			class="_floating hidden md:block opacity-90 text-primary top-[100px] left-[50px] rotate-[70deg]"
-			style="animation-delay: 0.4s;"
-		>
-			<Icon src={FaCode} size="50" color="#4F46E5" />
-		</div>
-		<div
-			class="_floating hidden md:block opacity-90 text-primary b0ttom-[100px] left-[calc(50%-70px)] rotate-[70deg]"
-			style="animation-delay: 0.2s;"
-		>
-			<Icon src={FaCodeBranch} size="50" color="#4F46E5" />
-		</div>
-		<div
-			class="_floating hidden md:block opacity-90 text-primary bottom-[70px] left-[60px] rotate-[70deg]"
-			style="animation-delay: 0.6s;"
-		>
-			<Icon src={FaLaptop} size="50" color="#4F46E5" />
-		</div>
-		<div
-			class="_floating hidden md:block opacity-90 text-primary top-[50px] left-[400px] rotate-[70deg]"
-			style="animation-delay: 0.2s;"
-		>
-			<Icon src={FaLaptopCode} size="50" color="#4F46E5" />
-		</div>
-		<div
-			class="_floating hidden md:block text-primary top-[50%] -left-[50px] rotate-[70deg]"
-			style="animation-delay: 0.7s;"
-		>
-			<Icon src={FaStar} size="50" color="#4F46E5" />
-		</div>
+		{#each doodles as doodle (doodle.class)}
+			<div
+				class="_floating hidden opacity-90 md:block {doodle.class}"
+				style={`animation-delay: ${doodle.delay};`}
+				aria-hidden="true"
+			>
+				<Icon src={doodle.icon} size="50" color="#4F46E5" />
+			</div>
+		{/each}
 	</div>
-	<div>
-		<div class="flex items-center justify-center gap-3 mb-8 w-full">
-			<p>Favourite Tech Stacks</p>
-			<Switch name="Tech Stacks" label="Tech Stacks" bind:checked={fullSkills} />
 
-			<p>All Tech Stacks</p>
+	<div>
+		<div class="mb-10 flex items-center justify-center gap-3">
+			<span
+				class="text-sm font-medium transition-colors"
+				class:text-primary-500={!fullSkills}
+				class:dark:text-warning-500={!fullSkills}
+				class:text-gray-500={fullSkills}
+			>
+				Favourites
+			</span>
+			<Switch name="Tech Stacks" label="Tech Stacks" bind:checked={fullSkills} />
+			<span
+				class="text-sm font-medium transition-colors"
+				class:text-primary-500={fullSkills}
+				class:dark:text-warning-500={fullSkills}
+				class:text-gray-500={!fullSkills}
+			>
+				Everything
+			</span>
 		</div>
-		<div
-			class="relative max-w-lg w-full mx-auto md:mx-none grid gap-x-8 gap-y-12 sm:gap-8 md:gap-12 grid-cols-3 sm:grid-cols-5 items-center place-content-center"
+
+		<!-- auto-fill over a minimum track rather than a fixed column count: the cell
+		     is sized off the label, which runs 60-90px, not off the 44px icon. The
+		     old `w-10` cell let "React Native" wrap while its row neighbours did not. -->
+		<ul
+			class="grid list-none grid-cols-[repeat(auto-fill,minmax(88px,1fr))] gap-x-4 gap-y-10 sm:grid-cols-[repeat(auto-fill,minmax(104px,1fr))]"
 		>
 			{#each skills as item (item.skill)}
-				<div title={item.skill} class="w-10 mx-auto flex items-center flex-col justify-center">
-					<img
-						src={item.src}
-						alt={item.skill}
-						width={50}
-						height={50}
-						class:invert={item.skill.toLowerCase() === 'nextjs' ||
-							item.skill.toLowerCase() === 'solidity'}
-						loading="lazy"
-					/>
-					<p class="text-sm text-gray-600 dark:text-gray-100 font-bold mt-3 opacity-80">
-						{item.skill}
-					</p>
-				</div>
+				<li class="flex flex-col items-center justify-start gap-3 text-center">
+					<img src={item.src} alt="" width={44} height={44} class={iconClass(item.skill)} />
+					<span class="text-sm font-bold text-gray-600 dark:text-gray-100">{item.skill}</span>
+				</li>
 			{/each}
-		</div>
+		</ul>
 	</div>
 </div>
-<hr class="border-1 gray-200 dark:border-gray-800" />
+<hr class="border-t border-gray-300 dark:border-gray-600" />

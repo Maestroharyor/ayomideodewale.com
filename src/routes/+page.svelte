@@ -8,7 +8,7 @@
 	import HomeSkills from '../components/partials/home/HomeSkills.svelte';
 </script>
 
-<SeoMeta title="I am Ayomide Odewale" />
+<SeoMeta path="/" />
 <main class="scroll-smooth">
 	<HomeHero />
 	<HomeAbout />

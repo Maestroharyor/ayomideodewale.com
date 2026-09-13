@@ -8,11 +8,11 @@
 		'I am a Fullstack Software and Web Developer specialized in building TopNotch JavaScript Powered Software with extensive knowledge in other relevant skills and tech stacks. Here are some of my dev projects.';
 </script>
 
-<SeoMeta title="My Dev Projects" {metadescription} />
+<SeoMeta title="Some Recent Dev Projects" {metadescription} path="/projects" />
 
 <main>
 	<PageHeading
-		title="My Dev Projects"
+		title="Some Recent Dev Projects"
 		description="Here are some of the cool and amazing projects, apps and software I've built with various tech stacks."
 	/>
 	<ProjectsSection {projects}>

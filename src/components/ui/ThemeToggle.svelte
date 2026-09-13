@@ -79,7 +79,7 @@
 		title="Theme: {currentLabel}"
 		aria-haspopup="menu"
 		aria-expanded={open}
-		class="rounded-full p-2 text-dark transition duration-300 ease-in-out hover:text-primary-500 dark:text-white dark:hover:text-warning-500"
+		class="flex h-11 w-11 items-center justify-center rounded-full text-dark transition duration-300 ease-in-out hover:text-primary-500 dark:text-white dark:hover:text-warning-500"
 	>
 		{@render icon(current, 20)}
 	</button>
