@@ -7,6 +7,12 @@
 #
 # Shoots at 2x and downscales so text stays legible once ProjectCard enlarges
 # the image. A fresh --user-data-dir keeps runs from sharing profile state.
+#
+# BUDGET_MS overrides the virtual time budget. The default is enough for most
+# pages, but a site that lazy-loads a large hero image below the fold can be
+# screenshotted mid-load and yield an empty grey box where the product shot
+# should be. Raise it when that happens:
+#   BUDGET_MS=45000 scripts/capture-thumbnail.sh https://example.com example
 set -euo pipefail
 
 url=${1:?usage: capture-thumbnail.sh <url> <name>}
@@ -23,7 +29,7 @@ trap 'rm -rf "$profile" "$png"' EXIT
 "$CHROME" --disable-gpu --hide-scrollbars \
 	--user-data-dir="$profile" \
 	--window-size=2000,1016 \
-	--virtual-time-budget=20000 \
+	--virtual-time-budget="${BUDGET_MS:-20000}" \
 	--screenshot="$png" "$url" >/dev/null 2>&1
 
 [[ -s $png ]] || { echo "capture produced nothing for $url" >&2; exit 1; }
