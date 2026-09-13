@@ -62,6 +62,6 @@
 				>
 			</div>
 		</div>
-		<p class="text-fun-gray text-left text-lg">{design.desc}</p>
+		<p class="text-left text-lg text-gray-600 dark:text-gray-300">{design.desc}</p>
 	</div>
 </a>

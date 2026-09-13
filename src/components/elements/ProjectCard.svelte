@@ -2,7 +2,9 @@
 	import type { Project } from '../../types';
 	import { tagSlug } from '../../utils';
 
-	let { project }: { project: Project } = $props();
+	// The cards above the fold are told to load eagerly. Lazy-loading them left a
+	// bordered empty box where the thumbnail should be on a cold load.
+	let { project, eager = false }: { project: Project; eager?: boolean } = $props();
 </script>
 
 <div
@@ -15,7 +17,8 @@
 			class="w-full h-auto aspect-[1000/508] object-cover object-top hover:opacity-75 transition rounded-md"
 			src={project.img}
 			alt={project.title || ''}
-			loading="lazy"
+			loading={eager ? 'eager' : 'lazy'}
+			fetchpriority={eager ? 'high' : 'auto'}
 			width="1000"
 			height="508"
 		/>
@@ -79,7 +82,7 @@
 				</div>
 			</div>
 		</div>
-		<p class="text-fun-gray text-left text-[16px]">{project.desc}</p>
+		<p class="text-left text-[16px] text-gray-600 dark:text-gray-300">{project.desc}</p>
 		<ul class="flex flex-wrap items-center mt-4 list-none gap-3">
 			{#each project.tags as tag (tag)}
 				<li>

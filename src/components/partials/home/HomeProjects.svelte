@@ -10,8 +10,8 @@
 			<SectionHeading title="Here are some of my favourite projects" />
 		</div>
 		<div class="grid grid-cols-1 gap-5 md:gap-x-10 md:gap-y-16 lg:grid-cols-2 items-start pt-10">
-			{#each projects.filter((project) => project.featured).slice(0, 4) as item (item.title)}
-				<ProjectCard project={item} />
+			{#each projects.filter((project) => project.featured).slice(0, 4) as item, i (item.title)}
+				<ProjectCard project={item} eager={i < 2} />
 			{/each}
 		</div>
 		<div class="relative w-full mt-10 flex items-center justify-center">
