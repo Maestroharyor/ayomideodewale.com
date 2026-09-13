@@ -7,6 +7,8 @@
 	import '@fontsource/koho/700.css';
 	import '../app.css';
 
+	import { afterNavigate } from '$app/navigation';
+	import { page } from '$app/state';
 	import { ModeWatcher, mode } from 'mode-watcher';
 	import Particles, { particlesInit } from '@tsparticles/svelte';
 	import { loadSlim } from '@tsparticles/slim';
@@ -18,6 +20,24 @@
 	import Toast from '../components/ui/Toast.svelte';
 
 	let { children } = $props();
+
+	// The resume routes print to PDF. Site chrome (header, footer, particles, the
+	// contact modal) has no place in that document, and the footer was spilling
+	// onto a third page of every export.
+	const isPrintRoute = $derived(
+		page.route.id === '/resume' || (page.route.id?.startsWith('/r/') ?? false)
+	);
+
+	// app.css sets `scroll-behavior: smooth` on html, which is what makes the
+	// in-page #about / #experience anchors glide. The side effect is that
+	// SvelteKit's scroll reset animates too, and a fast navigation cancels it
+	// part-way — so landing on a new page kept the old scroll position. Reset
+	// explicitly and instantly, and leave anchor links to the smooth default.
+	afterNavigate(({ to, type }) => {
+		if (type === 'popstate') return; // Browser back/forward restores its own position.
+		if (to?.url.hash) return; // Anchor targets should keep the smooth scroll.
+		window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+	});
 
 	// Must resolve before <Particles /> mounts, so we gate the component on it
 	// rather than racing it.
@@ -47,7 +67,9 @@
 			// the dark background, invisible on the light one.
 			paint: {
 				color: {
-					value: lightMode ? '#111827' : '#f3f4f6'
+					// Light mode gets a mid grey, not near-black: 400 dark dots over white
+					// read as a grey wash rather than texture, and the page stops looking white.
+					value: lightMode ? '#9ca3af' : '#f3f4f6'
 				}
 			},
 			number: {
@@ -64,10 +86,22 @@
 					speed: 0.25,
 					sync: false
 				},
-				value: { min: 0.05, max: 0.5 }
+				value: { min: 0.05, max: 0.45 }
 			},
 			shape: {
 				type: 'circle'
+			},
+			// A slow drift rather than a static field. Speed is deliberately well
+			// under 1: at 400 particles anything faster reads as snow and pulls the
+			// eye away from the copy. `outModes: out` lets them leave and re-enter
+			// instead of bouncing off an invisible wall at the viewport edge.
+			move: {
+				enable: true,
+				speed: 0.6,
+				direction: 'none' as const,
+				random: true,
+				straight: false,
+				outModes: { default: 'out' as const }
 			},
 			size: {
 				value: { min: 0.5, max: 2 }
@@ -81,20 +115,27 @@
 	});
 </script>
 
-<ModeWatcher />
+{#if isPrintRoute}
+	{@render children()}
+{:else}
+	<!-- The site is designed dark first; light is the deliberate opt-out rather
+	     than whatever the visitor's OS happens to be set to. `track` stays on so
+	     an explicit "system" choice still follows the OS. -->
+	<ModeWatcher defaultMode="dark" />
 
-<!-- Gated on the engine and the resolved mode, then keyed on the mode: exactly one
-	 mount per theme, with a stable options object for the life of that instance. -->
-{#if engineReady && mode.current}
-	{#key mode.current}
-		<Particles id="tsparticles" options={buildParticlesConfig(mode.current === 'light')} />
-	{/key}
+	<!-- Gated on the engine and the resolved mode, then keyed on the mode: exactly one
+	     mount per theme, with a stable options object for the life of that instance. -->
+	{#if engineReady && mode.current}
+		{#key mode.current}
+			<Particles id="tsparticles" options={buildParticlesConfig(mode.current === 'light')} />
+		{/key}
+	{/if}
+
+	<Modal>
+		<ContactMe />
+	</Modal>
+	<Toast />
+	<Header />
+	{@render children()}
+	<Footer />
 {/if}
-
-<Modal>
-	<ContactMe />
-</Modal>
-<Toast />
-<Header />
-{@render children()}
-<Footer />

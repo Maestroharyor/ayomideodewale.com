@@ -1,96 +1,43 @@
-import type { Experience } from '../types';
+import type { EarlierExperience, Experience } from '../types';
+import { formatYearRange } from './resume/dates';
+import { resumeRoles } from './resume/roles';
 
-export const experiences: Experience[] = [
-	{
-		year: '2023 - Present',
-		role: 'Frontend Designer',
-		company: 'BPOSeats (Cebu, Philippines)',
-		isCurrent: true,
-		description:
-			'Spearheading User Interface design and writing high-quality and functional code for the tech. Achieved a 20% increase in user engagement by improving responsiveness and accessibility.',
-		stacks: ['Figma', 'JavaScript', 'VuejS', 'SASS'],
-		link: 'https://www.bposeats.com'
-	},
-	{
-		year: '2023',
-		role: 'Senior Software Developer',
-		company: 'Helppo Africa (Lagos, Nigeria)',
-		isCurrent: true,
-		description:
-			'Built a fintech application/platform for the organization and its users. Implemented secure payment processing and financial transaction management functionalities. Designed and developed user-friendly interfaces for seamless user experience',
-		stacks: ['TailwindCSS', 'JavaScript', 'TypeScript', 'Ionic', 'Angular', 'NodeJS'],
-		link: 'https://www.linkedin.com/company/helppo-africa-limited'
-	},
-	{
-		year: '2022 - 2023',
-		role: 'Frontend Developer',
-		company: 'Summitech Computing Limited (Lagos, Nigeria)',
-		isCurrent: false,
-		description:
-			'Development and Management of Enterprise software products with JavaScript and TypeScript related stacks.',
-		stacks: ['Bootstrap', 'JavaScript', 'TypeScript', 'ReactJS'],
-		link: 'https://summitech.ng'
-	},
-	{
-		year: '2022',
-		role: 'Software Developer',
-		company: 'VEENDHQ (Wyoming, USA)',
-		isCurrent: false,
-		description:
-			'Built fintech application/platforms for the organization and its users. Leveraged React and NextJS, a powerful fullstack JavaScript framework for creating web applications, to develop and maintain enterprise-grade fintech software products.',
-		stacks: ['JavaScript', 'TypeScript', 'ReactJS', 'NextJS', 'React Native'],
-		link: 'https://veendhq.com'
-	}
-	// {
-	// 	year: '2021',
-	// 	role: 'Lead Software Developer',
-	// 	company: 'Fovero Technologies (Lagos, Nigeria)',
-	// 	isCurrent: false,
-	// 	description:
-	// 		'Led a team of developers in the design and development of software solutions, resulting in a 20% reduction in project development time through streamlined processes and efficient collaboration.',
-	// 	stacks: [
-	// 		'React',
-	// 		'NextJS',
-	// 		'VueJS',
-	// 		'NuxtJS',
-	// 		'TailwindCSS',
-	// 		'NodeJS',
-	// 		'ExpressJS',
-	// 		'MongoDB',
-	// 		'SQL',
-	// 		'WordPress'
-	// 	],
-	// 	link: 'https://foverotechnologies.com'
-	// }
-	// {
-	// 	year: '2020',
-	// 	role: 'Programming Instructor/Web Developer',
-	// 	company: 'New Horizon (Lagos, Nigeria)',
-	// 	isCurrent: false,
-	// 	description:
-	// 		'Taught Core Programming language concepts. Built and deployed cutting-edge web applications for other companies.',
-	// 	stacks: ['HTML', 'CSS', 'Bootstrap', 'Python', 'WordPress'],
-	// 	link: 'https://www.newhorizonsnigeria.com.ng/'
-	// }
-	// {
-	// 	year: '2020 - 2021',
-	// 	role: 'Fullstack Web Engineer',
-	// 	company: 'VIREM TECHNOLOGIES',
-	// 	isCurrent: false,
-	// 	description:
-	// 		'Building and Management of React/NextJS based multivendor e-commerce platform with API Integrations and Testing.',
-	// 	stacks: ['React', 'NextJS'],
-	// 	link: 'https://virem.com.ng'
-	// },
+/**
+ * Derived from src/data/resume/roles.ts rather than maintained by hand.
+ *
+ * The website shows a curated subset at year granularity; the resumes show all
+ * roles at month level. Both read the same source, so the two surfaces cannot
+ * drift apart the way they previously had.
+ */
+export const experiences: Experience[] = resumeRoles
+	.filter((role) => role.site?.show)
+	.sort(
+		(a, b) =>
+			(a.site?.order ?? Number.MAX_SAFE_INTEGER) - (b.site?.order ?? Number.MAX_SAFE_INTEGER) ||
+			b.start.localeCompare(a.start)
+	)
+	.map((role) => ({
+		year: formatYearRange(role.start, role.end),
+		role: role.role,
+		company: role.company,
+		location: role.location,
+		isCurrent: role.end === null,
+		description: role.site?.description ?? role.description,
+		stacks: role.site?.stacks ?? role.stacks,
+		link: role.link
+	}));
 
-	// {
-	// 	year: '2017 - 2019',
-	// 	role: 'Freelance Web Developer',
-	// 	company: '',
-	// 	isCurrent: false,
-	// 	description:
-	// 		'Worked as a freelance developer, providing web development services to various clients. Developed responsive websites using various technologies like JavaScript, JQuery, WordPress, PHP and more.Collaborated with clients to gather requirements and deliver customized solutions. Managed project timelines and ensured high-quality deliverables.',
-
-	// 	stacks: ['CSS', 'Bootstrap', 'ReactJS', 'WordPress']
-	// }
-];
+/**
+ * Roles too old to warrant a timeline entry, summarised in one line beneath it.
+ *
+ * Without this the visible range starts at 2022, which reads as four years next
+ * to the "7+ years" in the bio. One line of plain text closes that gap without
+ * adding cards or abandoning the lean layout.
+ */
+export const earlierExperiences: EarlierExperience[] = resumeRoles
+	.filter((role) => role.site?.earlier)
+	.sort((a, b) => b.start.localeCompare(a.start))
+	.map((role) => ({
+		company: role.company,
+		year: formatYearRange(role.start, role.end)
+	}));
