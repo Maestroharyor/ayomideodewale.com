@@ -14,14 +14,24 @@
 	let fullSkills = $state(false);
 	const skills = $derived(fullSkills ? skillsFull : skillsSummary);
 
-	// These marks are solid black, so they need inverting to stay legible, but only
-	// against a dark background. Inverting unconditionally turned them white and
-	// they vanished in light mode.
+	const ICON_BASE = 'h-11 w-11 object-contain';
+
+	// Solid black marks: legible on white, invisible on the navy. Inverting them
+	// unconditionally was the old bug, which made them vanish in light mode
+	// instead, so the inversion is dark-mode only.
 	const MONOCHROME_MARKS = new Set(['nextjs', 'solidity', 'expressjs', 'prisma']);
-	const iconClass = (skill: string) =>
-		MONOCHROME_MARKS.has(skill.toLowerCase())
-			? 'h-11 w-11 object-contain dark:invert'
-			: 'h-11 w-11 object-contain';
+
+	// Dark but coloured marks, which inverting would wreck: Django is #004d40,
+	// Postgres #336791, Node a mix down to #2e7d32. All of them read as mud
+	// against the #20234d page. A brightness lift keeps the hue and the shape.
+	const DARK_MARKS = new Set(['django', 'nodejs', 'postgres']);
+
+	const iconClass = (skill: string) => {
+		const key = skill.toLowerCase();
+		if (MONOCHROME_MARKS.has(key)) return `${ICON_BASE} dark:invert`;
+		if (DARK_MARKS.has(key)) return `${ICON_BASE} dark:brightness-[1.75]`;
+		return ICON_BASE;
+	};
 
 	// Decorations only. They are absolutely positioned against the section
 	// container, not the heading column, which is what spreads them over the full
