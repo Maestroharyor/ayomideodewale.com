@@ -15,17 +15,17 @@
       initial={{ x: -10000, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 1, type: "tween" }}
-      class=" w-full pt-20 pb-40 px-5 bg-dark/10 dark:bg-dark-background/40 "
+      class=" w-full pt-20 pb-40 px-5 bg-dark/[0.02] dark:bg-dark-background/40 "
       id="profile"
       // style={{ maxWidth: "1200px" }}
     > -->
-<div class=" w-full pt-20 pb-40 px-5 bg-dark/10 dark:bg-dark-background/40" id="about">
+<div class=" w-full pt-20 pb-40 px-5 bg-dark/[0.02] dark:bg-dark-background/40" id="about">
 	<div class="max-w-[1200px] mx-auto">
 		<SectionHeading title="So, who am I?" />
 	</div>
 
 	<div
-		class="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-20 w-full items-center justify-between max-w-[1200px] mx-auto"
+		class="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-8 lg:gap-20 w-full items-center justify-between max-w-[1200px] mx-auto"
 	>
 		<div class="md:col-span-8">
 			<div class="profile__selector relative w-full md:max-w-[300px] mx-auto pb-10 mb-10">
@@ -102,6 +102,7 @@
 				width={100 * value}
 				height={30 * value}
 				loading="lazy"
+				class="max-w-full h-auto"
 			/>
 		</div>
 	</div>

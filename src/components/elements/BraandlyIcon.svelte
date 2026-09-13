@@ -1,0 +1,33 @@
+<script lang="ts">
+	// Inlined rather than an <img> so the mark inherits currentColor and picks up
+	// the same hover treatment as the icon-pack social icons beside it.
+	let { size = 20 }: { size?: number } = $props();
+</script>
+
+<svg
+	width={size}
+	height={Math.round(size * 1.25)}
+	viewBox="0 0 24 30"
+	fill="none"
+	xmlns="http://www.w3.org/2000/svg"
+	aria-hidden="true"
+>
+	<path
+		fill-rule="evenodd"
+		clip-rule="evenodd"
+		d="M0.107341 0.076009C0.61561 0.030721 6.86332 -0.977276 6.89464 5.94745C6.90969 9.26995 7.09668 12.936 6.96976 16.6264C6.89112 18.9137 7.4004 20.8203 8.89037 21.9237C10.2664 22.9428 12.0597 23.132 13.6364 22.4033C15.9003 21.3568 17.1718 18.1067 15.2703 15.6313C18.6724 15.6569 24.8614 21.5459 20.0332 26.5721C13.5448 33.3269 -0.0633709 30.0946 0.00022211 16.9118C0.00822209 11.2998 0.0992729 5.68799 0.107273 0.0760769L0.107341 0.076009Z"
+		fill="currentColor"
+	/>
+	<path
+		fill-rule="evenodd"
+		clip-rule="evenodd"
+		d="M11.523 15.6868C13.0304 15.6868 14.2524 16.9087 14.2524 18.4161C14.2524 19.9235 13.0304 21.1455 11.523 21.1455C10.0157 21.1455 8.7937 19.9235 8.7937 18.4161C8.7937 16.9087 10.0157 15.6868 11.523 15.6868Z"
+		fill="currentColor"
+	/>
+	<path
+		fill-rule="evenodd"
+		clip-rule="evenodd"
+		d="M23.6334 20.103C22.1019 17.6541 18.3952 13.752 13.2168 14.1355C8.03593 14.5192 6.8604 8.11787 12.0034 7.65258C15.0792 7.37434 18.3561 8.52425 20.5614 10.9223C22.7147 13.2638 24.1278 16.0423 23.6334 20.103Z"
+		fill="currentColor"
+	/>
+</svg>

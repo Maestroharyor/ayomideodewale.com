@@ -1,42 +1,28 @@
 <script lang="ts">
 	import { Icon } from 'svelte-icons-pack';
 	import {
-		FaBrandsGithub as FaGithub,
-		FaBrandsLinkedin as FaLinkedin,
-		FaBrandsTwitter as FaTwitter,
-		FaBrandsFacebook as FaFacebook,
-		FaBrandsInstagram as FaInstagram
+		FaBrandsGithub,
+		FaBrandsLinkedin,
+		FaBrandsXTwitter,
+		FaBrandsInstagram,
+		FaBrandsTiktok,
+		FaBrandsFacebook
 	} from 'svelte-icons-pack/fa';
+	import { socialMenu } from '../../../data/menu';
+	import BraandlyIcon from '../../elements/BraandlyIcon.svelte';
 	import { modal } from '../../ui/modal-state.svelte';
 	import Tooltip from '../../elements/Tooltip.svelte';
 
-	const socials = [
-		{
-			title: 'Github',
-			icon: FaGithub,
-			link: 'https://github.com/MaestroHaryor'
-		},
-		{
-			title: 'LinkedIn',
-			icon: FaLinkedin,
-			link: 'https://www.linkedin.com/in/ayomide-odewale/'
-		},
-		{
-			title: 'Twitter',
-			icon: FaTwitter,
-			link: 'https://twitter.com/MaestroHaryor'
-		},
-		{
-			title: 'Facebook',
-			icon: FaFacebook,
-			link: 'https://web.facebook.com/ayomide.odewale.125'
-		},
-		{
-			title: 'Instagram',
-			icon: FaInstagram,
-			link: 'https://instagram.com/maestroharyorjoshua'
-		}
-	];
+	// One source for the links (src/data/menu.ts); the icon is presentation and
+	// is mapped here. This block used to be a second hardcoded copy of the list.
+	const socialIcons: Record<string, typeof FaBrandsGithub> = {
+		GitHub: FaBrandsGithub,
+		LinkedIn: FaBrandsLinkedin,
+		X: FaBrandsXTwitter,
+		Instagram: FaBrandsInstagram,
+		TikTok: FaBrandsTiktok,
+		Facebook: FaBrandsFacebook
+	};
 
 	const openModal = () => {
 		modal.open();
@@ -58,15 +44,15 @@
 			<p class="text-xl mb-8">
 				Got a question or proposal, or just want to say hello? You can connect with me on Social:
 			</p>
-			<div class="flex gap-5 text-white dark:text-dark text-3xl mb-8 justify-center flex-wrap">
-				{#each socials as social (social.link)}
+			<div class="flex gap-5 text-3xl mb-8 justify-center flex-wrap">
+				{#each socialMenu as social (social.link)}
 					<!-- <Tooltip title={social.title} class=""> -->
 					<Tooltip tooltip={social.title}>
 						<a
 							href={social.link}
 							target="_blank"
 							rel="noreferrer"
-							class="block text-primary hover:text-primary-hov dark:text-white dark:hover:text-warning"
+							class="block text-primary-500 hover:text-primary-hov dark:text-white dark:hover:text-warning-500"
 							aria-label={social.title}
 						>
 							<!-- <div class="card p-4 variant-filled" data-popup="popupHover">
@@ -74,7 +60,13 @@
 								<div class="arrow variant-filled-secondary" />
 							</div> -->
 
-							<Icon src={social.icon} size="35" color="#fff" />
+							<!-- currentColor, so the anchor's text-primary-500 / dark:text-white classes drive
+					 it. A hardcoded #fff rendered these invisible in light mode. -->
+							{#if social.title === 'Braandly'}
+								<BraandlyIcon size={35} />
+							{:else}
+								<Icon src={socialIcons[social.title]} size="35" color="currentColor" />
+							{/if}
 						</a>
 					</Tooltip>
 					<!-- </Tooltip> -->

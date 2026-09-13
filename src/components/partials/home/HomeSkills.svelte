@@ -15,7 +15,9 @@
 	const skills = $derived(fullSkills ? skillsFull : skillsSummary);
 </script>
 
-<hr class="border-1 gray-200 dark:border-gray-800" />
+<!-- `gray-200` is not a class, so the colour fell through to Tailwind's default
+     border-colour of currentColor and the rule rendered near-black in light mode. -->
+<hr class="border-t border-gray-300 dark:border-gray-600" />
 <div
 	class="grid grid-cols-1 md:grid-cols-2 justify-between relative max-w-[1200px] mx-auto pt-24 pb-24 px-5 gap-10 items-center"
 >
@@ -38,31 +40,31 @@
 		</div>
 
 		<div
-			class="_floating hidden md:block opacity-90 text-primary top-[100px] left-[50px] rotate-[70deg]"
+			class="_floating hidden md:block opacity-90 text-primary-500 top-[100px] left-[50px] rotate-[70deg]"
 			style="animation-delay: 0.4s;"
 		>
 			<Icon src={FaCode} size="50" color="#4F46E5" />
 		</div>
 		<div
-			class="_floating hidden md:block opacity-90 text-primary b0ttom-[100px] left-[calc(50%-70px)] rotate-[70deg]"
+			class="_floating hidden md:block opacity-90 text-primary-500 bottom-[100px] left-[calc(50%-70px)] rotate-[70deg]"
 			style="animation-delay: 0.2s;"
 		>
 			<Icon src={FaCodeBranch} size="50" color="#4F46E5" />
 		</div>
 		<div
-			class="_floating hidden md:block opacity-90 text-primary bottom-[70px] left-[60px] rotate-[70deg]"
+			class="_floating hidden md:block opacity-90 text-primary-500 bottom-[70px] left-[60px] rotate-[70deg]"
 			style="animation-delay: 0.6s;"
 		>
 			<Icon src={FaLaptop} size="50" color="#4F46E5" />
 		</div>
 		<div
-			class="_floating hidden md:block opacity-90 text-primary top-[50px] left-[400px] rotate-[70deg]"
+			class="_floating hidden md:block opacity-90 text-primary-500 top-[50px] left-[400px] rotate-[70deg]"
 			style="animation-delay: 0.2s;"
 		>
 			<Icon src={FaLaptopCode} size="50" color="#4F46E5" />
 		</div>
 		<div
-			class="_floating hidden md:block text-primary top-[50%] -left-[50px] rotate-[70deg]"
+			class="_floating hidden md:block text-primary-500 top-[50%] -left-[50px] rotate-[70deg]"
 			style="animation-delay: 0.7s;"
 		>
 			<Icon src={FaStar} size="50" color="#4F46E5" />
@@ -97,4 +99,4 @@
 		</div>
 	</div>
 </div>
-<hr class="border-1 gray-200 dark:border-gray-800" />
+<hr class="border-t border-gray-300 dark:border-gray-600" />

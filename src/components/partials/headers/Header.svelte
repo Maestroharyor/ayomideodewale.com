@@ -60,6 +60,7 @@
 				<li>
 					<a
 						href={item.link}
+						onclick={() => toggleMobileNav(false)}
 						class={`text-lg list-none transition duration-300 ease-in-out ${
 							currentPage === item.link
 								? 'text-dark-theme dark:text-warning-500'
@@ -71,26 +72,17 @@
 				</li>
 			{/each}
 			<li>
-				<a
-					href="https://thelifetechfacts.com"
-					target="_blank"
-					class="inline-flex gap-2 items-center text-lg list-none transition duration-300 ease-in-out text-primary-500 dark:text-white dark:hover:text-warning-500 hover:text-dark-theme"
+				<!-- The drawer had no contact entry, so the modal was desktop-only. -->
+				<button
+					type="button"
+					class="border-2 rounded-full px-8 py-2 border-primary-500 hover:border-primary-hov dark:border-white text-lg font-medium text-primary-500 hover:text-dark-theme transition duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning-500 dark:hover:border-warning-500"
+					onclick={() => {
+						toggleMobileNav(false);
+						openModal();
+					}}
 				>
-					<span>My Blog</span>
-
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 20 20"
-						fill="currentColor"
-						class="ml-1 inline-block h-4 w-4 shrink-0 translate-y-px transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 group-focus-visible/link:-translate-y-1 group-focus-visible/link:translate-x-1 motion-reduce:transition-none"
-						aria-hidden="true"
-						><path
-							fill-rule="evenodd"
-							d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
-							clip-rule="evenodd"
-						/></svg
-					>
-				</a>
+					Get In Touch
+				</button>
 			</li>
 		</ul>
 	</div>
@@ -144,7 +136,6 @@
 			{#each currentMenu as item (item.link)}
 				<li>
 					<a
-						onclick={() => toggleMobileNav(false)}
 						href={item.link}
 						class={`text-lg list-none transition duration-300 ease-in-out ${
 							currentPage === item.link
@@ -160,7 +151,7 @@
 						href={item.link}
 						class={`text-lg list-none transition duration-300 ease-in-out ${
 							$router.pathname === item.link
-								? 'text-dark-theme dark:text-warning'
+								? 'text-dark-theme dark:text-warning-500'
 								: 'text-primary-500 dark:text-white dark:hover:text-warning-500 hover:text-dark-theme'
 						}`}
 					>
