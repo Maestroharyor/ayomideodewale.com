@@ -1,6 +1,5 @@
 <script lang="ts">
-	export let title: string;
-	export let description: string;
+	let { title, description }: { title: string; description: string } = $props();
 </script>
 
 <div class="max-w-[700px] mx-auto py-20 flex flex-col gap-10 items-center justify-center px-5">

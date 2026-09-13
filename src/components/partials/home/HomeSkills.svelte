@@ -1,26 +1,18 @@
 <script lang="ts">
-	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import { skillsFull, skillsSummary } from '../../../data/skills';
-	// import { afterUpdate, onMount } from 'svelte/types/runtime/internal/lifecycle';
 
-	import FaCode from 'svelte-icons-pack/fa/FaSolidCode';
-	import FaCodeBranch from 'svelte-icons-pack/fa/FaSolidCodeBranch';
-	import FaLaptopCode from 'svelte-icons-pack/fa/FaSolidLaptopCode';
-	import FaLaptop from 'svelte-icons-pack/fa/FaSolidLaptop';
-	import FaStar from 'svelte-icons-pack/fa/FaStar';
+	import { Icon } from 'svelte-icons-pack';
+	import {
+		FaSolidCode as FaCode,
+		FaSolidCodeBranch as FaCodeBranch,
+		FaSolidLaptopCode as FaLaptopCode,
+		FaSolidLaptop as FaLaptop,
+		FaStar
+	} from 'svelte-icons-pack/fa';
+	import Switch from '../../ui/Switch.svelte';
 
-	import Icon from 'svelte-icons-pack/Icon.svelte';
-
-	let fullSkills = false;
-	let skills = skillsSummary;
-
-	// afterUpdate(() => {
-	// 	skills = fullSkills ? skillsFull : skillsSummary;
-	// });
-
-	const handleChange = () => {
-		skills = fullSkills ? skillsFull : skillsSummary;
-	};
+	let fullSkills = $state(false);
+	const skills = $derived(fullSkills ? skillsFull : skillsSummary);
 </script>
 
 <hr class="border-1 gray-200 dark:border-gray-800" />
@@ -49,51 +41,44 @@
 			class="_floating hidden md:block opacity-90 text-primary top-[100px] left-[50px] rotate-[70deg]"
 			style="animation-delay: 0.4s;"
 		>
-			<Icon src={FaCode} size={'50'} color={'#4F46E5'} />
+			<Icon src={FaCode} size="50" color="#4F46E5" />
 		</div>
 		<div
 			class="_floating hidden md:block opacity-90 text-primary b0ttom-[100px] left-[calc(50%-70px)] rotate-[70deg]"
 			style="animation-delay: 0.2s;"
 		>
-			<Icon src={FaCodeBranch} size={'50'} color={'#4F46E5'} />
+			<Icon src={FaCodeBranch} size="50" color="#4F46E5" />
 		</div>
 		<div
 			class="_floating hidden md:block opacity-90 text-primary bottom-[70px] left-[60px] rotate-[70deg]"
 			style="animation-delay: 0.6s;"
 		>
-			<Icon src={FaLaptop} size={'50'} color={'#4F46E5'} />
+			<Icon src={FaLaptop} size="50" color="#4F46E5" />
 		</div>
 		<div
 			class="_floating hidden md:block opacity-90 text-primary top-[50px] left-[400px] rotate-[70deg]"
 			style="animation-delay: 0.2s;"
 		>
-			<Icon src={FaLaptopCode} size={'50'} color={'#4F46E5'} />
+			<Icon src={FaLaptopCode} size="50" color="#4F46E5" />
 		</div>
 		<div
 			class="_floating hidden md:block text-primary top-[50%] -left-[50px] rotate-[70deg]"
 			style="animation-delay: 0.7s;"
 		>
-			<Icon src={FaStar} size={'50'} color={'#4F46E5'} />
+			<Icon src={FaStar} size="50" color="#4F46E5" />
 		</div>
 	</div>
 	<div>
 		<div class="flex items-center justify-center gap-3 mb-8 w-full">
 			<p>Favourite Tech Stacks</p>
-			<SlideToggle
-				name="Tech Stacks"
-				on:change={handleChange}
-				bind:checked={fullSkills}
-				aria-label="Tech Stacks Button"
-				active="bg-primary-hov"
-				label="Tech Stacks"
-			/>
+			<Switch name="Tech Stacks" label="Tech Stacks" bind:checked={fullSkills} />
 
 			<p>All Tech Stacks</p>
 		</div>
 		<div
 			class="relative max-w-lg w-full mx-auto md:mx-none grid gap-x-8 gap-y-12 sm:gap-8 md:gap-12 grid-cols-3 sm:grid-cols-5 items-center place-content-center"
 		>
-			{#each skills as item, index}
+			{#each skills as item (item.skill)}
 				<div title={item.skill} class="w-10 mx-auto flex items-center flex-col justify-center">
 					<img
 						src={item.src}

@@ -1,9 +1,7 @@
 <script lang="ts">
 	import type { Experience } from '../../types';
-	import FaExternalLinkAlt from 'svelte-icons-pack/fa/FaSolidExternalLinkAlt';
-	import FaGithub from 'svelte-icons-pack/fa/FaBrandsGithub';
 
-	export let experience: Experience;
+	let { experience }: { experience: Experience } = $props();
 </script>
 
 <a
@@ -20,15 +18,10 @@
 	<div class="z-10 sm:col-span-6 space-y-2">
 		<h3 class="font-medium leading-snug text-slate-200">
 			<div>
-				<a
-					class="group/link text-primary-500 dark:text-warning-500 text-xl font-bold"
-					href={experience.link}
-					target="_blank"
-					rel="noreferrer"
-					aria-label={`${experience.role} at ${experience.company}`}
+				<span class="group/link text-primary-500 dark:text-warning-500 text-xl font-bold"
 					><span
 						class=" -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"
-					/><span
+					></span><span
 						>{experience.role} ·<!-- -->
 						<span class="inline-block"
 							>{experience.company}<svg
@@ -44,7 +37,7 @@
 								/></svg
 							></span
 						></span
-					></a
+					></span
 				>
 			</div>
 		</h3>
@@ -52,7 +45,7 @@
 			{experience.description}
 		</p>
 		<ul class=" flex flex-wrap gap-x-2 gap-y-2 mt-1" aria-label="Technologies used">
-			{#each experience.stacks as stack}
+			{#each experience.stacks as stack (stack)}
 				<!-- content here -->
 				<li class="">
 					<div

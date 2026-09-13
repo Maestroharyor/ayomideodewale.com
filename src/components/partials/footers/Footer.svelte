@@ -1,22 +1,17 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { footerMenu } from '../../../data/menu';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
-	let currentYear = new Date().getFullYear();
-	let currentMenu = footerMenu;
-	let currentPage = '/';
+	const currentYear = new Date().getFullYear();
 
-	onMount(() => {
-		page.subscribe((page) => {
-			currentPage = page.route.id as string;
-			if (currentPage === '/') {
-				currentMenu = footerMenu.filter((menu) => menu.title.toLowerCase() !== '/');
-			} else {
-				currentMenu = footerMenu.filter((menu) => !menu.isHomeLink);
-			}
-		});
-	});
+	// $derived rather than a page.subscribe() in onMount, so this is right during
+	// SSR and on first paint instead of flashing.
+	const currentPage = $derived(page.route.id ?? '/');
+	const currentMenu = $derived(
+		currentPage === '/'
+			? footerMenu.filter((menu) => menu.title.toLowerCase() !== '/')
+			: footerMenu.filter((menu) => !menu.isHomeLink)
+	);
 </script>
 
 <footer
@@ -63,11 +58,11 @@
 		>
 			<div class="flex flex-col items-center justify-center">
 				<div class="inline-flex items-center uppercase text-xs font-bold tracking-widest">
-					Made with{' '}
+					Made with
 					<div class="space-x-2 inline-flex items-center -mt-1 ml-3">
 						<span>
 							<img
-								src={'/svgs/svelte.svg'}
+								src="/svgs/svelte.svg"
 								width={40}
 								height={40}
 								class=""
@@ -80,7 +75,7 @@
 
 						<span>
 							<img
-								src={'/svgs/tailwindcss.svg'}
+								src="/svgs/tailwindcss.svg"
 								width={40}
 								height={40}
 								class=""
@@ -89,18 +84,6 @@
 								loading="lazy"
 							/>
 							<span class="sr-only">TailwindCSS</span>
-						</span>
-						<span>
-							<img
-								src={'/skeleton.png'}
-								width={40}
-								height={40}
-								class=""
-								title="Skeleton"
-								alt="Skeleton"
-								loading="lazy"
-							/>
-							<span class="sr-only">Skeleton</span>
 						</span>
 					</div>
 				</div>
@@ -124,7 +107,7 @@
 				rel="nooreferrer"
 			>
 				<img
-					src={'/svgs/github.svg'}
+					src="/svgs/github.svg"
 					width={20}
 					height={20}
 					class=""

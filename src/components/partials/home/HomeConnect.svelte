@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { modalStore, toastStore } from '@skeletonlabs/skeleton';
-	import type { ModalSettings, ToastSettings } from '@skeletonlabs/skeleton';
-
-	import Icon from 'svelte-icons-pack/Icon.svelte';
-	import FaGithub from 'svelte-icons-pack/fa/FaBrandsGithub';
-	import FaLinkedin from 'svelte-icons-pack/fa/FaBrandsLinkedin';
-	import FaTwitter from 'svelte-icons-pack/fa/FaBrandsTwitter';
-	import FaFacebook from 'svelte-icons-pack/fa/FaBrandsFacebook';
-	import FaInstagram from 'svelte-icons-pack/fa/FaBrandsInstagram';
+	import { Icon } from 'svelte-icons-pack';
+	import {
+		FaBrandsGithub as FaGithub,
+		FaBrandsLinkedin as FaLinkedin,
+		FaBrandsTwitter as FaTwitter,
+		FaBrandsFacebook as FaFacebook,
+		FaBrandsInstagram as FaInstagram
+	} from 'svelte-icons-pack/fa';
+	import { modal } from '../../ui/modal-state.svelte';
 	import Tooltip from '../../elements/Tooltip.svelte';
-	import { openToast } from '../../../utils';
 
 	const socials = [
 		{
@@ -39,14 +38,8 @@
 		}
 	];
 
-	const modal: ModalSettings = {
-		type: 'component',
-		// Pass the component registry key as a string:
-		component: 'contactComponent'
-	};
-
 	const openModal = () => {
-		modalStore.trigger(modal);
+		modal.open();
 	};
 </script>
 
@@ -81,7 +74,7 @@
 								<div class="arrow variant-filled-secondary" />
 							</div> -->
 
-							<Icon src={social.icon} size={'35'} color={'#fff'} />
+							<Icon src={social.icon} size="35" color="#fff" />
 						</a>
 					</Tooltip>
 					<!-- </Tooltip> -->
@@ -93,7 +86,7 @@
 
 		<button
 			class="border-2 rounded-full px-8 py-2 border-primary-500 hover:border-primary-hov dark:border-white text-lg font-medium text-primary-500 hover:text-dark-theme transition duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning-500 dark:hover:border-warning-500"
-			on:click={() => openModal()}
+			onclick={() => openModal()}
 		>
 			Get in Touch
 		</button>

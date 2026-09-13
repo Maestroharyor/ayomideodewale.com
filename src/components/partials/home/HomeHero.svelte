@@ -1,14 +1,15 @@
 <script lang="ts">
-	import FaCode from 'svelte-icons-pack/fa/FaSolidCode';
-	import FaPalette from 'svelte-icons-pack/fa/FaSolidPalette';
-	import FaNodeJs from 'svelte-icons-pack/fa/FaBrandsNodeJs';
-	import FaJs from 'svelte-icons-pack/fa/FaBrandsJs';
-	import FaGit from 'svelte-icons-pack/fa/FaBrandsGit';
-	import FaReact from 'svelte-icons-pack/fa/FaBrandsReact';
-	import FaPython from 'svelte-icons-pack/fa/FaBrandsPython';
-	import FaVue from 'svelte-icons-pack/fa/FaBrandsVuejs';
-
-	import Icon from 'svelte-icons-pack/Icon.svelte';
+	import { Icon } from 'svelte-icons-pack';
+	import {
+		FaSolidCode as FaCode,
+		FaSolidPalette as FaPalette,
+		FaBrandsNodeJs as FaNodeJs,
+		FaBrandsJs as FaJs,
+		FaBrandsGit as FaGit,
+		FaBrandsReact as FaReact,
+		FaBrandsPython as FaPython,
+		FaBrandsVuejs as FaVue
+	} from 'svelte-icons-pack/fa';
 	import { scale } from 'svelte/transition';
 </script>
 
@@ -26,7 +27,7 @@
 	<h1
 		class="heroTitle inline-block max-w-2xl lg:max-w-4xl w-auto relative text-5xl md:text-6xl lg:text-7xl tracking-tighter leading-snug mb-10 font-bold dark:text-white"
 	>
-		I love{' '}
+		I love
 		<span class="text-primary-500 dark:text-warning-500">designing</span> and
 		<span class="text-primary-500 dark:text-warning-500"> building</span> web and software solutions.
 	</h1>
@@ -35,46 +36,46 @@
 		class="_floating opacity-50 text-primary-500 bottom-[227px] left-[307px] rotate-[70deg]"
 		style="animation-delay: 0.8s;"
 	>
-		<Icon src={FaPalette} size={'100'} color={'#4F46E5'} />
+		<Icon src={FaPalette} size="100" color="#4F46E5" />
 	</div>
 
 	<div
 		class="_floating opacity-50 text-primary-500 bottom-[227px] right-[307px] rotate-[70deg]"
 		style="animation-delay: 0.2s;"
 	>
-		<Icon src={FaNodeJs} size={'100'} color={'#4F46E5'} />
+		<Icon src={FaNodeJs} size="100" color="#4F46E5" />
 	</div>
 
 	<div
 		class="_floating opacity-80 text-primary-500 bottom-[147px] right-[557px] rotate-[70deg]"
 		style="animation-delay: 0.6s;"
 	>
-		<Icon src={FaJs} size={'100'} color={'#4F46E5'} />
+		<Icon src={FaJs} size="100" color="#4F46E5" />
 	</div>
 
 	<div class="_floating opacity-50 text-primary-500 bottom-[192px] left-[10px] rotate-[70deg]">
-		<Icon src={FaGit} size={'100'} color={'#4F46E5'} />
+		<Icon src={FaGit} size="100" color="#4F46E5" />
 	</div>
 	<div
 		class="_floating opacity-30 md:opacity-50 text-primary-500 top-[192px] md:top-[92px] left-[-50px] sm:left-[10px] rotate-[70deg]"
 		style="animation-delay: 0.6s;"
 	>
-		<Icon src={FaReact} size={'100'} color={'#4F46E5'} />
+		<Icon src={FaReact} size="100" color="#4F46E5" />
 	</div>
 	<div
 		class="_floating opacity-30 md:opacity-50 text-primary-500 top-[192px] md:top-[92px] right-[-50px] sm:right-[10px] rotate-[70deg]"
 		style="animation-delay: 0.4s;"
 	>
-		<Icon src={FaVue} size={'100'} color={'#4F46E5'} />
+		<Icon src={FaVue} size="100" color="#4F46E5" />
 	</div>
 	<div class="_floating opacity-50 text-primary-500 bottom-[192px] right-[10px] rotate-[70deg]">
-		<Icon src={FaPython} size={'100'} color={'#4F46E5'} />
+		<Icon src={FaPython} size="100" color="#4F46E5" />
 	</div>
 	<div
 		class="_floating opacity-90 text-primary-500 top-[10px] left-[calc(50%-30px)] rotate-45"
 		style="animation-delay: 0.4s;"
 	>
-		<Icon src={FaCode} size={'100'} color={'#4F46E5'} />
+		<Icon src={FaCode} size="100" color="#4F46E5" />
 	</div>
 
 	<!-- <FaPalette

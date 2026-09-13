@@ -1,0 +1,281 @@
+/* place global styles here */
+
+@import 'tailwindcss';
+
+/* Tailwind 4 replaces `darkMode: 'class'` from the old tailwind.config.cjs.
+   `app.html` puts the `dark` class on <html>; mode-watcher toggles it. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--font-sans: 'KoHo', system-ui, sans-serif;
+
+	/* Brand palette, ported from the Skeleton theme block this file used to carry.
+	   Tailwind 4 takes real colour values here, not the RGB triples Skeleton needed. */
+	--color-primary-50: #e3e4f0;
+	--color-primary-100: #d9daec;
+	--color-primary-200: #d0d1e7;
+	--color-primary-300: #b3b6d8;
+	--color-primary-400: #7b7fbb;
+	--color-primary-500: #42489e;
+	--color-primary-600: #3b418e;
+	--color-primary-700: #323677;
+	--color-primary-800: #282b5f;
+	--color-primary-900: #20234d;
+	--color-secondary-50: #dbe6f8;
+	--color-secondary-100: #ceddf6;
+	--color-secondary-200: #c2d5f3;
+	--color-secondary-300: #9ebbec;
+	--color-secondary-400: #5589de;
+	--color-secondary-500: #0c56d0;
+	--color-secondary-600: #0b4dbb;
+	--color-secondary-700: #09419c;
+	--color-secondary-800: #07347d;
+	--color-secondary-900: #062a66;
+	--color-tertiary-50: #f3e2ff;
+	--color-tertiary-100: #f0d8ff;
+	--color-tertiary-200: #ecceff;
+	--color-tertiary-300: #e0b1fe;
+	--color-tertiary-400: #c977fe;
+	--color-tertiary-500: #b23cfd;
+	--color-tertiary-600: #a036e4;
+	--color-tertiary-700: #862dbe;
+	--color-tertiary-800: #6b2498;
+	--color-tertiary-900: #571d7c;
+	--color-success-50: #d9f4e4;
+	--color-success-100: #ccf1db;
+	--color-success-200: #bfedd2;
+	--color-success-300: #99e2b7;
+	--color-success-400: #4dcd80;
+	--color-success-500: #00b74a;
+	--color-success-600: #00a543;
+	--color-success-700: #008938;
+	--color-success-800: #006e2c;
+	--color-success-900: #005a24;
+	--color-warning-50: #fff2d9;
+	--color-warning-100: #ffeecc;
+	--color-warning-200: #ffeabf;
+	--color-warning-300: #ffdd99;
+	--color-warning-400: #ffc34d;
+	--color-warning-500: #ffa900;
+	--color-warning-600: #e69800;
+	--color-warning-700: #bf7f00;
+	--color-warning-800: #996500;
+	--color-warning-900: #7d5300;
+	--color-error-50: #fee0e5;
+	--color-error-100: #fed6dd;
+	--color-error-200: #feccd4;
+	--color-error-300: #fdadbb;
+	--color-error-400: #fb6f87;
+	--color-error-500: #f93154;
+	--color-error-600: #e02c4c;
+	--color-error-700: #bb253f;
+	--color-error-800: #951d32;
+	--color-error-900: #7a1829;
+	--color-surface-50: #e3e4f0;
+	--color-surface-100: #d9daec;
+	--color-surface-200: #d0d1e7;
+	--color-surface-300: #b3b6d8;
+	--color-surface-400: #7b7fbb;
+	--color-surface-500: #42489e;
+	--color-surface-600: #3b418e;
+	--color-surface-700: #323677;
+	--color-surface-800: #282b5f;
+	--color-surface-900: #20234d;
+
+	/* Custom brand colours carried over from tailwind.config.cjs */
+	--color-warning-2: #fca61f;
+	--color-info: #39c0ed;
+	--color-light: #fbfbfb;
+	--color-primary-hov: #0c56d0;
+	--color-secondary-hov: #a316fd;
+	--color-success-hov: #00913b;
+	--color-danger-hov: #f80c35;
+	--color-warning-hov: #d99000;
+	--color-info-hov: #16b5ea;
+	--color-light-hov: #e8e8e8;
+	--color-dark: #262626;
+	--color-dark-theme: #000a1f;
+	--color-white-dark: #cdcdcd;
+	--color-dark-background: #181818;
+
+	/* Page surface. Distinct from --color-dark-theme (#000a1f), which stays the
+	   near-black used by the text-dark-theme/bg-dark-theme utilities. */
+	--color-page: #ffffff;
+	--color-page-fg: #000000;
+	--color-page-dark: #20234d;
+	--color-page-fg-dark: #f3f4f6;
+}
+
+:root {
+	--primary-color: #42489e;
+	--primary-accent-color: #0c56d0;
+	--dark-theme-color: #20234d; /* keep in sync with --color-page-dark */
+	--warning: #ffa900;
+}
+
+@layer base {
+	/* Tailwind 4's Preflight no longer sets `cursor: pointer` on buttons the way
+	   v3 did, so restore it. */
+	button:not(:disabled),
+	[role='button']:not(:disabled) {
+		cursor: pointer;
+	}
+}
+
+/*
+ * The particles wrapper must never participate in layout.
+ *
+ * tsParticles creates its canvas at the default 300x150 and only switches it to
+ * `position: fixed` once fullScreen mode initialises. In between, the canvas is
+ * still static and its `height: 100% !important` gives the wrapper real height,
+ * which pushed the header ~720px down the page for over a second on first load.
+ * Fixing the wrapper ourselves makes that independent of the library's timing.
+ */
+#tsparticles {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+}
+
+html,
+body {
+	/* @apply h-full overflow-hidden; */
+	scroll-behavior: smooth;
+}
+
+html {
+	scroll-behavior: smooth;
+	scrollbar-width: thin;
+	scrollbar-color: var(--primary-accent-color) #f3f4f6;
+
+	/* The page background lives on <html>, not <body>: the tsparticles canvas is a
+	   fixed child of <body> at z-index -1, so a background on <body> would paint
+	   over it and hide the particles entirely. */
+	background-color: var(--color-page);
+	color: var(--color-page-fg);
+}
+
+html.dark {
+	scrollbar-color: #f3f4f6 var(--dark-theme-color);
+	background-color: var(--color-page-dark);
+	color: var(--color-page-fg-dark);
+}
+
+body {
+	font-family: 'KoHo', sans-serif;
+	overflow-x: hidden;
+	background-color: transparent;
+}
+
+/* Scroll Bar - Webkit */
+/* width */
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f3f4f6;
+}
+
+html.dark ::-webkit-scrollbar-track {
+	background: var(--dark-theme-color);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: var(--primary-color);
+	border-radius: 10px;
+	transition: all 0.3s ease-in-out;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: var(--primary-accent-color);
+}
+
+.section__title:before {
+	content: '';
+	position: absolute;
+	left: 105%;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	height: 4px;
+	width: 100vw;
+	background-color: var(--primary-accent-color);
+	border-radius: 100%;
+}
+
+@media (max-width: 768px) {
+	.sectionTitle::before {
+		left: 50%;
+		right: auto;
+		top: -20px;
+		transform: translate(-50%, -50%);
+		height: 8px;
+		width: 150px;
+	}
+}
+
+.testimonialQuote::before {
+	content: '“';
+	position: absolute;
+	top: -10px;
+	left: -46px;
+	opacity: 0.75;
+	font-size: 80px;
+}
+
+@keyframes float {
+	0% {
+		transform: translateY(0px);
+	}
+
+	50% {
+		transform: translateY(5px);
+	}
+
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+._floating {
+	position: absolute;
+	animation: float 2s infinite ease-in-out;
+	/* z-index: -1; */
+}
+
+.profile__details a {
+	text-decoration: underline;
+	color: var(--primary-color);
+	font-style: italic;
+	transition: all 0.3s ease-in-out;
+}
+.profile__details a:hover {
+	color: var(--primary-accent-color);
+}
+
+html.dark .profile__details a {
+	color: var(--warning);
+}
+html.dark .profile__details a:hover {
+	color: var(--primary-accent-color);
+}
+
+.profile__details p {
+	margin-bottom: 20px;
+}
+
+/* Project Card */
+.project_card {
+	/* From https://css.glass */
+	/* background: rgba(255, 255, 255, 0.05); */
+	/* border-radius: 16px; */
+	/* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); */
+	/* backdrop-filter: blur(5.2px);
+	-webkit-backdrop-filter: blur(7.2px); */
+	/* border: 1px solid rgba(255, 255, 255, 0.05); */
+}
