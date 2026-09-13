@@ -107,7 +107,7 @@
 			<h3 class="text-2xl md:text-5xl font-bold text-primary-500 dark:text-warning-300">
 				Send me a message!
 			</h3>
-			<p class="text-lg text-primary-500 dark:text-primary-300 max-w-[400px] mx-auto">
+			<p class="text-lg text-primary-500 dark:text-primary-200 max-w-[400px] mx-auto">
 				Got a question or proposal, or just want to say hello? Go ahead.
 			</p>
 		</div>
@@ -119,10 +119,10 @@
 			}}
 		>
 			<div class="">
-				<label class="text-sm text-primary-500 dark:text-primary-300" for="name">Your Name</label>
+				<label class="text-sm text-primary-500 dark:text-primary-200" for="name">Your Name</label>
 				<input
 					placeholder="Enter Your Name"
-					class="border-b border-primary-600 dark:border-primary-200 py-3 text-lg bg-white dark:bg-primary-500 focus:outline-none w-full placeholder:text-primary-600 placeholder:dark:text-primary-200"
+					class="border-b border-primary-600 dark:border-primary-200 py-3 text-lg bg-white dark:bg-primary-500 focus:outline-none w-full text-primary-900 dark:text-white placeholder:text-primary-500 dark:placeholder:text-primary-200"
 					id="name"
 					name="name"
 					bind:value={formData.name}
@@ -132,13 +132,13 @@
 				{/if}
 			</div>
 			<div class="">
-				<label class="text-sm text-primary-500 dark:text-primary-300" for="email"
+				<label class="text-sm text-primary-500 dark:text-primary-200" for="email"
 					>Email Address</label
 				>
 				<input
 					type="email"
 					placeholder="Enter Your Email Address"
-					class="border-b border-primary-600 dark:border-primary-200 py-3 text-lg bg-white dark:bg-primary-500 focus:outline-none w-full placeholder:text-primary-600 placeholder:dark:text-primary-200"
+					class="border-b border-primary-600 dark:border-primary-200 py-3 text-lg bg-white dark:bg-primary-500 focus:outline-none w-full text-primary-900 dark:text-white placeholder:text-primary-500 dark:placeholder:text-primary-200"
 					id="email"
 					name="email"
 					bind:value={formData.email}
@@ -148,13 +148,13 @@
 				{/if}
 			</div>
 			<div class="md:col-span-2">
-				<label class="text-sm text-primary-500 dark:text-primary-300" for="message">Message</label>
+				<label class="text-sm text-primary-500 dark:text-primary-200" for="message">Message</label>
 				<textarea
 					placeholder="Hi Ayomide, I think we need to discuss about a project I have in mind. When can we hop on to discuss it?"
 					name="message"
 					id="message"
 					cols="30"
-					class="border-b border-primary-600 dark:border-primary-200 py-3 text-lg bg-white dark:bg-primary-500 focus:outline-none w-full resize-none placeholder:text-primary-600 placeholder:dark:text-primary-200"
+					class="border-b border-primary-600 dark:border-primary-200 py-3 text-lg bg-white dark:bg-primary-500 focus:outline-none w-full resize-none text-primary-900 dark:text-white placeholder:text-primary-500 dark:placeholder:text-primary-200"
 					bind:value={formData.message}></textarea>
 				{#if submitted && errors.message}
 					<div class="text-red-500 dark:text-red-300 mt-2">{errors.message}</div>
