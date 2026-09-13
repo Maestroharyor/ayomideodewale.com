@@ -9,3 +9,10 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Job-search working notes. These stay on disk to paste from, but the repo is
+# public and linked from the site footer, so they are not committed:
+# linkedin-update.md describes the search itself, and the resume markdown
+# carries a phone number in plaintext. src/data/resume/ is the real source.
+docs/linkedin-update.md
+docs/resumes/
