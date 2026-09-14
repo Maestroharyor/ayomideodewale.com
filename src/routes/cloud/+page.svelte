@@ -2,8 +2,22 @@
 	import PageHeading from '../../components/elements/PageHeading.svelte';
 	import SeoMeta from '../../components/elements/SEOMeta.svelte';
 
+	import { breadcrumbNode, graph, webPageNode, webSiteNode } from '../../lib/schema';
+	import { absoluteUrl } from '../../data/site';
+
 	const metadescription =
-		'Fullstack engineer specialising in cloud architecture and platform work. AWS managed with Terraform, Docker, CI, and self-hosted monitoring written in Go. AWS Solutions Architect Associate in progress.';
+		'Fullstack engineer specialising in cloud architecture and platform work. AWS provisioned with Terraform, Docker, CI, self-hosted monitoring in Go. AWS Solutions Architect Associate in progress.';
+
+	const title = 'Cloud & Platform';
+
+	const schema = graph([
+		webSiteNode(),
+		webPageNode({ path: '/cloud', title, description: metadescription }),
+		breadcrumbNode([
+			{ name: 'Home', path: '/' },
+			{ name: 'Cloud & Platform', path: '/cloud' }
+		])
+	]);
 
 	// Pre-certification framing throughout: nothing here reads as though SAA-C03
 	// is done, and the roadmap carries no dates because the exam is not booked.
@@ -92,9 +106,16 @@
 	];
 </script>
 
-<SeoMeta title="Cloud &amp; Platform" {metadescription} path="/cloud" />
+<SeoMeta
+	{title}
+	{metadescription}
+	path="/cloud"
+	image={absoluteUrl('/og/cloud.png')}
+	imageAlt="Cloud and platform work by Ayomide Odewale"
+	{schema}
+/>
 
-<main>
+<main id="main" tabindex="-1">
 	<PageHeading
 		title="Cloud &amp; Platform"
 		description="Seven years building systems, now going deeper on how they're run. I'm a fullstack engineer specialising in cloud architecture and platform work: provisioning with Terraform, operating what I build, and understanding the failure modes before they find me."
@@ -120,8 +141,13 @@
 		</ul>
 
 		<div class="space-y-20">
-			<section>
-				<h2 class="mb-8 text-3xl font-bold text-primary-500 md:text-4xl dark:text-warning-500">
+			<!-- A <section> only becomes a `region` landmark once it has an accessible
+			     name, so these were structurally invisible to assistive tech. -->
+			<section aria-labelledby="infrastructure">
+				<h2
+					id="infrastructure"
+					class="mb-8 text-3xl font-bold text-primary-500 md:text-4xl dark:text-warning-500"
+				>
 					Infrastructure I've run
 				</h2>
 				<div class="grid gap-5 md:grid-cols-2">
@@ -139,8 +165,13 @@
 				</div>
 			</section>
 
-			<section>
-				<h2 class="mb-8 text-3xl font-bold text-primary-500 md:text-4xl dark:text-warning-500">
+			<!-- A <section> only becomes a `region` landmark once it has an accessible
+			     name, so these were structurally invisible to assistive tech. -->
+			<section aria-labelledby="tools">
+				<h2
+					id="tools"
+					class="mb-8 text-3xl font-bold text-primary-500 md:text-4xl dark:text-warning-500"
+				>
 					Tools I've built
 				</h2>
 				<div class="grid gap-5 md:grid-cols-3">
@@ -183,8 +214,13 @@
 				</div>
 			</section>
 
-			<section>
-				<h2 class="mb-8 text-3xl font-bold text-primary-500 md:text-4xl dark:text-warning-500">
+			<!-- A <section> only becomes a `region` landmark once it has an accessible
+			     name, so these were structurally invisible to assistive tech. -->
+			<section aria-labelledby="security-work">
+				<h2
+					id="security-work"
+					class="mb-8 text-3xl font-bold text-primary-500 md:text-4xl dark:text-warning-500"
+				>
 					Security work
 				</h2>
 				<div class="grid gap-x-10 gap-y-8 md:grid-cols-2">
@@ -197,8 +233,13 @@
 				</div>
 			</section>
 
-			<section>
-				<h2 class="mb-8 text-3xl font-bold text-primary-500 md:text-4xl dark:text-warning-500">
+			<!-- A <section> only becomes a `region` landmark once it has an accessible
+			     name, so these were structurally invisible to assistive tech. -->
+			<section aria-labelledby="certification-roadmap">
+				<h2
+					id="certification-roadmap"
+					class="mb-8 text-3xl font-bold text-primary-500 md:text-4xl dark:text-warning-500"
+				>
 					Certification roadmap
 				</h2>
 				<ol class="space-y-3">
@@ -239,9 +280,13 @@
 			</section>
 
 			<section
+				aria-labelledby="get-in-touch"
 				class="rounded-2xl border border-gray-200 px-6 py-12 text-center dark:border-primary-600"
 			>
-				<h2 class="mb-4 text-3xl font-bold text-primary-500 md:text-4xl dark:text-warning-500">
+				<h2
+					id="get-in-touch"
+					class="mb-4 text-3xl font-bold text-primary-500 md:text-4xl dark:text-warning-500"
+				>
 					Get in touch
 				</h2>
 				<p class="mx-auto mb-8 max-w-[620px] text-lg">

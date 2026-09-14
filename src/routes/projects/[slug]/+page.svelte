@@ -5,6 +5,14 @@
 	import { tagSlug } from '../../../utils';
 	import { stackLogo, stackNeedsInvert } from '../../../utils/stack-logos';
 	import type { PageData } from './$types';
+	import {
+		breadcrumbNode,
+		caseStudyNode,
+		graph,
+		webPageNode,
+		webSiteNode
+	} from '../../../lib/schema';
+	import { absoluteUrl } from '../../../data/site';
 
 	let { data }: { data: PageData } = $props();
 	const study = $derived(data.study);
@@ -33,6 +41,25 @@
 			.replace(/[^a-z0-9]+/g, '-')
 			.replace(/^-|-$/g, '');
 
+	const schema = $derived(
+		graph([
+			webSiteNode(),
+			webPageNode({
+				path: `/projects/${study.slug}`,
+				title: study.title,
+				description: study.metadescription,
+				image: absoluteUrl(`/og/projects-${study.slug}.png`),
+				dateModified: study.updated
+			}),
+			breadcrumbNode([
+				{ name: 'Home', path: '/' },
+				{ name: 'Projects', path: '/projects' },
+				{ name: study.title, path: `/projects/${study.slug}` }
+			]),
+			caseStudyNode(study)
+		])
+	);
+
 	const withStudies = projects.filter((project) => project.caseStudy);
 	const neighbours = $derived.by(() => {
 		const index = withStudies.findIndex((project) => project.caseStudy === study.slug);
@@ -45,11 +72,16 @@
 	title={study.title}
 	metadescription={study.metadescription}
 	path={`/projects/${study.slug}`}
+	ogType="article"
+	modifiedTime={study.updated}
+	image={absoluteUrl(`/og/projects-${study.slug}.png`)}
+	imageAlt={`${study.title} — ${study.tagline}`}
+	{schema}
 />
 
 <!-- Widens at lg to make room for the contents rail; the prose column itself
 	 stays at a readable measure rather than growing with the page. -->
-<main class="mx-auto max-w-[860px] px-5 pt-20 pb-28 lg:max-w-[1080px]">
+<main id="main" tabindex="-1" class="mx-auto max-w-[860px] px-5 pt-20 pb-28 lg:max-w-[1080px]">
 	<a
 		href="/projects"
 		class="text-sm font-medium text-primary-500 underline transition-colors duration-300 hover:text-dark-theme dark:text-warning-500 dark:hover:text-warning-700"
