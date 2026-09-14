@@ -1,17 +1,9 @@
-import { escapeHtml } from '../../../utils/index.js';
+import { escapeHtml, stripControlChars } from '../../../utils/index.js';
 
 export type Tokens = Record<string, string>;
 
 /** `g` so `matchAll` works; `replace` resets lastIndex itself, so it is safe to share. */
 const TOKEN_RE = /\{\{(\w+)\}\}/g;
-
-/**
- * C0 and C1 control characters, stripped from subject lines. Matching them is
- * the entire point here, so the rule against control characters in a regex is
- * the one thing this must do.
- */
-// eslint-disable-next-line no-control-regex
-const CONTROL_CHARS = /[\u0000-\u001f\u007f-\u009f]+/g;
 
 /**
  * Fills `{{token}}` placeholders in a generated template.
@@ -44,23 +36,27 @@ function fill(template: string, tokens: Tokens, transform: (value: string) => st
 }
 
 /**
- * Fails if a token is used by none of the given templates.
+ * Fails if a supplied token is never used by the HTML part.
  *
- * Deliberately across the whole email rather than per part. `origin` only
- * appears in `src` attributes on the social icons, and react-email's plaintext
- * renderer drops images entirely — so it is legitimately absent from the text
- * part while being essential to the HTML one. Asserting per part meant every
- * send threw "Email template never used: {{origin}}" and the endpoint 500'd
- * before any mail went out.
+ * Asserted against the HTML part alone, because that is the complete email: the
+ * plaintext part is a lossy projection of it (react-email's plaintext renderer
+ * drops images, which is why `origin` is legitimately absent from it) and the
+ * subject is a single line of it. Checking every part separately is what broke
+ * production: `origin` appears fourteen times in the HTML as the `src` of each
+ * social icon and zero times in the text, so every send threw "Email template
+ * never used: {{origin}}" before any mail went out.
  *
- * The guard still does its job: a renamed placeholder is used by neither part
- * and fails on the first send, rather than shipping a literal "{{name}}".
+ * A union across all three parts would also have fixed that, and was the first
+ * attempt, but it is weaker than what this replaced: a token used only in the
+ * subject would satisfy it even after both body parts lost the placeholder, so
+ * `{{name}}` could vanish from the greeting without a sound. Asserting against
+ * the HTML catches that and still permits the text part to be a subset.
+ *
+ * The assumption this rests on: no token belongs to the subject alone. If one
+ * ever does, it needs declaring here rather than silently passing.
  */
-export function assertAllTokensUsed(templates: string[], tokens: Tokens): void {
-	const used = new Set<string>();
-	for (const template of templates) {
-		for (const [, key] of template.matchAll(TOKEN_RE)) used.add(key);
-	}
+export function assertAllTokensUsed(htmlTemplate: string, tokens: Tokens): void {
+	const used = new Set([...htmlTemplate.matchAll(TOKEN_RE)].map(([, key]) => key));
 
 	const unused = Object.keys(tokens).filter((key) => !used.has(key));
 	if (unused.length > 0) {
@@ -87,17 +83,16 @@ export function renderText(template: string, tokens: Tokens): string {
  * Fills a subject line.
  *
  * Separate from the body renderers because a subject is an email *header*, and
- * headers are newline-delimited. A name containing CR or LF would otherwise end
- * the Subject field and let the rest be read as further headers — `Bcc:` among
- * them — turning the contact form into a relay.
+ * headers are newline-delimited.
  *
- * `validateContact` does not reject newlines in a name (only the address regex
- * happens to), so this strips them rather than assuming they cannot arrive.
- * Every C0/C1 control character goes, not just CR and LF, and runs of
- * whitespace collapse so a pasted multi-line name still reads as one line.
+ * This is the second layer, not the only one: nodemailer's `_encodeHeaderValue`
+ * already runs `.replace(/\r?\n|\r/g, ' ')` over any header it does not treat
+ * as structured, Subject included, so a CR or LF in a name cannot end the field
+ * and start a `Bcc:` of someone else's choosing. What it does not do is remove
+ * the other control characters, which survive into the encoded word. Those go
+ * here, along with collapsing runs of whitespace so a pasted multi-line name
+ * still reads as one line.
  */
 export function renderSubject(template: string, tokens: Tokens): string {
-	return fill(template, tokens, (value) =>
-		value.replace(CONTROL_CHARS, ' ').replace(/\s+/g, ' ').trim()
-	);
+	return fill(template, tokens, (value) => stripControlChars(value).replace(/\s+/g, ' ').trim());
 }

@@ -14,9 +14,8 @@ function build(
 	template: { subject: string; html: string; text: string },
 	tokens: Tokens
 ): EmailBody {
-	// Across both parts: a token can belong to only one of them and still be in
-	// use. See assertAllTokensUsed.
-	assertAllTokensUsed([template.subject, template.html, template.text], tokens);
+	// Against the HTML part, which is the complete email. See assertAllTokensUsed.
+	assertAllTokensUsed(template.html, tokens);
 
 	return {
 		subject: renderSubject(template.subject, tokens),

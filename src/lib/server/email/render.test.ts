@@ -84,29 +84,41 @@ describe('renderText', () => {
 });
 
 describe('assertAllTokensUsed', () => {
-	it('passes when every token is used somewhere', () => {
+	it('passes when the HTML part uses every token', () => {
 		expect(() =>
-			assertAllTokensUsed(['{{name}}', '{{origin}}'], { name: 'a', origin: 'b' })
+			assertAllTokensUsed('{{name}} {{origin}}', { name: 'a', origin: 'b' })
 		).not.toThrow();
 	});
 
 	/**
 	 * The production bug. `origin` only appears in the HTML part, as the `src` of
 	 * each social icon, because react-email's plaintext renderer drops images.
-	 * Asserting per part threw on every send; asserting across the email does not.
+	 * Asserting per part threw on every send.
 	 */
-	it('accepts a token that only one part uses', () => {
+	it('does not care that the plaintext part omits a token', () => {
 		expect(() =>
-			assertAllTokensUsed(['<img src="{{origin}}/x.png">{{name}}', 'Hi {{name}}'], {
+			assertAllTokensUsed('<img src="{{origin}}/x.png">{{name}}', {
 				name: 'Ada',
 				origin: 'https://example.com'
 			})
 		).not.toThrow();
 	});
 
-	it('still catches a token no part uses', () => {
-		expect(() =>
-			assertAllTokensUsed(['{{name}}', 'Hi {{name}}'], { name: 'Ada', origin: 'x' })
-		).toThrow(/never used.*origin/i);
+	it('catches a token the HTML part never uses', () => {
+		expect(() => assertAllTokensUsed('{{name}}', { name: 'Ada', origin: 'x' })).toThrow(
+			/never used.*origin/i
+		);
+	});
+
+	/**
+	 * Why this asserts against the HTML rather than a union across all three
+	 * parts. A union was the first fix and it is weaker than what it replaced: the
+	 * confirmation subject uses `{{name}}`, so under a union the greeting could
+	 * lose the placeholder and nothing would complain.
+	 */
+	it('catches a token that survives only in the subject', () => {
+		expect(() => assertAllTokensUsed('<p>no name here</p>', { name: 'Ada' })).toThrow(
+			/never used.*name/i
+		);
 	});
 });
