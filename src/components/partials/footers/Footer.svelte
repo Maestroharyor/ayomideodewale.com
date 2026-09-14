@@ -123,14 +123,10 @@
 					class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-gray-500 dark:text-gray-400"
 				>
 					Built with
-					<img src="/svgs/svelte.svg" width="18" height="18" alt="Svelte" title="Svelte" />
-					<img
-						src="/svgs/tailwindcss.svg"
-						width="18"
-						height="18"
-						alt="TailwindCSS"
-						title="TailwindCSS"
-					/>
+					<!-- title removed: it duplicated alt, so screen readers announced each
+					     mark twice. alt carries the name on its own. -->
+					<img src="/svgs/svelte.svg" width="18" height="18" alt="Svelte" />
+					<img src="/svgs/tailwindcss.svg" width="18" height="18" alt="TailwindCSS" />
 				</span>
 				<a
 					class="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-1.5 text-xs font-bold transition duration-300 hover:border-gray-500 hover:text-gray-700 dark:border-primary-600 dark:hover:border-warning-500 dark:hover:text-warning-500"

@@ -25,12 +25,7 @@
 </script>
 
 <div class="relative mx-auto max-w-[1200px] px-5 pt-24">
-	<img
-		class="w-30 m-auto mb-2 h-[20px]"
-		src="/doodles/lineBreak.svg"
-		alt="doodle-line"
-		loading="lazy"
-	/>
+	<img class="w-30 m-auto mb-2 h-[20px]" src="/doodles/lineBreak.svg" alt="" loading="lazy" />
 	<div class="flex flex-col items-center justify-center pt-14 pb-24">
 		<div class="max-w-[600px] mx-auto text-center">
 			<!-- Same scale as SectionHeading and HomeSkills; this one was a step larger
@@ -51,8 +46,12 @@
 							target="_blank"
 							rel="noreferrer"
 							class="block text-primary-500 hover:text-primary-hov dark:text-white dark:hover:text-warning-500"
-							aria-label={social.title}
 						>
+							<!-- Real text rather than an aria-label: browser read-aloud
+					 features ignore aria-label on links, and page translation
+					 skips it. sr-only text is announced, translated and matched
+					 by voice control. -->
+							<span class="sr-only">{social.title}</span>
 							<!-- currentColor, so the anchor's text-primary-500 / dark:text-white classes drive
 					 it. A hardcoded #fff rendered these invisible in light mode. -->
 							{#if social.title === 'Braandly'}

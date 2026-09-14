@@ -50,7 +50,7 @@
 		<button
 			type="button"
 			aria-label="Close navigation menu"
-			class="text-red-500 hover:text-danger-hov dark:text-light hover:dark:text-warning-500 absolute right-3 text-2xl top-2 transition duration-300 ease-in-out"
+			class="text-red-500 hover:text-danger-hov dark:text-light hover:dark:text-warning-500 absolute right-3 top-2 flex h-11 w-11 items-center justify-center text-2xl transition duration-300 ease-in-out"
 			onclick={() => toggleMobileNav(false)}
 		>
 			<svg
@@ -107,18 +107,11 @@
 				<a href="/" class="font -black text-xl flex items-center gap-1.5">
 					<img
 						src="/logos/light_logo.svg"
-						alt="Ayomide Odewale Logo"
+						alt="Ayomide Odewale — home"
 						width={40}
 						height={40}
 						class="transform hover:rotate-[360deg] hover:scale-75 transition-transform duration-500"
 					/>
-					<!-- <img
-					src={$theme?.lightMode ? '/static/logos/light_logo.svg' : '/static/logos/dark_logo.svg'}
-					alt="Ayomide Odewale Logo"
-					width={40}
-					height={40}
-					class="transform hover:rotate-[360deg] hover:scale-75 transition-transform duration-500"
-				/> -->
 					<!-- <div>
           {Array.from("Maestro").map((letter, index) => (
             <span
@@ -175,8 +168,9 @@
 		<div class="flex gap-3 items-center justify-end">
 			<ThemeToggle />
 			<button
-				aria-label="Mobile Menu Navigation Button"
-				class="text-2xl text-dark dark:text-white hover:text-primary-500 dark:hover:text-warning-500 transition ease-in-out duration-300 px-2 lg:hidden"
+				type="button"
+				aria-label="Open navigation menu"
+				class="flex h-11 w-11 items-center justify-center text-2xl text-dark dark:text-white hover:text-primary-500 dark:hover:text-warning-500 transition ease-in-out duration-300 lg:hidden"
 				onclick={() => toggleMobileNav(true)}
 			>
 				<svg
