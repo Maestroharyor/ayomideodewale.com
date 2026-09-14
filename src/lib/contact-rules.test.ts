@@ -76,3 +76,29 @@ describe('EMAIL_RE and header injection', () => {
 		}
 	});
 });
+
+/**
+ * The minimums measured `value.length`, which counts padding and invisible
+ * characters as content. A name of five C0 control bytes passed both the
+ * presence check and the five-character minimum.
+ */
+describe('minimum length ignores padding and control characters', () => {
+	const ok = { name: 'Grace Hopper', email: 'grace@example.com', message: 'A real enquiry here.' };
+
+	it('rejects a name that is only control characters', () => {
+		const errors = validateContact({ ...ok, name: String.fromCharCode(1, 2, 3, 4, 5) });
+		expect(errors.name).toMatch(/at least/i);
+	});
+
+	it('rejects a name padded out to the minimum with spaces', () => {
+		expect(validateContact({ ...ok, name: 'ben  ' }).name).toMatch(/at least/i);
+	});
+
+	it('rejects a message padded out to the minimum', () => {
+		expect(validateContact({ ...ok, message: 'hi        ' }).message).toMatch(/at least/i);
+	});
+
+	it('still accepts a genuine name and message', () => {
+		expect(isContactValid(validateContact(ok))).toBe(true);
+	});
+});

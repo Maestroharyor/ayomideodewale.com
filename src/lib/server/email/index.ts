@@ -1,5 +1,12 @@
 import { confirmation, notification } from './templates.js';
-import { renderHtml, renderText, type Tokens } from './render.js';
+import {
+	assertAllTokensUsed,
+	renderHtml,
+	renderSubject,
+	renderText,
+	type Tokens
+} from './render.js';
+import { displayName } from '../../../utils/index.js';
 
 export type EmailBody = { subject: string; html: string; text: string };
 
@@ -7,8 +14,11 @@ function build(
 	template: { subject: string; html: string; text: string },
 	tokens: Tokens
 ): EmailBody {
+	// Against the HTML part, which is the complete email. See assertAllTokensUsed.
+	assertAllTokensUsed(template.html, tokens);
+
 	return {
-		subject: template.subject,
+		subject: renderSubject(template.subject, tokens),
 		html: renderHtml(template.html, tokens),
 		text: renderText(template.text, tokens)
 	};
@@ -16,7 +26,7 @@ function build(
 
 /** Courtesy reply to whoever used the form. */
 export function confirmationEmail({ name, origin }: { name: string; origin: string }): EmailBody {
-	return build(confirmation, { name, origin });
+	return build(confirmation, { name: displayName(name), origin });
 }
 
 /** The enquiry itself, to the owner's inbox. */
@@ -31,5 +41,5 @@ export function notificationEmail({
 	message: string;
 	origin: string;
 }): EmailBody {
-	return build(notification, { name, email, message, origin });
+	return build(notification, { name: displayName(name), email, message, origin });
 }

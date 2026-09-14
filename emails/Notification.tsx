@@ -1,7 +1,7 @@
 import { Link, Section, Text } from '@react-email/components';
 import * as React from 'react';
 import { Layout } from './Layout.js';
-import { colors, TOKEN } from './brand.js';
+import { colors, SITE_HOST, TOKEN } from './brand.js';
 
 const label = {
 	margin: '0 0 4px',
@@ -29,7 +29,7 @@ const value = {
  */
 export function Notification() {
 	return (
-		<Layout preview={`New message from ${TOKEN.name}`} heading="New message from the site">
+		<Layout preview={`New message from ${TOKEN.name}`} heading={`New message from ${SITE_HOST}`}>
 			<Text style={label}>From</Text>
 			<Text style={value}>{TOKEN.name}</Text>
 

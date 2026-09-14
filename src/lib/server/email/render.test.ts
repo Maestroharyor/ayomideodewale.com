@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { renderHtml, renderText } from './render';
+import { assertAllTokensUsed, renderHtml, renderText } from './render';
 
 /**
  * This is the function standing between the contact form and the HTML that
@@ -58,10 +58,6 @@ describe('renderHtml', () => {
 	it('throws when the template references a token that was not supplied', () => {
 		expect(() => renderHtml('<p>{{nope}}</p>', {})).toThrow(/unknown placeholder/i);
 	});
-
-	it('throws when a supplied token is never used', () => {
-		expect(() => renderHtml('<p>static</p>', { name: 'Ada' })).toThrow(/never used/i);
-	});
 });
 
 describe('renderText', () => {
@@ -82,8 +78,47 @@ describe('renderText', () => {
 		expect(renderText('{{message}}', { message: '$& $1' })).toBe('$& $1');
 	});
 
-	it('applies the same drift guards as the HTML path', () => {
+	it('applies the same unknown-placeholder guard as the HTML path', () => {
 		expect(() => renderText('{{nope}}', {})).toThrow(/unknown placeholder/i);
-		expect(() => renderText('static', { name: 'Ada' })).toThrow(/never used/i);
+	});
+});
+
+describe('assertAllTokensUsed', () => {
+	it('passes when the HTML part uses every token', () => {
+		expect(() =>
+			assertAllTokensUsed('{{name}} {{origin}}', { name: 'a', origin: 'b' })
+		).not.toThrow();
+	});
+
+	/**
+	 * The production bug. `origin` only appears in the HTML part, as the `src` of
+	 * each social icon, because react-email's plaintext renderer drops images.
+	 * Asserting per part threw on every send.
+	 */
+	it('does not care that the plaintext part omits a token', () => {
+		expect(() =>
+			assertAllTokensUsed('<img src="{{origin}}/x.png">{{name}}', {
+				name: 'Ada',
+				origin: 'https://example.com'
+			})
+		).not.toThrow();
+	});
+
+	it('catches a token the HTML part never uses', () => {
+		expect(() => assertAllTokensUsed('{{name}}', { name: 'Ada', origin: 'x' })).toThrow(
+			/never used.*origin/i
+		);
+	});
+
+	/**
+	 * Why this asserts against the HTML rather than a union across all three
+	 * parts. A union was the first fix and it is weaker than what it replaced: the
+	 * confirmation subject uses `{{name}}`, so under a union the greeting could
+	 * lose the placeholder and nothing would complain.
+	 */
+	it('catches a token that survives only in the subject', () => {
+		expect(() => assertAllTokensUsed('<p>no name here</p>', { name: 'Ada' })).toThrow(
+			/never used.*name/i
+		);
 	});
 });

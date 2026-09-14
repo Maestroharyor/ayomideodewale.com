@@ -7,6 +7,8 @@
  * so they cannot disagree again.
  */
 
+import { stripControlChars } from '../utils/index.js';
+
 export const NAME_MIN = 5;
 export const MESSAGE_MIN = 10;
 
@@ -30,6 +32,20 @@ export const MAX_FILL_MS = 24 * 60 * 60 * 1000;
 
 export type ContactFields = { name: string; email: string; message: string };
 
+/**
+ * What a field is worth once padding and invisible characters are removed.
+ *
+ * The minimums used to measure `value.length`, which counts whitespace and
+ * control characters as content. `String.trim()` removes only the five
+ * characters it treats as whitespace, so a name of five C0 control bytes
+ * satisfied both the presence check and the five-character minimum, and the
+ * confirmation email went out addressed to nobody: a subject ending in a
+ * dangling comma and a greeting reading "Hi ,".
+ */
+function meaningfulLength(value: string): number {
+	return stripControlChars(value).trim().length;
+}
+
 /** Field-level errors, empty string where the field is fine. */
 export function validateContact(fields: ContactFields) {
 	const { name, email, message } = fields;
@@ -37,7 +53,7 @@ export function validateContact(fields: ContactFields) {
 	return {
 		name: !name
 			? 'Name is required'
-			: name.length < NAME_MIN
+			: meaningfulLength(name) < NAME_MIN
 				? `Name requires at least ${NAME_MIN} characters.`
 				: name.length > MAX_LENGTH.name
 					? 'Name is too long'
@@ -51,7 +67,7 @@ export function validateContact(fields: ContactFields) {
 					: '',
 		message: !message
 			? 'Message is required'
-			: message.length < MESSAGE_MIN
+			: meaningfulLength(message) < MESSAGE_MIN
 				? `Message requires at least ${MESSAGE_MIN} characters.`
 				: message.length > MAX_LENGTH.message
 					? 'Message is too long'

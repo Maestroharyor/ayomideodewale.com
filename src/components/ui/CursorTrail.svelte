@@ -97,6 +97,9 @@
 
 		const onLeave = () => {
 			visible = false;
+			// Release the node: there is no reason to pin a removed element until
+			// the pointer happens to move again.
+			lastTarget = null;
 		};
 		const onEnter = () => {
 			visible = true;
