@@ -220,31 +220,32 @@
 			{#if neighbours.previous}
 				<a
 					href={`/projects/${neighbours.previous.caseStudy}`}
-					class="group flex items-center gap-4 rounded-xl border border-gray-200 px-5 py-4 transition duration-300 hover:border-primary-500 sm:col-start-1 dark:border-primary-600 dark:hover:border-warning-500"
+					class="group rounded-xl border border-gray-200 px-5 py-4 transition duration-300 hover:border-primary-500 sm:col-start-1 dark:border-primary-600 dark:hover:border-warning-500"
 				>
-					<!-- Shifts toward its own edge on hover, so the direction is felt as
-						 well as read. -->
-					<svg
-						class="h-5 w-5 shrink-0 text-gray-400 transition-transform duration-300 group-hover:-translate-x-1 motion-reduce:transition-none dark:text-gray-500"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						aria-hidden="true"
+					<!-- The arrow belongs to the label, not the card: it reads as part of
+						 the word "Previous" rather than floating against both lines. It
+						 shifts toward its own edge on hover, so the direction is felt as
+						 well as read, and stays put under reduced motion. -->
+					<span
+						class="flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-gray-500 dark:text-gray-400"
 					>
-						<path d="M19 12H5M12 19l-7-7 7-7" />
-					</svg>
-					<span class="min-w-0">
-						<span
-							class="text-xs font-bold tracking-widest uppercase text-gray-500 dark:text-gray-400"
-							>Previous</span
+						<svg
+							class="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-x-1 motion-reduce:transition-none"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							aria-hidden="true"
 						>
-						<span class="mt-1 block text-lg font-bold text-primary-500 dark:text-warning-500"
-							>{neighbours.previous.title}</span
-						>
+							<path d="M19 12H5M12 19l-7-7 7-7" />
+						</svg>
+						Previous
 					</span>
+					<span class="mt-1 block text-lg font-bold text-primary-500 dark:text-warning-500"
+						>{neighbours.previous.title}</span
+					>
 				</a>
 			{/if}
 
@@ -252,29 +253,28 @@
 				<!-- col-start-2 so a missing previous does not pull next across. -->
 				<a
 					href={`/projects/${neighbours.next.caseStudy}`}
-					class="group flex items-center justify-end gap-4 rounded-xl border border-gray-200 px-5 py-4 text-right transition duration-300 hover:border-primary-500 sm:col-start-2 dark:border-primary-600 dark:hover:border-warning-500"
+					class="group rounded-xl border border-gray-200 px-5 py-4 text-right transition duration-300 hover:border-primary-500 sm:col-start-2 dark:border-primary-600 dark:hover:border-warning-500"
 				>
-					<span class="min-w-0">
-						<span
-							class="text-xs font-bold tracking-widest uppercase text-gray-500 dark:text-gray-400"
-							>Next</span
-						>
-						<span class="mt-1 block text-lg font-bold text-primary-500 dark:text-warning-500"
-							>{neighbours.next.title}</span
-						>
-					</span>
-					<svg
-						class="h-5 w-5 shrink-0 text-gray-400 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none dark:text-gray-500"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						aria-hidden="true"
+					<span
+						class="flex items-center justify-end gap-2 text-xs font-bold tracking-widest uppercase text-gray-500 dark:text-gray-400"
 					>
-						<path d="M5 12h14M12 5l7 7-7 7" />
-					</svg>
+						Next
+						<svg
+							class="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							aria-hidden="true"
+						>
+							<path d="M5 12h14M12 5l7 7-7 7" />
+						</svg>
+					</span>
+					<span class="mt-1 block text-lg font-bold text-primary-500 dark:text-warning-500"
+						>{neighbours.next.title}</span
+					>
 				</a>
 			{/if}
 		</nav>
