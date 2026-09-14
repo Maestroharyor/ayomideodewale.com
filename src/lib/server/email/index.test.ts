@@ -37,6 +37,10 @@ describe('notificationEmail', () => {
 		expect(mail.text).not.toMatch(/\{\{\w+\}\}/);
 	});
 
+	it('names the site in the subject, so a crowded inbox stays sortable', () => {
+		expect(notificationEmail(sender).subject).toBe('New message from ayomideodewale.com');
+	});
+
 	it('carries both parts and a subject', () => {
 		const mail = notificationEmail(sender);
 		expect(mail.subject).toBeTruthy();
@@ -72,6 +76,33 @@ describe('confirmationEmail', () => {
 		const mail = confirmationEmail({ name: sender.name, origin: sender.origin });
 		expect(mail.html).not.toMatch(/\{\{\w+\}\}/);
 		expect(mail.text).not.toMatch(/\{\{\w+\}\}/);
+	});
+
+	it('addresses the sender by name in the subject', () => {
+		expect(confirmationEmail({ name: 'Grace Hopper', origin: sender.origin }).subject).toBe(
+			'Thanks for getting in touch, Grace Hopper'
+		);
+	});
+
+	/**
+	 * The subject is an email header, and headers are newline-delimited. A name
+	 * carrying CR or LF would end the Subject field and let everything after it
+	 * be read as further headers — `Bcc:` among them. validateContact checks the
+	 * name's length but not its characters, so the stripping in renderSubject is
+	 * the only thing standing between a pasted name and an injected header.
+	 */
+	it('strips control characters out of the subject', () => {
+		const mail = confirmationEmail({
+			name: 'Grace\r\nBcc: victim@evil.com',
+			origin: sender.origin
+		});
+		expect(mail.subject).not.toMatch(/[\r\n]/);
+		expect(mail.subject).toBe('Thanks for getting in touch, Grace Bcc: victim@evil.com');
+	});
+
+	it('collapses a multi-line name into one readable line', () => {
+		const mail = confirmationEmail({ name: 'Grace\n\n   Hopper', origin: sender.origin });
+		expect(mail.subject).toBe('Thanks for getting in touch, Grace Hopper');
 	});
 
 	it('greets the sender by name', () => {

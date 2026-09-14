@@ -33,12 +33,16 @@ const outFile = join(outDir, 'templates.ts');
 const templates = [
 	{
 		key: 'confirmation',
-		subject: 'Thanks for getting in touch',
+		// Addressed to the sender, so their name belongs in the subject: it reads
+		// as a reply to them rather than a broadcast.
+		subject: 'Thanks for getting in touch, {{name}}',
 		element: <Confirmation />
 	},
 	{
 		key: 'notification',
-		subject: 'New message from the site',
+		// Names the site, so it is obvious in a crowded inbox which of several
+		// properties the enquiry came through.
+		subject: 'New message from ayomideodewale.com',
 		element: <Notification />
 	}
 ] as const;

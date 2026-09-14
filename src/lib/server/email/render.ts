@@ -6,6 +6,14 @@ export type Tokens = Record<string, string>;
 const TOKEN_RE = /\{\{(\w+)\}\}/g;
 
 /**
+ * C0 and C1 control characters, stripped from subject lines. Matching them is
+ * the entire point here, so the rule against control characters in a regex is
+ * the one thing this must do.
+ */
+// eslint-disable-next-line no-control-regex
+const CONTROL_CHARS = /[\u0000-\u001f\u007f-\u009f]+/g;
+
+/**
  * Fills `{{token}}` placeholders in a generated template.
  *
  * Three things this has to get right, because `name` and `message` come
@@ -73,4 +81,23 @@ export function renderHtml(template: string, tokens: Tokens): string {
  */
 export function renderText(template: string, tokens: Tokens): string {
 	return fill(template, tokens, (value) => value);
+}
+
+/**
+ * Fills a subject line.
+ *
+ * Separate from the body renderers because a subject is an email *header*, and
+ * headers are newline-delimited. A name containing CR or LF would otherwise end
+ * the Subject field and let the rest be read as further headers — `Bcc:` among
+ * them — turning the contact form into a relay.
+ *
+ * `validateContact` does not reject newlines in a name (only the address regex
+ * happens to), so this strips them rather than assuming they cannot arrive.
+ * Every C0/C1 control character goes, not just CR and LF, and runs of
+ * whitespace collapse so a pasted multi-line name still reads as one line.
+ */
+export function renderSubject(template: string, tokens: Tokens): string {
+	return fill(template, tokens, (value) =>
+		value.replace(CONTROL_CHARS, ' ').replace(/\s+/g, ' ').trim()
+	);
 }

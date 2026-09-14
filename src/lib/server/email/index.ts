@@ -1,5 +1,11 @@
 import { confirmation, notification } from './templates.js';
-import { assertAllTokensUsed, renderHtml, renderText, type Tokens } from './render.js';
+import {
+	assertAllTokensUsed,
+	renderHtml,
+	renderSubject,
+	renderText,
+	type Tokens
+} from './render.js';
 
 export type EmailBody = { subject: string; html: string; text: string };
 
@@ -9,10 +15,10 @@ function build(
 ): EmailBody {
 	// Across both parts: a token can belong to only one of them and still be in
 	// use. See assertAllTokensUsed.
-	assertAllTokensUsed([template.html, template.text], tokens);
+	assertAllTokensUsed([template.subject, template.html, template.text], tokens);
 
 	return {
-		subject: template.subject,
+		subject: renderSubject(template.subject, tokens),
 		html: renderHtml(template.html, tokens),
 		text: renderText(template.text, tokens)
 	};
