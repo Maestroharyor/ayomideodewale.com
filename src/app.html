@@ -2,7 +2,22 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/logos/light_logo.svg" />
+		<!--
+			Google's favicon crawler does not accept SVG: its documented formats are
+			BMP, GIF, ICO, PNG, JPEG, PPM and TIFF, so an SVG-only declaration gets a
+			default globe in search results. The .ico at the root is what Search
+			actually indexes; the SVG is what modern browsers prefer.
+
+			`sizes="32x32"` on the .ico is load-bearing, not decoration. Chrome only
+			prefers the SVG when the .ico carries an explicit pixel size; `sizes="any"`
+			does not work. Regenerate the set with `bun run icons:build`.
+		-->
+		<link rel="icon" href="%sveltekit.assets%/favicon.ico" sizes="32x32" />
+		<link rel="icon" href="%sveltekit.assets%/icon.svg" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="%sveltekit.assets%/apple-touch-icon.png" />
+		<link rel="manifest" href="%sveltekit.assets%/manifest.webmanifest" />
+		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#20234d" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<script>
 			// Blocking, before first paint. mode-watcher only applies .dark after
