@@ -9,6 +9,9 @@ import type { ContactErrorResponse } from '../../../types/index.js';
 import { env } from '$env/dynamic/private';
 import type { RequestHandler } from './$types';
 
+/** A POST endpoint cannot be prerendered; the root layout opts everything in. */
+export const prerender = false;
+
 /** Extra recipient kept alongside EMAIL_ADDRESS; usually the same mailbox. */
 const EXTRA_RECIPIENT = 'ayomide.odewale1@gmail.com';
 
