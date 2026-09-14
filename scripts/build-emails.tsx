@@ -25,15 +25,7 @@ import * as React from 'react';
 
 import { Confirmation } from '../emails/Confirmation.js';
 import { Notification } from '../emails/Notification.js';
-import { SITE_URL } from '../emails/brand.js';
-
-/**
- * Derived, not typed out. Hardcoding the domain in a subject line is the same
- * mistake the old template made with its links — it went on pointing at
- * twitter.com for weeks after the site was corrected, because the value lived
- * in two places.
- */
-const siteHost = new URL(SITE_URL).host.replace(/^www\./, '');
+import { SITE_HOST } from '../emails/brand.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const outDir = join(here, '..', 'src', 'lib', 'server', 'email');
@@ -51,7 +43,7 @@ const templates = [
 		key: 'notification',
 		// Names the site, so it is obvious in a crowded inbox which of several
 		// properties the enquiry came through.
-		subject: `New message from ${siteHost}`,
+		subject: `New message from ${SITE_HOST}`,
 		element: <Notification />
 	}
 ] as const;

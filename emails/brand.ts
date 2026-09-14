@@ -10,6 +10,16 @@ import { SITE_NAME, SITE_URL } from '../src/data/site.js';
 
 export { socialMenu, SITE_NAME, SITE_URL };
 
+/**
+ * The bare domain, for the notification subject and its matching heading.
+ *
+ * Derived rather than typed out, and exported from here rather than computed in
+ * the build script, because the subject and the heading inside the email have to
+ * agree. They did not: the subject was updated to name the site and the heading
+ * went on saying "New message from the site".
+ */
+export const SITE_HOST = new URL(SITE_URL).host.replace(/^www\./, '');
+
 /** Mirrors the --color-* tokens in src/app.css. */
 export const colors = {
 	primary: '#42489e',
