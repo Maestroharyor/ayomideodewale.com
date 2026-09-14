@@ -6,31 +6,9 @@ import {
 	renderText,
 	type Tokens
 } from './render.js';
+import { displayName } from '../../../utils/index.js';
 
 export type EmailBody = { subject: string; html: string; text: string };
-
-/**
- * Capitalises a name for display, conservatively.
- *
- * Only words that are *entirely* lowercase are touched, so "ben smith" becomes
- * "Ben Smith" while "McDonald", "O'Brien" and "IBM" are left exactly as typed.
- * Guessing at a name someone has already capitalised deliberately is worse than
- * leaving a lowercase one alone, and mangling "McDonald" into "Mcdonald" is the
- * usual result of a naive first-letter uppercase.
- *
- * Hyphens and apostrophes count as word boundaries, so "mary-jane" and
- * "o'brien" come out right.
- */
-export function displayName(name: string): string {
-	return name.replace(/[^\s]+/g, (word) =>
-		word === word.toLowerCase()
-			? word.replace(
-					/(^|[-'’])([a-z])/g,
-					(_m, boundary: string, letter: string) => boundary + letter.toUpperCase()
-				)
-			: word
-	);
-}
 
 function build(
 	template: { subject: string; html: string; text: string },

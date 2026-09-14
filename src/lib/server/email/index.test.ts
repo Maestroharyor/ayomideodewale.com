@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { confirmationEmail, displayName, notificationEmail } from './index';
+import { confirmationEmail, notificationEmail } from './index';
+import { displayName } from '../../../utils';
 
 /**
  * Exercises the real generated templates through the real builders.
@@ -142,6 +143,23 @@ describe('displayName', () => {
 		expect(displayName('ben smith')).toBe('Ben Smith');
 	});
 
+	/**
+	 * An ASCII [a-z] class produced "élodie Dupont" — surname capitalised, given
+	 * name not — which reads as a bug rather than a style. The site is aimed at
+	 * recruiters abroad, so this is the common case, not an exotic one.
+	 */
+	it('capitalises names in any script, not just ASCII', () => {
+		expect(displayName('élodie dupont')).toBe('Élodie Dupont');
+		expect(displayName('ørjan dahl')).toBe('Ørjan Dahl');
+		expect(displayName('łukasz nowak')).toBe('Łukasz Nowak');
+		expect(displayName('çağla yıldız')).toBe('Çağla Yıldız');
+	});
+
+	it('leaves a name already capitalised in another script alone', () => {
+		expect(displayName('ÉLODIE')).toBe('ÉLODIE');
+		expect(displayName('Ørjan')).toBe('Ørjan');
+	});
+
 	it('treats hyphens and apostrophes as word boundaries', () => {
 		expect(displayName('mary-jane watson')).toBe('Mary-Jane Watson');
 		expect(displayName("o'brien")).toBe("O'Brien");
@@ -172,8 +190,24 @@ describe('displayName', () => {
 		expect(displayName('ben McDonald')).toBe('Ben McDonald');
 	});
 
-	it('preserves the spacing it was given', () => {
-		expect(displayName('  ben   smith ')).toBe('  Ben   Smith ');
+	/**
+	 * Normalised rather than preserved, so the subject and the body agree. The
+	 * subject collapses whitespace as a side effect of stripping header
+	 * characters; without this the same name arrived two ways in one email.
+	 */
+	it('normalises stray whitespace', () => {
+		expect(displayName('  ben   smith ')).toBe('Ben Smith');
+	});
+
+	it('renders the same name in the subject and in both body parts', () => {
+		// The bug this pins: the subject collapses whitespace while the body does
+		// not, so a messy name arrived two different ways in one email.
+		const mail = confirmationEmail({ name: '  ben   smith ', origin: sender.origin });
+		expect(mail.subject).toBe('Thanks for getting in touch, Ben Smith');
+		expect(mail.html).toContain('Ben Smith');
+		expect(mail.text).toContain('Ben Smith');
+		expect(mail.html).not.toContain('Ben   Smith');
+		expect(mail.text).not.toContain('Ben   Smith');
 	});
 
 	it('reaches the subject and both body parts', () => {
