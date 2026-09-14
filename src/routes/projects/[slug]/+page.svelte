@@ -3,6 +3,7 @@
 	import SeoMeta from '../../../components/elements/SEOMeta.svelte';
 	import { projects } from '../../../data/projects';
 	import { tagSlug } from '../../../utils';
+	import { stackLogo, stackNeedsInvert } from '../../../utils/stack-logos';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -25,6 +26,13 @@
 	 * Deliberately not wrapping around: the ends of the list are meaningful, since
 	 * the featured work is first.
 	 */
+	/** Stable ids so the contents rail and the headings agree. */
+	const slugifyHeading = (heading: string) =>
+		heading
+			.toLowerCase()
+			.replace(/[^a-z0-9]+/g, '-')
+			.replace(/^-|-$/g, '');
+
 	const withStudies = projects.filter((project) => project.caseStudy);
 	const neighbours = $derived.by(() => {
 		const index = withStudies.findIndex((project) => project.caseStudy === study.slug);
@@ -39,7 +47,9 @@
 	path={`/projects/${study.slug}`}
 />
 
-<main class="mx-auto max-w-[860px] px-5 pb-28 pt-20">
+<!-- Widens at lg to make room for the contents rail; the prose column itself
+	 stays at a readable measure rather than growing with the page. -->
+<main class="mx-auto max-w-[860px] px-5 pt-20 pb-28 lg:max-w-[1080px]">
 	<a
 		href="/projects"
 		class="text-sm font-medium text-primary-500 underline transition-colors duration-300 hover:text-dark-theme dark:text-warning-500 dark:hover:text-warning-700"
@@ -52,23 +62,37 @@
 	</h1>
 	<p class="mt-3 text-xl">{study.tagline}</p>
 
-	<ul class="mt-5 flex flex-wrap gap-2" aria-label="Technologies used">
+	<!--
+		Chips carry the logo where one exists. About twenty of the forty-nine
+		technologies named across the studies have a mark in static/svgs; the rest
+		are libraries and APIs with no widely recognised logo, so they read as text
+		rather than get a placeholder.
+	-->
+	<ul class="mt-6 flex flex-wrap gap-2" aria-label="Technologies used">
 		{#each study.stacks as stack (stack)}
+			{@const logo = stackLogo(stack)}
+			{@const linked = tagPages.has(tagSlug(stack))}
 			<li>
-				{#if tagPages.has(tagSlug(stack))}
-					<a
-						href={`/projects/tag/${tagSlug(stack)}`}
-						class="inline-block cursor-pointer rounded-lg bg-primary-500 px-2 py-1 text-sm text-white hover:text-white hover:opacity-75 dark:bg-primary-hov"
-					>
-						{stack}
-					</a>
-				{:else}
-					<span
-						class="inline-block rounded-lg bg-primary-500 px-2 py-1 text-sm text-white dark:bg-primary-hov"
-					>
-						{stack}
-					</span>
-				{/if}
+				<svelte:element
+					this={linked ? 'a' : 'span'}
+					href={linked ? `/projects/tag/${tagSlug(stack)}` : undefined}
+					class="inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white/60 py-1.5 pr-3 text-sm font-medium text-primary-900 transition duration-300 dark:border-primary-600 dark:bg-primary-900/40 dark:text-gray-100 {logo
+						? 'pl-2'
+						: 'pl-3'} {linked
+						? 'cursor-pointer hover:border-primary-500 hover:text-primary-500 dark:hover:border-warning-500 dark:hover:text-warning-500'
+						: ''}"
+				>
+					{#if logo}
+						<img
+							src={logo}
+							alt=""
+							width="16"
+							height="16"
+							class="h-4 w-4 object-contain {stackNeedsInvert(stack) ? 'dark:invert' : ''}"
+						/>
+					{/if}
+					{stack}
+				</svelte:element>
 			</li>
 		{/each}
 	</ul>
@@ -110,40 +134,82 @@
 	/>
 
 	{#if study.stats.length}
-		<dl class="mt-10 grid grid-cols-2 gap-6 md:grid-cols-4">
+		<dl
+			class="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-gray-200 bg-gray-200 md:grid-cols-4 dark:border-primary-600 dark:bg-primary-600"
+		>
 			{#each study.stats as stat (stat.label)}
-				<div>
-					<dt class="text-sm text-gray-600 dark:text-gray-300">{stat.label}</dt>
+				<!-- gap-px over a tinted parent draws the dividers, so the band reads as
+					 one object rather than four loose numbers. -->
+				<div class="bg-white px-5 py-4 dark:bg-dark-background/60">
 					<dd class="text-3xl font-bold text-primary-500 dark:text-warning-500">{stat.value}</dd>
+					<dt class="mt-1 text-sm text-gray-600 dark:text-gray-300">{stat.label}</dt>
 				</div>
 			{/each}
 		</dl>
 	{/if}
 
-	<div class="mt-12 space-y-10">
-		{#each visibleSections as section (section.heading)}
-			<section>
-				<h2 class="text-2xl font-bold text-primary-500 dark:text-warning-500">
-					{section.heading}
-				</h2>
-				{#each section.body as paragraph (paragraph)}
-					<p class="mt-3 text-lg leading-relaxed">{paragraph}</p>
-				{/each}
-
-				{#if dev && section.todo?.length}
+	<div class="mt-14 grid gap-10 lg:grid-cols-[1fr_200px] lg:items-start">
+		<div class="space-y-12 lg:order-1">
+			{#each visibleSections as section, i (section.heading)}
+				{@const id = slugifyHeading(section.heading)}
+				<section {id} class="scroll-mt-28">
+					<!-- The number gives a long study a sense of position: you can tell
+						 you are on the second of five rather than somewhere in a wall. -->
 					<div
-						class="mt-3 rounded-lg border-2 border-dashed border-warning-500 bg-warning-50 p-4 text-base text-gray-900"
+						class="flex items-baseline gap-3 border-b border-gray-200 pb-3 dark:border-primary-600"
 					>
-						<p class="font-bold">Needs your input (dev only — never rendered in production):</p>
-						<ul class="mt-2 list-disc space-y-1 pl-5">
-							{#each section.todo as item (item)}
-								<li>{item}</li>
-							{/each}
-						</ul>
+						<span class="font-mono text-sm font-bold text-gray-400 tabular-nums dark:text-gray-500">
+							{String(i + 1).padStart(2, '0')}
+						</span>
+						<h2 class="text-2xl font-bold text-primary-500 dark:text-warning-500">
+							{section.heading}
+						</h2>
 					</div>
-				{/if}
-			</section>
-		{/each}
+					{#each section.body as paragraph (paragraph)}
+						<p class="mt-4 text-lg leading-relaxed">{paragraph}</p>
+					{/each}
+
+					{#if dev && section.todo?.length}
+						<div
+							class="mt-3 rounded-lg border-2 border-dashed border-warning-500 bg-warning-50 p-4 text-base text-gray-900"
+						>
+							<p class="font-bold">Needs your input (dev only — never rendered in production):</p>
+							<ul class="mt-2 list-disc space-y-1 pl-5">
+								{#each section.todo as item (item)}
+									<li>{item}</li>
+								{/each}
+							</ul>
+						</div>
+					{/if}
+				</section>
+			{/each}
+		</div>
+
+		<!--
+			Contents rail. These studies run to five or six sections of dense prose,
+			and a reader arriving from a tag page or a search result has no way to see
+			the shape of one before committing to it. lg and up only: below that it
+			would be a list of links above the thing it indexes.
+		-->
+		{#if visibleSections.length > 2}
+			<nav aria-label="On this page" class="hidden lg:sticky lg:top-28 lg:order-2 lg:block">
+				<p class="text-xs font-bold tracking-widest uppercase text-gray-500 dark:text-gray-400">
+					On this page
+				</p>
+				<ul class="mt-3 space-y-2 border-l border-gray-200 dark:border-primary-600">
+					{#each visibleSections as section (section.heading)}
+						<li>
+							<a
+								href={`#${slugifyHeading(section.heading)}`}
+								class="-ml-px block border-l border-transparent pl-3 text-sm text-gray-600 transition duration-200 hover:border-primary-500 hover:text-primary-500 dark:text-gray-400 dark:hover:border-warning-500 dark:hover:text-warning-500"
+							>
+								{section.heading}
+							</a>
+						</li>
+					{/each}
+				</ul>
+			</nav>
+		{/if}
 	</div>
 
 	{#if neighbours.previous || neighbours.next}
