@@ -30,6 +30,20 @@ export function escapeHtml(value: string): string {
 }
 
 /**
+ * Replaces C0 and C1 control characters with a space.
+ *
+ * Three callers needed this and each had grown its own copy: `String.trim()`
+ * removes only the five characters it counts as whitespace, so everything from
+ * NUL to US survives a trim and reaches whatever is downstream. Matching control
+ * characters is the entire purpose here, which is why the lint rule against them
+ * is disabled on exactly this line and nowhere else.
+ */
+export function stripControlChars(value: string): string {
+	// eslint-disable-next-line no-control-regex
+	return value.replace(/[\u0000-\u001f\u007f-\u009f]+/gu, ' ');
+}
+
+/**
  * Capitalises a name for display, conservatively.
  *
  * Only words that are *entirely* lowercase are touched, so "ben smith" becomes
@@ -50,9 +64,14 @@ export function escapeHtml(value: string): string {
  * either way, and without this the subject and the body disagreed: the subject
  * collapses runs of whitespace as part of stripping header characters, the body
  * does not, so "ben  smith" arrived two different ways in the same email.
+ *
+ * Control characters go first, because `String.trim()` removes only the five it
+ * counts as whitespace. A name of five C0 characters passed both the presence
+ * check and the minimum length, then rendered a subject ending in a dangling
+ * comma and a body carrying the raw bytes.
  */
 export function displayName(name: string): string {
-	return name
+	return stripControlChars(name)
 		.trim()
 		.replace(/\s+/gu, ' ')
 		.replace(/\S+/gu, (word) =>
