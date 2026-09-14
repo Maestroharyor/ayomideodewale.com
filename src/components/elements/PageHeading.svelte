@@ -41,7 +41,7 @@
 
 <div class="max-w-[700px] mx-auto py-20 flex flex-col gap-10 items-center justify-center px-5">
 	<h1
-		class="relative mx-auto max-w-full text-balance pt-4 text-center text-3xl font-bold sm:text-4xl md:pt-0 md:text-5xl {titleClass}"
+		class="relative mx-auto max-w-full text-balance pt-4 text-center text-3xl font-bold sm:text-4xl md:pt-0 lg:text-5xl {titleClass}"
 	>
 		{#each titleParts as part, i (i)}{#if part.match}<span
 					class="text-primary-500 dark:text-warning-500">{part.text}</span
