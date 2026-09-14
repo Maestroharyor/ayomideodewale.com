@@ -1,7 +1,10 @@
 <script lang="ts">
 	import type { Design } from '../../types';
 
-	let { design }: { design: Design } = $props();
+	let { design, headingLevel = 2 }: { design: Design; headingLevel?: 2 | 3 } = $props();
+
+	/** These sit directly under the page <h1> on /designs, so h2, not h3. */
+	const heading = $derived(`h${headingLevel}` as 'h2' | 'h3');
 </script>
 
 <!-- <div class="w-full">
@@ -28,22 +31,36 @@
 	<div
 		class=" max-w-[500px] relative rounded-xl border-gray-400 dark:border-gray-600 border-2 p-2 transition group-hover:border-primary-hov dark:group-hover:border-warning-500"
 	>
+		<!--
+			alt="" because the heading beside it in the same link already says which
+			design this is; a second announcement of the same words is noise.
+
+			width/height are the real intrinsic dimensions, not the old width="300",
+			which contradicted the CSS (`w-full` inside a max-w-[500px] box) and,
+			with no height at all, left a lazy-loaded image reserving no space —
+			a layout shift on every scroll past it.
+		-->
 		<img
 			class="w-full h-auto hover:opacity-75 transition rounded-md"
 			src={design.image}
-			alt={design.label}
+			srcset={`${design.image} 1000w, ${design.imageSmall} 500w`}
+			sizes="(min-width: 768px) 500px, 100vw"
+			alt=""
 			loading="lazy"
-			width="300"
+			decoding="async"
+			width="1000"
+			height="750"
 		/>
 	</div>
 
 	<div class="w-full mt-5 flex-1 space-y-3">
 		<div class="flex projects-center justify-between mb-1">
-			<h3
+			<svelte:element
+				this={heading}
 				class="text-primary-500 dark:text-warning-500 text-xl md:text-2xl lg:text-3xl leading-snug font-bold"
 			>
 				{design.label}
-			</h3>
+			</svelte:element>
 
 			<div
 				class="inline-flex items-center gap-3 group-hover:translate-x-1 group-hover:-translate-y-1 duration-300 ease-in-out"

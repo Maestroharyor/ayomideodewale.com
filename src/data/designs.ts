@@ -9,19 +9,22 @@ import type { Design } from '../types';
 export const designs: Design[] = [
 	{
 		label: 'Data Mirror Mobile App',
-		image: '/designs/data_mirror.png',
+		image: '/designs/data_mirror.webp',
+		imageSmall: '/designs/data_mirror-500.webp',
 		link: 'https://dribbble.com/shots/21991067-Data-Mirror-Mobile-App-Design',
 		desc: 'A mobile app for tracking data usage and connection speed. Concept work: usage breakdowns, a speed test and per-app limits.'
 	},
 	{
 		label: 'Lifetechfacts Blog',
-		image: '/designs/lifetechfacts.png',
+		image: '/designs/lifetechfacts.webp',
+		imageSmall: '/designs/lifetechfacts-500.webp',
 		link: 'https://dribbble.com/shots/21991051-Lifetechfacts-Blog-UI-Design',
 		desc: 'The blog I write and run. Article layout, category browsing and the reading view.'
 	},
 	{
 		label: 'Braandly SaaS',
-		image: '/designs/braandly.png',
+		image: '/designs/braandly.webp',
+		imageSmall: '/designs/braandly-500.webp',
 		link: 'https://dribbble.com/shots/21990981-Braandly-SaaS-UI-Design',
 		desc: 'The interface for Braandly, before it was built. Brand workspaces, asset collections and the guideline editor.'
 	}
