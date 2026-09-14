@@ -157,7 +157,7 @@
 			<div
 				bind:this={dot.el}
 				class="cursor-tail"
-				style={`opacity: ${0.3 - i * 0.04}; width: ${8 - i}px; height: ${8 - i}px;`}
+				style={`opacity: ${0.3 - i * 0.04}; width: ${8 - i}px; height: ${8 - i}px; margin: ${-(8 - i) / 2}px 0 0 ${-(8 - i) / 2}px;`}
 			></div>
 		{/each}
 		<div

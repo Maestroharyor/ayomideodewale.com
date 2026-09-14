@@ -15,6 +15,14 @@
 	// only in their index. profileDetails is ordered shortest to longest.
 	const detailLevels = [1, 2, 3, 4, 5];
 	const detailLabels = ['Shortest', 'Short', 'Mid', 'Long', 'Longest'];
+
+	/**
+	 * The portrait tracks the detail control, so picking more detail visibly does
+	 * something on both sides of the row rather than only growing the text.
+	 * Ranges 430px to 670px; the source is 800x1270, so even the tallest crop is
+	 * well inside the image and never upscales.
+	 */
+	const photoHeight = $derived(370 + value * 60);
 </script>
 
 <div
@@ -27,7 +35,7 @@
 	</div>
 
 	<div
-		class="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-8 lg:gap-20 w-full items-center justify-between max-w-[1200px] mx-auto"
+		class="mx-auto grid w-full max-w-[1200px] grid-cols-1 items-start justify-between gap-5 md:grid-cols-12 md:gap-8 lg:gap-14"
 	>
 		<div class="md:col-span-8">
 			<div class="profile__selector relative mx-auto mb-10 w-full pb-10 md:max-w-[300px]">
@@ -66,17 +74,41 @@
 				{@html profileDetails[value - 1]}
 			</div>
 		</div>
-		<div
-			class="md:col-span-4 hidden md:flex items-center justify-center bg-dark-theme rounded-t-lg border-2 border-gray-100 shadow-sm shadow-dark-theme"
-		>
-			<img
-				alt="Ayomide Odewale"
-				src="/personal/ayomide-odewale-maestro.png"
-				width={100 * value}
-				height={30 * value}
-				loading="lazy"
-				class="max-w-full h-auto"
-			/>
+		<!--
+			A framed photograph now, not a cutout on a dark panel. The previous image
+			was a transparent PNG, which is why it sat directly on bg-dark-theme; this
+			one has its own background, so the panel behind it would never be seen and
+			the border read as a frame drawn around nothing.
+
+			The size no longer tracks the bio length either. Growing the portrait as
+			the text got longer made sense for a floating cutout and reads as a glitch
+			on a framed photo, so the frame holds one aspect ratio and the image is
+			cropped to fill it.
+		-->
+		<!--
+			Two things this column has to do at once.
+
+			It follows the detail control: the portrait grows as the bio gets longer,
+			so the two sides of the row stay in proportion instead of the image
+			sitting fixed beside a block of text that quadruples in height.
+
+			And it sticks. Even grown, the longest bio is taller than the portrait,
+			so without this it would scroll away and leave the reader with an empty
+			column. object-top keeps the face in frame as the crop height changes.
+		-->
+		<div class="hidden md:col-span-4 md:block">
+			<div class="md:sticky md:top-28">
+				<img
+					alt="Ayomide Odewale"
+					src="/personal/ayomide-odewale.webp"
+					width="800"
+					height="1270"
+					loading="lazy"
+					decoding="async"
+					style={`height: ${photoHeight}px`}
+					class="w-full rounded-2xl object-cover object-top shadow-lg ring-1 ring-gray-200 transition-[height] duration-500 ease-out motion-reduce:transition-none dark:ring-primary-600"
+				/>
+			</div>
 		</div>
 	</div>
 </div>
