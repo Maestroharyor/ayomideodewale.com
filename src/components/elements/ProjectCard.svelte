@@ -98,14 +98,31 @@
 			</div>
 		</div>
 		<p class="text-left text-[16px] text-gray-600 dark:text-gray-300">{project.desc}</p>
-		<ul class="flex flex-wrap items-center mt-4 list-none gap-3">
+		<!--
+			The list is named once; the chips are not. Each chip used to carry
+			" — see all projects using it" as sr-only text, which put 89 copies of
+			that phrase on /projects: enough to make "projects using" the site's
+			top extracted keyword, and enough that a screen reader user heard it on
+			every chip. Verbosity is its own accessibility problem.
+
+			WCAG 2.4.4 allows link purpose to come from "link text together with its
+			programmatically determined link context", and technique H77 names a link
+			inside a list item as sufficient. An aria-label here is safe where one on
+			the link was not: it names a container rather than replacing visible text,
+			so SC 2.5.3 is not engaged and the read-aloud and translation gaps that
+			affect links do not apply.
+		-->
+		<ul
+			class="flex flex-wrap items-center mt-4 list-none gap-3"
+			aria-label={`Technologies used in ${project.title}`}
+		>
 			{#each project.tags as tag (tag)}
 				<li>
 					<a
 						href={`/projects/tag/${tagSlug(tag)}`}
 						class="relative z-10 block cursor-pointer rounded-lg bg-primary-500 px-2 py-1 text-sm text-white hover:text-white hover:opacity-75 dark:bg-primary-hov"
 					>
-						{tag}<span class="sr-only"> — see all projects using it</span>
+						{tag}
 					</a>
 				</li>
 			{/each}
