@@ -2,6 +2,7 @@ import { escapeHtml } from '../../../utils/index.js';
 
 export type Tokens = Record<string, string>;
 
+/** `g` so `matchAll` works; `replace` resets lastIndex itself, so it is safe to share. */
 const TOKEN_RE = /\{\{(\w+)\}\}/g;
 
 /**
@@ -20,30 +21,43 @@ const TOKEN_RE = /\{\{(\w+)\}\}/g;
  *    message contained `$&` would otherwise get the template's own text spliced
  *    into their email. Passing a function disables that entirely.
  *
- *  - **Unknown placeholders throw.** A renamed token then fails on the first send
- *    instead of shipping a literal `{{name}}` to a recipient.
+ *  - **Unknown placeholders throw.** A token the caller did not supply fails on
+ *    the first send instead of shipping a literal `{{name}}` to a recipient. The
+ *    matching "supplied but never used" check lives in `assertAllTokensUsed`,
+ *    which spans the whole email rather than one part of it.
  */
 function fill(template: string, tokens: Tokens, transform: (value: string) => string): string {
-	const seen = new Set<string>();
-
-	const output = template.replace(TOKEN_RE, (_match, key: string) => {
+	return template.replace(TOKEN_RE, (_match, key: string) => {
 		if (!(key in tokens)) {
 			throw new Error(`Email template referenced an unknown placeholder: {{${key}}}`);
 		}
-		seen.add(key);
 		return transform(tokens[key]);
 	});
+}
 
-	// An unused token means the template and its caller have drifted: either the
-	// placeholder was renamed or a value is being computed for nothing. Both are
-	// worth failing the send over, since the alternative is an email quietly
-	// missing the thing it was supposed to say.
-	const unused = Object.keys(tokens).filter((key) => !seen.has(key));
+/**
+ * Fails if a token is used by none of the given templates.
+ *
+ * Deliberately across the whole email rather than per part. `origin` only
+ * appears in `src` attributes on the social icons, and react-email's plaintext
+ * renderer drops images entirely — so it is legitimately absent from the text
+ * part while being essential to the HTML one. Asserting per part meant every
+ * send threw "Email template never used: {{origin}}" and the endpoint 500'd
+ * before any mail went out.
+ *
+ * The guard still does its job: a renamed placeholder is used by neither part
+ * and fails on the first send, rather than shipping a literal "{{name}}".
+ */
+export function assertAllTokensUsed(templates: string[], tokens: Tokens): void {
+	const used = new Set<string>();
+	for (const template of templates) {
+		for (const [, key] of template.matchAll(TOKEN_RE)) used.add(key);
+	}
+
+	const unused = Object.keys(tokens).filter((key) => !used.has(key));
 	if (unused.length > 0) {
 		throw new Error(`Email template never used: ${unused.map((k) => `{{${k}}}`).join(', ')}`);
 	}
-
-	return output;
 }
 
 /** Escapes, and turns newlines into `<br>` so a multi-line message keeps its shape. */

@@ -1,5 +1,5 @@
 import { confirmation, notification } from './templates.js';
-import { renderHtml, renderText, type Tokens } from './render.js';
+import { assertAllTokensUsed, renderHtml, renderText, type Tokens } from './render.js';
 
 export type EmailBody = { subject: string; html: string; text: string };
 
@@ -7,6 +7,10 @@ function build(
 	template: { subject: string; html: string; text: string },
 	tokens: Tokens
 ): EmailBody {
+	// Across both parts: a token can belong to only one of them and still be in
+	// use. See assertAllTokensUsed.
+	assertAllTokensUsed([template.html, template.text], tokens);
+
 	return {
 		subject: template.subject,
 		html: renderHtml(template.html, tokens),
