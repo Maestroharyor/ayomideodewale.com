@@ -25,7 +25,7 @@
 >
 	<p class="text-xl mb-5">Hello, I&apos;m Ayomide (Maestro).</p>
 	<h1
-		class="heroTitle relative mb-10 inline-block w-auto max-w-2xl text-[1.9rem] font-bold tracking-tighter leading-snug sm:text-[clamp(1.5rem,6.2vw,4rem)] lg:max-w-4xl dark:text-white"
+		class="heroTitle relative mb-10 inline-block w-auto max-w-2xl text-[1.9rem] font-bold tracking-tighter leading-snug sm:max-w-4xl sm:text-[clamp(1.5rem,6.2vw,4rem)] dark:text-white"
 	>
 		<!-- From sm up the clause holds together on one line, so the type is sized
 		     off the viewport rather than in fixed breakpoint steps: at text-7xl it
@@ -46,42 +46,46 @@
 	</h1>
 
 	<div
-		class="_floating opacity-50 text-primary-500 bottom-[188px] right-[calc(50%-300px)] lg:right-[calc(50%-400px)] rotate-[70deg]"
+		class="_floating opacity-50 text-primary-500 dark:text-primary-400 bottom-[188px] right-[calc(50%-300px)] lg:right-[calc(50%-400px)] rotate-[70deg]"
 		style="animation-delay: 0.2s;"
 	>
-		<Icon src={FaNodeJs} size="100" color="#4F46E5" />
+		<Icon src={FaNodeJs} size="100" color="currentColor" />
 	</div>
 
 	<div
-		class="_floating opacity-80 text-primary-500 bottom-[188px] left-[calc(50%-300px)] lg:left-[calc(50%-400px)]"
+		class="_floating opacity-80 text-primary-500 dark:text-primary-400 bottom-[188px] left-[calc(50%-300px)] lg:left-[calc(50%-400px)]"
 		style="animation-delay: 0.6s;"
 	>
-		<Icon src={SiTypescript} size="90" color="#4F46E5" />
+		<Icon src={SiTypescript} size="90" color="currentColor" />
 	</div>
 
-	<div class="_floating opacity-50 text-primary-500 bottom-[192px] left-[10px] rotate-[70deg]">
-		<Icon src={FaGit} size="100" color="#4F46E5" />
+	<div
+		class="_floating opacity-50 text-primary-500 dark:text-primary-400 bottom-[192px] left-[10px] rotate-[70deg]"
+	>
+		<Icon src={FaGit} size="100" color="currentColor" />
 	</div>
 	<div
 		class="_floating opacity-30 md:opacity-50 text-primary-500 top-[192px] md:top-[92px] left-[-50px] sm:left-[10px] rotate-[70deg]"
 		style="animation-delay: 0.6s;"
 	>
-		<Icon src={FaReact} size="100" color="#4F46E5" />
+		<Icon src={FaReact} size="100" color="currentColor" />
 	</div>
 	<div
 		class="_floating opacity-30 md:opacity-50 text-primary-500 top-[192px] md:top-[92px] right-[-50px] sm:right-[10px] rotate-[70deg]"
 		style="animation-delay: 0.4s;"
 	>
-		<Icon src={FaVue} size="100" color="#4F46E5" />
-	</div>
-	<div class="_floating opacity-50 text-primary-500 bottom-[192px] right-[10px] rotate-[70deg]">
-		<Icon src={FaPython} size="100" color="#4F46E5" />
+		<Icon src={FaVue} size="100" color="currentColor" />
 	</div>
 	<div
-		class="_floating opacity-90 text-primary-500 top-[10px] left-[calc(50%-30px)] rotate-45"
+		class="_floating opacity-50 text-primary-500 dark:text-primary-400 bottom-[192px] right-[10px] rotate-[70deg]"
+	>
+		<Icon src={FaPython} size="100" color="currentColor" />
+	</div>
+	<div
+		class="_floating opacity-90 text-primary-500 dark:text-primary-400 top-[10px] left-[calc(50%-30px)] rotate-45"
 		style="animation-delay: 0.4s;"
 	>
-		<Icon src={FaCode} size="100" color="#4F46E5" />
+		<Icon src={FaCode} size="100" color="currentColor" />
 	</div>
 
 	<!-- Go, Terraform and AWS: current working stack, and the direction the
@@ -96,25 +100,25 @@
 		class="_floating hidden sm:block opacity-50 text-primary-500 bottom-[110px] left-[calc(50%-150px)] lg:left-[calc(50%-190px)]"
 		style="animation-delay: 1s;"
 	>
-		<Icon src={FaGolang} size="100" color="#4F46E5" />
+		<Icon src={FaGolang} size="100" color="currentColor" />
 	</div>
 	<div
 		class="_floating hidden sm:block opacity-50 text-primary-500 bottom-[110px] right-[calc(50%-150px)] lg:right-[calc(50%-190px)] rotate-[70deg]"
 		style="animation-delay: 0.9s;"
 	>
-		<Icon src={SiSvelte} size="80" color="#4F46E5" />
+		<Icon src={SiSvelte} size="80" color="currentColor" />
 	</div>
 	<div
 		class="_floating hidden md:block opacity-40 text-primary-500 top-[132px] left-[calc(50%-260px)] rotate-[70deg]"
 		style="animation-delay: 0.3s;"
 	>
-		<Icon src={SiTerraform} size="72" color="#4F46E5" />
+		<Icon src={SiTerraform} size="72" color="currentColor" />
 	</div>
 	<div
 		class="_floating hidden md:block opacity-40 text-primary-500 top-[132px] right-[calc(50%-260px)] rotate-[70deg]"
 		style="animation-delay: 0.7s;"
 	>
-		<Icon src={FaAws} size="90" color="#4F46E5" />
+		<Icon src={FaAws} size="90" color="currentColor" />
 	</div>
 
 	<!-- <ScrollLink
