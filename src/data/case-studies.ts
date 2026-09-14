@@ -23,7 +23,7 @@ export const caseStudies: CaseStudy[] = [
 		// or any export substantiates. Better empty than unverifiable.
 		stats: [],
 		metadescription:
-			'MosesTab: a tenant-scoped church management platform with per-church Stripe Connect payouts, SMS text-to-give over Twilio, and a safety-critical child check-in system.',
+			'MosesTab: tenant-scoped church management with Stripe Connect payouts, SMS text-to-give over Twilio, and a safety-critical child check-in system.',
 		sections: [
 			{
 				heading: 'The problem',
@@ -69,7 +69,7 @@ export const caseStudies: CaseStudy[] = [
 		stacks: ['NextJS', 'ReactJS', 'TypeScript', 'TailwindCSS', 'Zustand'],
 		stats: [],
 		metadescription:
-			'BringVan: a UK moving-company directory built around programmatic SEO, with generated location and company pages, faceted search and contact-click attribution.',
+			'BringVan: a UK moving-company directory built around programmatic SEO, with generated location and company pages, faceted search and click attribution.',
 		sections: [
 			{
 				heading: 'The problem',
@@ -118,7 +118,7 @@ export const caseStudies: CaseStudy[] = [
 			{ label: 'Since', value: '2021' }
 		],
 		metadescription:
-			'Braandly: a workspace-scoped brand management platform with a versioned public REST API, a hand-built OAuth 2.1 authorization server, and an MCP server exposing 102 tools.',
+			'Braandly: a workspace-scoped brand platform with a versioned public REST API, an OAuth 2.1 authorization server, and an MCP server exposing 102 tools.',
 		sections: [
 			{
 				heading: 'The problem',
@@ -231,7 +231,7 @@ export const caseStudies: CaseStudy[] = [
 			{ label: 'Since', value: '2026' }
 		],
 		metadescription:
-			'DailyOS: a multi-tenant retail commerce platform on Next.js and Postgres, with an offline write queue built so a dropped connection mid-sale cannot produce a duplicate order.',
+			'DailyOS: a multi-tenant retail platform on Next.js and Postgres, with an offline write queue so a dropped connection mid-sale cannot duplicate an order.',
 		sections: [
 			{
 				heading: 'The problem',
@@ -288,7 +288,7 @@ export const caseStudies: CaseStudy[] = [
 			{ label: 'Since', value: '2023' }
 		],
 		metadescription:
-			'VKT Bougie: a SvelteKit storefront with server-side faceted search, tested variant selection and Paystack checkout, built so the storefront never computes a price it is about to charge.',
+			'VKT Bougie: a SvelteKit storefront with server-side faceted search, tested variant selection and Paystack checkout. The server owns every price it charges.',
 		sections: [
 			{
 				heading: 'The problem',
@@ -344,7 +344,7 @@ export const caseStudies: CaseStudy[] = [
 			{ label: 'Endpoints watched', value: '1' }
 		],
 		metadescription:
-			'healthcheck-service: a 502-line Go uptime monitor that checks one endpoint on a schedule and alerts to Slack and email, written because the hosted options cost more than the thing they were watching.',
+			'healthcheck-service: a 502-line Go uptime monitor that checks endpoints on a schedule and alerts to Slack and email, built because hosting cost more.',
 		sections: [
 			{
 				heading: 'The problem',
@@ -444,7 +444,7 @@ export const caseStudies: CaseStudy[] = [
 			{ label: 'Tests', value: '0' }
 		],
 		metadescription:
-			'Jornally: a long-form publishing platform with a TipTap editor, draft recovery and a threaded comment tree, built on Next.js against a Laravel API between 2021 and 2023.',
+			'Jornally: a long-form publishing platform with a TipTap editor, draft recovery and a threaded comment tree, built on Next.js against a Laravel API.',
 		sections: [
 			{
 				heading: 'The problem',
@@ -548,7 +548,7 @@ export const caseStudies: CaseStudy[] = [
 			{ label: 'Tests', value: '0' }
 		],
 		metadescription:
-			'Lifetechfacts: a technology blog on a Next.js front end over headless WordPress, with incremental static regeneration, syntax highlighting and offline support.',
+			'Lifetechfacts: a technology blog on Next.js over headless WordPress, with incremental static regeneration, syntax highlighting and offline support.',
 		sections: [
 			{
 				heading: 'The problem',
@@ -648,7 +648,7 @@ export const caseStudies: CaseStudy[] = [
 			{ label: 'Shipped in', value: '38 days' }
 		],
 		metadescription:
-			'SkillUp: registration, attendance and certification for a three-day training programme, built on Next.js and Postgres with row-level security and a batched certificate pipeline.',
+			'SkillUp: registration, attendance and certification for a three-day programme, on Next.js and Postgres with row-level security and batched certificates.',
 		sections: [
 			{
 				heading: 'The problem',
@@ -711,7 +711,7 @@ export const caseStudies: CaseStudy[] = [
 			{ label: 'Tests', value: '0' }
 		],
 		metadescription:
-			'Fovero Technologies: a free tool suite with a category-scoped technology recommender, a real-fetch website auditor and a 116-rule stack fingerprinter, built on Next.js.',
+			'Fovero Technologies: a free tool suite with a technology recommender, a real-fetch website auditor and a 116-rule stack fingerprinter, built on Next.js.',
 		sections: [
 			{
 				heading: 'The problem',
@@ -764,7 +764,7 @@ export const caseStudies: CaseStudy[] = [
 			{ label: 'Python versions in CI', value: '4' }
 		],
 		metadescription:
-			'youtube-scheduler: a Python CLI for batch metadata edits against an API that overwrites anything you omit, with read-modify-write merging, a run log and rollback.',
+			'youtube-scheduler: a Python CLI for batch metadata edits against an API that overwrites anything you omit, with read-modify-write merging and rollback.',
 		sections: [
 			{
 				heading: 'The problem',
@@ -872,7 +872,7 @@ export const caseStudies: CaseStudy[] = [
 			{ label: 'Shared code', value: 'None' }
 		],
 		metadescription:
-			'MealFlow: one meal-planning product rebuilt three times in ten weeks across React Native, Flutter and a Next.js PWA, to compare the runtimes against a fixed spec.',
+			'MealFlow: one meal-planning product rebuilt three times across React Native, Flutter and a Next.js PWA, comparing the runtimes against a fixed spec.',
 		sections: [
 			{
 				heading: 'The problem',
@@ -921,7 +921,7 @@ export const caseStudies: CaseStudy[] = [
 			{ label: 'App stores', value: '2' }
 		],
 		metadescription:
-			'Xedla Pay: a Nigerian payments product with wallets, bank-rail transfers, virtual cards and escrow. I am the primary author of four of its backend services.',
+			'Xedla Pay: a Nigerian payments product with wallets, bank-rail transfers, virtual cards and escrow. I am the primary author of four backend services.',
 		sections: [
 			{
 				heading: 'The problem',

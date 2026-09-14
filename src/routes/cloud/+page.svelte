@@ -6,7 +6,7 @@
 	import { absoluteUrl } from '../../data/site';
 
 	const metadescription =
-		'Fullstack engineer specialising in cloud architecture and platform work. AWS provisioned with Terraform, Docker, CI, self-hosted monitoring in Go. AWS Solutions Architect Associate in progress.';
+		'Fullstack engineer specialising in cloud architecture and platform work. AWS with Terraform, Docker, CI, self-hosted monitoring in Go. SAA-C03 in progress.';
 
 	const title = 'Cloud & Platform';
 
