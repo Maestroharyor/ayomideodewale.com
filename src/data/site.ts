@@ -16,6 +16,13 @@ export const DEFAULT_DESCRIPTION =
 
 export const OG_IMAGE = `${SITE_URL}/personal/og_image.png`;
 
+/**
+ * Shown as a badge in the hero. The first thing a recruiter landing cold needs
+ * to know, and it was nowhere on the page. One constant so the site, and later
+ * the resume header, cannot disagree about it.
+ */
+export const AVAILABILITY = 'Open to roles · Lagos, UTC+1';
+
 export const SOCIAL_PROFILES = [
 	'https://github.com/MaestroHaryor',
 	'https://www.linkedin.com/in/ayomide-odewale',

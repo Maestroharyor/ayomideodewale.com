@@ -4,14 +4,26 @@
 
 	// The cards above the fold are told to load eagerly. Lazy-loading them left a
 	// bordered empty box where the thumbnail should be on a cold load.
-	let { project, eager = false }: { project: Project; eager?: boolean } = $props();
+	//
+	// `wide` is the lead card on the home grid: at lg it puts the thumbnail beside
+	// the text instead of above it, so spanning two columns does not just produce
+	// one very tall card.
+	let {
+		project,
+		eager = false,
+		wide = false
+	}: { project: Project; eager?: boolean; wide?: boolean } = $props();
 </script>
 
 <div
-	class="relative mx-auto flex flex-col items-start gap-4 group project_card px-5 py-5 h-full rounded-[16px] hover:bg-[rgba(0,0,0,0.02)] hover:dark:bg-[rgba(0,0,0,0.15)] hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.15)] hover:drop-shadow-md hover:backdrop-blur-[3.2px] hover:-translate-y-[2px] transition-all duration-300 cursor-pointer w-full"
+	class="relative mx-auto flex {wide
+		? 'flex-col lg:flex-row lg:items-center lg:gap-8'
+		: 'flex-col'} items-start gap-4 group project_card px-5 py-5 h-full rounded-[16px] hover:bg-[rgba(0,0,0,0.02)] hover:dark:bg-[rgba(0,0,0,0.15)] hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.15)] hover:drop-shadow-md hover:backdrop-blur-[3.2px] hover:-translate-y-[2px] transition-all duration-300 cursor-pointer w-full"
 >
 	<div
-		class="w-full relative rounded-xl border-gray-400 dark:border-gray-600 border-2 p-2 transition group-hover:border-primary-hov dark:group-hover:border-warning-500"
+		class="{wide
+			? 'lg:w-[58%]'
+			: ''} w-full relative rounded-xl border-gray-400 dark:border-gray-600 border-2 p-2 transition group-hover:border-primary-hov dark:group-hover:border-warning-500"
 	>
 		<img
 			class="w-full h-auto aspect-[1000/508] object-cover object-top hover:opacity-75 transition rounded-md"

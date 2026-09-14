@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { reveal } from '../../../lib/actions/reveal';
 	import SectionHeading from '../../elements/SectionHeading.svelte';
 	import { profileDetails } from '../../../data/profile';
 
@@ -16,7 +17,11 @@
 	const detailLabels = ['Shortest', 'Short', 'Mid', 'Long', 'Longest'];
 </script>
 
-<div class=" w-full pt-20 pb-40 px-5 bg-dark/[0.02] dark:bg-dark-background/40" id="about">
+<div
+	class=" w-full pt-20 pb-40 px-5 bg-dark/[0.02] dark:bg-dark-background/40"
+	id="about"
+	use:reveal
+>
 	<div class="max-w-[1200px] mx-auto">
 		<SectionHeading title="So, who am I?" />
 	</div>

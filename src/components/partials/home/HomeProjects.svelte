@@ -1,7 +1,10 @@
-<script>
+<script lang="ts">
 	import { projects } from '../../../data/projects';
+	import { reveal } from '../../../lib/actions/reveal';
 	import ProjectCard from '../../elements/ProjectCard.svelte';
 	import SectionHeading from '../../elements/SectionHeading.svelte';
+
+	const featured = projects.filter((project) => project.featured).slice(0, 4);
 </script>
 
 <div class=" pt-20 pb-20 relative bg-dark/[0.02] dark:bg-dark-background/20">
@@ -9,9 +12,15 @@
 		<div>
 			<SectionHeading title="Here are some of my favourite projects" />
 		</div>
-		<div class="grid grid-cols-1 gap-5 md:gap-x-10 md:gap-y-16 lg:grid-cols-2 items-start pt-10">
-			{#each projects.filter((project) => project.featured).slice(0, 4) as item, i (item.title)}
-				<ProjectCard project={item} eager={i < 2} />
+		<!--
+			The first card spans both columns. Four equal cards gave the eye nowhere
+			to start, and the lead project is the one worth landing on.
+		-->
+		<div class="grid grid-cols-1 items-start gap-5 pt-10 md:gap-x-10 md:gap-y-16 lg:grid-cols-2">
+			{#each featured as item, i (item.title)}
+				<div class={i === 0 ? 'lg:col-span-2' : ''} use:reveal={{ delay: i === 0 ? 0 : 60 }}>
+					<ProjectCard project={item} eager={i < 2} wide={i === 0} />
+				</div>
 			{/each}
 		</div>
 		<div class="relative w-full mt-10 flex items-center justify-center">

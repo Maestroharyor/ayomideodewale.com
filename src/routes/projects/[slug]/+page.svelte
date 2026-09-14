@@ -16,6 +16,21 @@
 	// A section with no body is unwritten. In production it is omitted entirely
 	// rather than shipped as an empty heading.
 	const visibleSections = $derived(study.sections.filter((s) => s.body.length > 0 || dev));
+
+	/**
+	 * Neighbours in the order projects.ts defines, which is the order /projects
+	 * shows. Someone who finishes a study previously had only a back link; this
+	 * gives the next one a route without returning to the index.
+	 *
+	 * Deliberately not wrapping around: the ends of the list are meaningful, since
+	 * the featured work is first.
+	 */
+	const withStudies = projects.filter((project) => project.caseStudy);
+	const neighbours = $derived.by(() => {
+		const index = withStudies.findIndex((project) => project.caseStudy === study.slug);
+		if (index === -1) return { previous: undefined, next: undefined };
+		return { previous: withStudies[index - 1], next: withStudies[index + 1] };
+	});
 </script>
 
 <SeoMeta
@@ -130,4 +145,40 @@
 			</section>
 		{/each}
 	</div>
+
+	{#if neighbours.previous || neighbours.next}
+		<nav
+			aria-label="Other case studies"
+			class="mt-16 grid gap-4 border-t border-gray-200 pt-8 sm:grid-cols-2 dark:border-primary-600"
+		>
+			{#if neighbours.previous}
+				<a
+					href={`/projects/${neighbours.previous.caseStudy}`}
+					class="group rounded-xl border border-gray-200 px-5 py-4 transition duration-300 hover:border-primary-500 sm:col-start-1 dark:border-primary-600 dark:hover:border-warning-500"
+				>
+					<span class="text-xs font-bold tracking-widest uppercase text-gray-500 dark:text-gray-400"
+						>Previous</span
+					>
+					<span class="mt-1 block text-lg font-bold text-primary-500 dark:text-warning-500"
+						>{neighbours.previous.title}</span
+					>
+				</a>
+			{/if}
+
+			{#if neighbours.next}
+				<!-- col-start-2 so a missing previous does not pull next across. -->
+				<a
+					href={`/projects/${neighbours.next.caseStudy}`}
+					class="group rounded-xl border border-gray-200 px-5 py-4 text-right transition duration-300 hover:border-primary-500 sm:col-start-2 dark:border-primary-600 dark:hover:border-warning-500"
+				>
+					<span class="text-xs font-bold tracking-widest uppercase text-gray-500 dark:text-gray-400"
+						>Next</span
+					>
+					<span class="mt-1 block text-lg font-bold text-primary-500 dark:text-warning-500"
+						>{neighbours.next.title}</span
+					>
+				</a>
+			{/if}
+		</nav>
+	{/if}
 </main>

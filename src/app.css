@@ -246,9 +246,58 @@ html.dark ::-webkit-scrollbar-track {
 	animation: float 2s infinite ease-in-out;
 }
 
+/* Scroll reveal, driven by the `reveal` action in src/lib/actions/reveal.ts.
+   The states live here rather than as inline styles so the print rule below can
+   override them: without it, anything the visitor has not scrolled past is still
+   at opacity 0 and prints blank. */
+[data-reveal='pending'] {
+	opacity: 0;
+	transform: translateY(14px);
+}
+
+[data-reveal] {
+	transition:
+		opacity 600ms ease-out,
+		transform 600ms ease-out;
+}
+
+[data-reveal='in'] {
+	opacity: 1;
+	transform: none;
+}
+
+@media print {
+	[data-reveal] {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+	}
+}
+
+/* The availability dot. Tailwind's animate-ping is fine, but the reduced-motion
+   block below needs a selector it can switch off alongside the doodles. */
+@keyframes pulse-ring {
+	75%,
+	100% {
+		transform: scale(2);
+		opacity: 0;
+	}
+}
+
+._pulse {
+	animation: pulse-ring 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-	._floating {
+	._floating,
+	._pulse {
 		animation: none;
+	}
+
+	[data-reveal] {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
 	}
 
 	html,
