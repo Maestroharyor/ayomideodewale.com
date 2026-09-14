@@ -127,3 +127,10 @@ html.dark .resume-doc,
 		widows: 2;
 	}
 }
+
+/* The middot between contact links. Padding rather than literal spaces in the
+   markup, since Svelte collapses whitespace at {#each} boundaries and the space
+   was being dropped from the second link onward. */
+.resume-doc .resume-sep {
+	padding: 0 0.32em;
+}

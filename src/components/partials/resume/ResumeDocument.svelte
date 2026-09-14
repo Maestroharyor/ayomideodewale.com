@@ -4,6 +4,13 @@
 
 	let { doc }: { doc: ResumeDocument } = $props();
 
+	/** Email, site and profiles as one list, so the separator logic is uniform. */
+	const contactLinks = $derived([
+		{ href: `mailto:${doc.contact.email}`, display: doc.contact.email },
+		{ href: `https://${doc.contact.website}`, display: doc.contact.website },
+		...doc.contact.links
+	]);
+
 	// Single-column by design. A CSS grid two-column layout can make Chrome
 	// interleave the columns in the PDF text stream, which scrambles ATS
 	// extraction — the text must come out in reading order.
@@ -16,12 +23,16 @@
 		<p class="mt-1.5 text-[8.2pt] text-[color:var(--resume-muted)]">
 			{doc.contact.phone} · {doc.contact.location}
 		</p>
+		<!--
+			The separator is its own element rather than loose text between an anchor
+			and an {#each}. Svelte collapses whitespace at block boundaries, so the
+			space before the middot was dropped from the second link onward and every
+			generated PDF read "github.com/maestroharyor· linkedin.com/...".
+		-->
 		<p class="text-[8.2pt] text-[color:var(--resume-muted)]">
-			<a href="mailto:{doc.contact.email}">{doc.contact.email}</a>
-			· <a href="https://{doc.contact.website}">{doc.contact.website}</a>
-			{#each doc.contact.links as link (link.href)}
-				· <a href={link.href}>{link.display}</a>
-			{/each}
+			{#each contactLinks as link, i (link.href)}{#if i > 0}<span class="resume-sep">
+						·
+					</span>{/if}<a href={link.href}>{link.display}</a>{/each}
 		</p>
 	</header>
 
