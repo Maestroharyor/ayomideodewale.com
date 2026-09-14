@@ -31,7 +31,7 @@
 
 <SeoMeta title="Get In Touch" {metadescription} path="/contact" />
 
-<main class="mx-auto max-w-[1100px] px-5 py-20 md:py-28">
+<main class="mx-auto max-w-[1200px] px-5 py-20 md:py-28">
 	<div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
 		<div>
 			<h1 class="text-4xl font-bold text-primary-500 md:text-5xl dark:text-warning-500">
@@ -102,10 +102,35 @@
 			</p>
 		</div>
 
-		<div
-			class="rounded-2xl border border-gray-200 bg-white/70 p-6 shadow-sm md:p-8 dark:border-primary-600 dark:bg-primary-900/30"
-		>
-			<ContactForm />
+		<!--
+			Glass needs something behind it to smear. The page is a flat navy with a
+			few particles, so a translucent panel over it just reads as a lighter
+			navy no matter how much blur is applied. These two blurred colour fields
+			sit behind the card and give the backdrop-filter something to work with;
+			without them the effect is invisible.
+
+			aria-hidden and pointer-events-none: they are paint, not content.
+		-->
+		<div class="relative isolate">
+			<div
+				class="pointer-events-none absolute top-0 right-0 -z-10 h-64 w-64 rounded-full bg-primary-500/40 blur-3xl dark:bg-primary-400/25"
+				aria-hidden="true"
+			></div>
+			<div
+				class="pointer-events-none absolute bottom-0 left-0 -z-10 h-72 w-72 rounded-full bg-warning-500/25 blur-3xl dark:bg-warning-500/15"
+				aria-hidden="true"
+			></div>
+
+			<!--
+				The inset white line along the top edge is what sells the material: it
+				reads as light catching a bevel. Without it a translucent panel looks
+				like flat tint rather than a pane sitting above the page.
+			-->
+			<div
+				class="rounded-2xl border border-white/50 bg-white/40 p-6 shadow-2xl shadow-primary-900/10 ring-1 ring-white/40 ring-inset backdrop-blur-2xl backdrop-saturate-150 md:p-8 dark:border-white/15 dark:bg-white/[0.07] dark:shadow-black/30 dark:ring-white/10"
+			>
+				<ContactForm />
+			</div>
 		</div>
 	</div>
 </main>

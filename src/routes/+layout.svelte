@@ -1,3 +1,30 @@
+<script module lang="ts">
+	import { particlesInit } from '@tsparticles/svelte';
+	import { loadSlim } from '@tsparticles/slim';
+
+	/**
+	 * Engine registration, once per module and never on the server.
+	 *
+	 * `loadSlim` registers plugins on the tsParticles singleton, and the library
+	 * refuses to register after anything has called `load()`. The call used to sit
+	 * in the instance script, which runs on every server render, so the first
+	 * render registered and every one after it threw
+	 * "Register plugins can only be done before calling tsParticles.load()".
+	 *
+	 * Module scope rather than instance scope so a hot reload, or any remount of
+	 * the root layout, reuses the same promise instead of registering twice.
+	 * Called from an $effect below, which never runs on the server.
+	 */
+	let enginePromise: Promise<void> | null = null;
+
+	function initParticleEngine(): Promise<void> {
+		enginePromise ??= particlesInit(async (engine) => {
+			await loadSlim(engine);
+		});
+		return enginePromise;
+	}
+</script>
+
 <script lang="ts">
 	import '@fontsource/koho/200.css';
 	import '@fontsource/koho/300.css';
@@ -10,12 +37,12 @@
 	import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 	import { ModeWatcher, mode } from 'mode-watcher';
-	import Particles, { particlesInit } from '@tsparticles/svelte';
-	import { loadSlim } from '@tsparticles/slim';
+	import Particles from '@tsparticles/svelte';
 
 	import Header from '../components/partials/headers/Header.svelte';
 	import Footer from '../components/partials/footers/Footer.svelte';
 	import Toast from '../components/ui/Toast.svelte';
+	import CursorTrail from '../components/ui/CursorTrail.svelte';
 
 	let { children } = $props();
 
@@ -49,13 +76,13 @@
 	});
 
 	// Must resolve before <Particles /> mounts, so we gate the component on it
-	// rather than racing it.
+	// rather than racing it. Inside an $effect so it is client-only.
 	let engineReady = $state(false);
-	void particlesInit(async (engine) => {
-		await loadSlim(engine);
-	})
-		.then(() => (engineReady = true))
-		.catch((err) => console.error('Failed to initialise tsParticles', err));
+	$effect(() => {
+		initParticleEngine()
+			.then(() => (engineReady = true))
+			.catch((err) => console.error('Failed to initialise tsParticles', err));
+	});
 
 	// A plain function, not $derived: @tsparticles/svelte is a legacy-mode component
 	// whose reactive block reloads (and destroys) the container every time the
@@ -141,6 +168,9 @@
 	{/if}
 
 	<Toast />
+	<!-- Inside the non-print branch: a printed resume has no pointer, and the
+	     component's own class is what applies `cursor: none`. -->
+	<CursorTrail />
 	<Header />
 	{@render children()}
 	<Footer />

@@ -24,14 +24,14 @@
 	};
 </script>
 
-<div class="pt-20 relative max-w-[1200px] mx-auto px-5">
+<div class="relative mx-auto max-w-[1200px] px-5 pt-24">
 	<img
 		class="w-30 m-auto mb-2 h-[20px]"
 		src="/doodles/lineBreak.svg"
 		alt="doodle-line"
 		loading="lazy"
 	/>
-	<div class="pt-14 pb-28 flex flex-col justify-center items-center">
+	<div class="flex flex-col items-center justify-center pt-14 pb-24">
 		<div class="max-w-[600px] mx-auto text-center">
 			<!-- Same scale as SectionHeading and HomeSkills; this one was a step larger
 			     at every breakpoint. -->

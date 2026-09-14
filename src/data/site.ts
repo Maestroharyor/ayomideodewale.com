@@ -14,7 +14,20 @@ export const DEFAULT_TITLE = 'Ayomide Odewale — Fullstack Engineer (TypeScript
 export const DEFAULT_DESCRIPTION =
 	'Fullstack engineer with 7+ years across fintech and enterprise platforms. TypeScript, Node, React, Next.js, Go, AWS. Based in Lagos, working remotely with teams worldwide.';
 
+/**
+ * 1200x630, which is what LinkedIn, X, Slack and iMessage expect. The previous
+ * card was 582x371 and was being upscaled roughly 2x wherever the site got
+ * pasted. Regenerate with `node scripts/build-og-image.mjs` after changing the
+ * name, the availability line or the portrait.
+ */
 export const OG_IMAGE = `${SITE_URL}/personal/og_image.png`;
+
+/**
+ * Shown as a badge in the hero. The first thing a recruiter landing cold needs
+ * to know, and it was nowhere on the page. One constant so the site, and later
+ * the resume header, cannot disagree about it.
+ */
+export const AVAILABILITY = 'Open to roles · Lagos, UTC+1';
 
 export const SOCIAL_PROFILES = [
 	'https://github.com/MaestroHaryor',

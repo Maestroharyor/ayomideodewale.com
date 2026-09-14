@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { skillsFull, skillsSummary } from '../../../data/skills';
+	import { reveal } from '../../../lib/actions/reveal';
 
 	import { Icon } from 'svelte-icons-pack';
 	import {
@@ -19,7 +20,7 @@
 	// Solid black marks: legible on white, invisible on the navy. Inverting them
 	// unconditionally was the old bug, which made them vanish in light mode
 	// instead, so the inversion is dark-mode only.
-	const MONOCHROME_MARKS = new Set(['nextjs', 'solidity', 'expressjs', 'prisma']);
+	const MONOCHROME_MARKS = new Set(['nextjs', 'solidity', 'expressjs', 'prisma', 'ansible']);
 
 	// Dark but coloured marks, which inverting would wreck: Django is #004d40,
 	// Postgres #336791, Node a mix down to #2e7d32. All of them read as mud
@@ -106,6 +107,7 @@
 		     is sized off the label, which runs 60-90px, not off the 44px icon. The
 		     old `w-10` cell let "React Native" wrap while its row neighbours did not. -->
 		<ul
+			use:reveal
 			class="grid list-none grid-cols-[repeat(auto-fill,minmax(88px,1fr))] gap-x-4 gap-y-10 sm:grid-cols-[repeat(auto-fill,minmax(104px,1fr))]"
 		>
 			{#each skills as item (item.skill)}

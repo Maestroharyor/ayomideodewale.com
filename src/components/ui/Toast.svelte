@@ -2,10 +2,13 @@
 	import { fly } from 'svelte/transition';
 	import { toasts, type ToastType } from './toast-state.svelte';
 
+	// Tailwind's raw defaults sat outside the site's palette, so a toast looked
+	// like it came from a different product. success-500 and error-500 are the
+	// brand's own; info takes primary, which is the site's voice for neutral.
 	const background: Record<ToastType, string> = {
-		success: 'bg-green-700 text-white',
-		error: 'bg-red-700 text-white',
-		info: 'bg-blue-700 text-white'
+		success: 'bg-success-700 text-white',
+		error: 'bg-error-700 text-white',
+		info: 'bg-primary-500 text-white'
 	};
 </script>
 

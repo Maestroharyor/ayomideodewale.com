@@ -246,9 +246,58 @@ html.dark ::-webkit-scrollbar-track {
 	animation: float 2s infinite ease-in-out;
 }
 
+/* Scroll reveal, driven by the `reveal` action in src/lib/actions/reveal.ts.
+   The states live here rather than as inline styles so the print rule below can
+   override them: without it, anything the visitor has not scrolled past is still
+   at opacity 0 and prints blank. */
+[data-reveal='pending'] {
+	opacity: 0;
+	transform: translateY(14px);
+}
+
+[data-reveal] {
+	transition:
+		opacity 600ms ease-out,
+		transform 600ms ease-out;
+}
+
+[data-reveal='in'] {
+	opacity: 1;
+	transform: none;
+}
+
+@media print {
+	[data-reveal] {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+	}
+}
+
+/* The availability dot. Tailwind's animate-ping is fine, but the reduced-motion
+   block below needs a selector it can switch off alongside the doodles. */
+@keyframes pulse-ring {
+	75%,
+	100% {
+		transform: scale(2);
+		opacity: 0;
+	}
+}
+
+._pulse {
+	animation: pulse-ring 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-	._floating {
+	._floating,
+	._pulse {
 		animation: none;
+	}
+
+	[data-reveal] {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
 	}
 
 	html,
@@ -276,4 +325,119 @@ html.dark .profile__details a:hover {
 
 .profile__details p {
 	margin-bottom: 20px;
+}
+
+/* Custom cursor, mounted by CursorTrail.svelte.
+   `has-cursor-trail` is added by that component once it decides to run, so a
+   visitor without JS, on a touch device, or with reduced motion set never loses
+   their pointer to a `cursor: none` that nothing replaces. */
+.has-cursor-trail,
+.has-cursor-trail a,
+.has-cursor-trail button,
+.has-cursor-trail [role='button'],
+.has-cursor-trail label,
+.has-cursor-trail summary {
+	cursor: none;
+}
+
+/* Text entry keeps its I-beam: the caret position is real information, and a dot
+   hovering over a textarea does not convey it. */
+.has-cursor-trail input,
+.has-cursor-trail textarea,
+.has-cursor-trail [contenteditable='true'] {
+	cursor: text;
+}
+
+.cursor-layer {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	pointer-events: none;
+}
+
+.cursor-layer > * {
+	position: fixed;
+	top: 0;
+	left: 0;
+	border-radius: 9999px;
+	will-change: translate, scale;
+}
+
+/* Centring is done with negative margins, NOT transform: translate(-50%, -50%).
+   The individual transform properties apply in the order translate, rotate,
+   scale, and only then the `transform` property — so a -50% shift written there
+   is applied after scale and multiplied by it. At rest that looks right; on
+   hover the ring grew to 1.9 and its centring offset grew with it, pulling it
+   up and left of the pointer. Margins are layout, so scale cannot touch them. */
+.cursor-dot {
+	margin: -3.5px 0 0 -3.5px;
+}
+
+.cursor-ring {
+	margin: -15px 0 0 -15px;
+}
+
+.cursor-dot {
+	width: 7px;
+	height: 7px;
+	background: var(--primary-accent-color);
+	scale: 1;
+	transition: scale 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cursor-dot.is-pressed {
+	scale: 0.55;
+}
+
+.cursor-ring {
+	width: 30px;
+	height: 30px;
+	border: 1.5px solid var(--primary-color);
+	opacity: 0.65;
+	scale: 1;
+	/* Slight overshoot on the way out, so growing over a link reads as a response
+	   rather than a jump. */
+	transition:
+		scale 260ms cubic-bezier(0.34, 1.56, 0.64, 1),
+		opacity 200ms ease-out,
+		border-color 200ms ease-out,
+		background-color 200ms ease-out;
+}
+
+.cursor-ring.is-over {
+	scale: 1.9;
+	opacity: 0.9;
+	border-color: var(--primary-accent-color);
+	background: color-mix(in srgb, var(--primary-accent-color) 12%, transparent);
+}
+
+.cursor-ring.is-pressed {
+	scale: 0.8;
+}
+
+/* Pressing while over a link should still shrink from the enlarged size, not
+   from the resting one. */
+.cursor-ring.is-over.is-pressed {
+	scale: 1.55;
+}
+
+.cursor-tail {
+	background: var(--primary-color);
+}
+
+html.dark .cursor-dot {
+	background: var(--warning);
+}
+
+html.dark .cursor-ring {
+	border-color: var(--warning);
+}
+
+html.dark .cursor-ring.is-over {
+	border-color: var(--warning);
+	background: color-mix(in srgb, var(--warning) 14%, transparent);
+}
+
+html.dark .cursor-tail {
+	background: var(--warning);
 }

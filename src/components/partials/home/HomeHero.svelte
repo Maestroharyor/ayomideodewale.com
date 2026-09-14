@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { AVAILABILITY } from '../../../data/site';
 	import { Icon } from 'svelte-icons-pack';
 	import {
 		FaSolidCode as FaCode,
@@ -23,6 +24,22 @@
 <div
 	class="relative min-h-[100vh] w-full overflow-x-hidden pt-20 pb-52 px-5 m-auto flex justify-center text-center flex-col items-center z-1 max-w-[1200px]"
 >
+	<!--
+		The availability line, first thing in the reading order after the header.
+		A recruiter landing cold had no way to tell whether I was looking.
+	-->
+	<p
+		class="mb-6 inline-flex items-center gap-2 rounded-full border border-primary-200 bg-primary-50/70 px-4 py-1.5 text-sm font-medium text-primary-700 dark:border-primary-600 dark:bg-primary-900/40 dark:text-gray-200"
+	>
+		<span class="relative flex h-2 w-2">
+			<!-- The ping is decorative and stops under prefers-reduced-motion via app.css. -->
+			<span class="_pulse absolute inline-flex h-full w-full rounded-full bg-success-500 opacity-75"
+			></span>
+			<span class="relative inline-flex h-2 w-2 rounded-full bg-success-500"></span>
+		</span>
+		{AVAILABILITY}
+	</p>
+
 	<p class="text-xl mb-5">Hello, I&apos;m Ayomide (Maestro).</p>
 	<h1
 		class="heroTitle relative mb-10 inline-block w-auto max-w-2xl text-[1.9rem] font-bold tracking-tighter leading-snug sm:max-w-4xl sm:text-[clamp(1.5rem,6.2vw,4rem)] dark:text-white"
@@ -130,11 +147,23 @@
           duration={500}
           aria-label="More"
         > -->
-	<a
-		href="#about"
-		class="border-2 rounded-full px-8 py-2 border-primary-500 dark:border-white text-lg font-medium text-primary-500 hover:text-dark-theme hover:border-dark-theme transition duration-400 ease-in-out dark:text-gray-200 dark:hover:text-warning-500 dark:hover:border-warning-500"
-	>
-		Tell me more
-	</a>
+	<!--
+		Two calls to action. The resume was reachable only from the nav, which is
+		the thing a recruiter opens first and the thing the page never offered.
+	-->
+	<div class="flex flex-wrap items-center justify-center gap-4">
+		<a
+			href="#about"
+			class="rounded-full border-2 border-primary-500 px-8 py-2 text-lg font-medium text-primary-500 transition duration-300 ease-in-out hover:border-dark-theme hover:text-dark-theme dark:border-white dark:text-gray-200 dark:hover:border-warning-500 dark:hover:text-warning-500"
+		>
+			Tell me more
+		</a>
+		<a
+			href="/resume"
+			class="rounded-full bg-primary-500 px-8 py-2 text-lg font-medium text-white transition duration-300 ease-in-out hover:bg-primary-600 dark:bg-warning-500 dark:text-primary-900 dark:hover:bg-warning-hov"
+		>
+			See my resume
+		</a>
+	</div>
 	<!-- </ScrollLink> -->
 </div>

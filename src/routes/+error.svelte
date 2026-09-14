@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import SeoMeta from '../components/elements/SEOMeta.svelte';
+	import NotFound from '../components/illustrations/NotFound.svelte';
+	import SomethingBroke from '../components/illustrations/SomethingBroke.svelte';
 	import { projects } from '../data/projects';
 
 	const status = $derived(page.status);
@@ -32,8 +34,20 @@
 />
 
 <main class="mx-auto flex max-w-[760px] flex-col items-center px-5 py-24 text-center md:py-32">
+	<!--
+		Inline rather than an <img>: these are drawn in currentColor so they follow
+		the theme, which a file-loaded SVG cannot do.
+	-->
+	<div class="text-primary-500 dark:text-warning-500">
+		{#if isNotFound}
+			<NotFound size={220} />
+		{:else}
+			<SomethingBroke size={220} />
+		{/if}
+	</div>
+
 	<p
-		class="text-[88px] leading-none font-bold tracking-tighter text-primary-500 md:text-[120px] dark:text-warning-500"
+		class="mt-6 text-[64px] leading-none font-bold tracking-tighter text-primary-500 md:text-[84px] dark:text-warning-500"
 	>
 		{status}
 	</p>

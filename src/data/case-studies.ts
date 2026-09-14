@@ -81,7 +81,7 @@ export const caseStudies: CaseStudy[] = [
 			{
 				heading: 'What I built',
 				body: [
-					'A directory whose surface area is generated rather than authored: nested routes produce a page per country, per location and per moving company, with a sitemap index assembling the lot and structured data on every company page.',
+					'A directory whose surface area is generated rather than authored: nested routes produce a page per country, per location and per moving company, with structured data on every company page.',
 					'Search resolves what someone types against a locations endpoint rather than a geocoder, so "Oxford", "OX1" and "Oxfordshire" all settle onto a canonical location slug. That slug is what filters the movers query, alongside rating and price band.',
 					'The commercial signal is contact attribution: every phone, email, maps and social click is recorded against the mover and the source it came from, which is what makes the directory measurable rather than decorative.'
 				]
@@ -96,12 +96,10 @@ export const caseStudies: CaseStudy[] = [
 			{
 				heading: 'Where it is now',
 				body: [
-					'Live, with real movers listed and the generated location and company pages indexed.'
-				],
-				todo: [
-					'The quote form and the mover registration flow are currently front-end stubs — both log their payload and show a success screen without submitting anywhere. Either wire them to the API or take them down before pointing recruiters at this page, because the site presents both as working.',
-					'Mover "verified" status exists as a flag on the data but has no verification workflow behind it in this repo. Worth confirming what verifies a mover in practice before the word is used in copy.',
-					'The testimonials on the live site read as seed content (stock-shaped names, generic copy). Replace with real ones or remove the section.'
+					'Live, with real movers listed and the generated location and company pages serving: a country page, a page per location and a page per company all return and carry their structured data.',
+					"Contact attribution is the part that is genuinely wired. Every phone, email, maps and social click posts to that mover's contact-info endpoint with the button that produced it and the surface it came from, which is what makes the directory measurable.",
+					'Two flows are presentation ahead of the API. The quote form and the mover registration flow both validate, show a success state and log their payload without sending it anywhere. The registration flow even fakes a delay before succeeding. They look finished and are not, which is worth saying plainly rather than letting the page imply otherwise.',
+					'Three things follow from that and are the next work rather than finished work. The sitemap at /sitemap/sitemap.xml returns an empty urlset and robots.txt carries no Sitemap line, so the generated pages are reachable but not being handed to crawlers — on a site whose whole argument is programmatic SEO, that is the first thing to fix. The verified badge on a mover is a field on the record rather than the output of any verification process. And the testimonials are placeholder copy from the build, not real reviews.'
 				]
 			}
 		]
