@@ -25,12 +25,19 @@
 >
 	<p class="text-xl mb-5">Hello, I&apos;m Ayomide (Maestro).</p>
 	<h1
-		class="heroTitle inline-block max-w-2xl lg:max-w-4xl w-auto relative text-[clamp(1.5rem,6.2vw,4rem)] tracking-tighter leading-snug mb-10 font-bold dark:text-white"
+		class="heroTitle relative mb-10 inline-block w-auto max-w-2xl text-[1.9rem] font-bold tracking-tighter leading-snug sm:text-[clamp(1.5rem,6.2vw,4rem)] lg:max-w-4xl dark:text-white"
 	>
-		<!-- The whole clause holds together, so the type is sized off the viewport
-		     rather than in fixed breakpoint steps: at text-7xl it measured 987px
-		     inside an 896px container and was silently clipped by overflow-x-hidden. -->
-		<span class="whitespace-nowrap"
+		<!-- From sm up the clause holds together on one line, so the type is sized
+		     off the viewport rather than in fixed breakpoint steps: at text-7xl it
+		     measured 987px inside an 896px container and was silently clipped by
+		     overflow-x-hidden. The 4rem cap is what keeps that line inside the
+		     container at full width.
+
+		     Below sm that cap works against us: sizing 37 characters to fit one
+		     phone-width line drove the headline down to ~24px, smaller than the
+		     body copy under it. So the clause wraps there and takes a fixed size
+		     instead, which is the whole point of a hero line. -->
+		<span class="sm:whitespace-nowrap"
 			>I build and ship <span class="text-primary-500 dark:text-warning-500"
 				>fullstack solutions</span
 			>,</span
