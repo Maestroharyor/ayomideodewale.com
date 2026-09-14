@@ -1,7 +1,18 @@
 import { error } from '@sveltejs/kit';
 import { projects } from '../../../../data/projects';
 import { tagSlug } from '../../../../utils';
-import type { PageLoad } from './$types';
+import type { EntryGenerator, PageLoad } from './$types';
+
+/**
+ * Every tag that actually has projects behind it. Without this the prerenderer
+ * cannot know which [tag] values exist, and the route would have to fall back to
+ * a serverless function. These pages are noindex, but they are still linked from
+ * every project card, so they should be as fast as the rest of the site.
+ */
+export const entries: EntryGenerator = () => {
+	const slugs = new Set(projects.flatMap((project) => project.tags).map(tagSlug));
+	return [...slugs].map((tag) => ({ tag }));
+};
 
 export const load = (({ params }) => {
 	const slug = params.tag;

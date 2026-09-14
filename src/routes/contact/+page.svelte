@@ -11,11 +11,24 @@
 	import BraandlyIcon from '../../components/elements/BraandlyIcon.svelte';
 	import ContactForm from '../../components/elements/ContactForm.svelte';
 	import SeoMeta from '../../components/elements/SEOMeta.svelte';
+	import { breadcrumbNode, graph, webPageNode, webSiteNode } from '../../lib/schema';
+	import { absoluteUrl } from '../../data/site';
 	import { socialMenu } from '../../data/menu';
 	import { resumeContact } from '../../data/resume/shared';
 
 	const metadescription =
 		'Get in touch with Ayomide Odewale, a fullstack engineer based in Lagos working remotely with teams worldwide. Questions, proposals or just hello.';
+
+	const title = 'Get In Touch';
+
+	const schema = graph([
+		webSiteNode(),
+		webPageNode({ path: '/contact', title, description: metadescription }),
+		breadcrumbNode([
+			{ name: 'Home', path: '/' },
+			{ name: 'Get in Touch', path: '/contact' }
+		])
+	]);
 
 	// The form is the primary path, but a recruiter with a shortlist open wants to
 	// paste an address into their own client. Both are offered rather than one.
@@ -29,9 +42,16 @@
 	};
 </script>
 
-<SeoMeta title="Get In Touch" {metadescription} path="/contact" />
+<SeoMeta
+	{title}
+	{metadescription}
+	path="/contact"
+	image={absoluteUrl('/og/contact.png')}
+	imageAlt="Contact Ayomide Odewale"
+	{schema}
+/>
 
-<main class="mx-auto max-w-[1200px] px-5 py-20 md:py-28">
+<main id="main" tabindex="-1" class="mx-auto max-w-[1200px] px-5 py-20 md:py-28">
 	<div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
 		<div>
 			<h1 class="text-4xl font-bold text-primary-500 md:text-5xl dark:text-warning-500">

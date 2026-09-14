@@ -1,16 +1,41 @@
-<script>
+<script lang="ts">
 	import PageHeading from '../../components/elements/PageHeading.svelte';
 	import SeoMeta from '../../components/elements/SEOMeta.svelte';
 	import ProjectsSection from '../../components/partials/projects/ProjectsSection.svelte';
 	import { projects } from '../../data/projects';
+	import { caseStudies } from '../../data/case-studies';
+	import { breadcrumbNode, graph, itemListNode, webPageNode, webSiteNode } from '../../lib/schema';
+	import { absoluteUrl } from '../../data/site';
 
+	// 155 characters. The previous one ran to 208 and was cut mid-sentence in
+	// results, and the half that survived was 'TopNotch JavaScript Powered
+	// Software', which claims rather than describes.
 	const metadescription =
-		'I am a Fullstack Software and Web Developer specialized in building TopNotch JavaScript Powered Software with extensive knowledge in other relevant skills and tech stacks. Here are some of my dev projects.';
+		'Fullstack projects by Ayomide Odewale, with a written case study behind each one. TypeScript, Go, React, Next.js, Node, Django, AWS and Terraform.';
+
+	const title = 'Some Recent Dev Projects';
+
+	const schema = graph([
+		webSiteNode(),
+		webPageNode({ path: '/projects', title, description: metadescription }),
+		breadcrumbNode([
+			{ name: 'Home', path: '/' },
+			{ name: 'Projects', path: '/projects' }
+		]),
+		itemListNode('/projects', caseStudies)
+	]);
 </script>
 
-<SeoMeta title="Some Recent Dev Projects" {metadescription} path="/projects" />
+<SeoMeta
+	{title}
+	{metadescription}
+	path="/projects"
+	image={absoluteUrl('/og/projects.png')}
+	imageAlt="Projects by Ayomide Odewale"
+	{schema}
+/>
 
-<main>
+<main id="main" tabindex="-1">
 	<PageHeading
 		title="Some Recent Dev Projects"
 		description="Here are some of the cool and amazing projects, apps and software I've built with various tech stacks."

@@ -33,7 +33,11 @@
 	noindex
 />
 
-<main class="mx-auto flex max-w-[760px] flex-col items-center px-5 py-24 text-center md:py-32">
+<main
+	id="main"
+	tabindex="-1"
+	class="mx-auto flex max-w-[760px] flex-col items-center px-5 py-24 text-center md:py-32"
+>
 	<!--
 		Inline rather than an <img>: these are drawn in currentColor so they follow
 		the theme, which a file-loaded SVG cannot do.

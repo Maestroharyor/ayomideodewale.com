@@ -26,12 +26,17 @@
 </script>
 
 <script lang="ts">
-	import '@fontsource/koho/200.css';
-	import '@fontsource/koho/300.css';
+	// 200 and 300 were imported and used by nothing: a grep across src finds zero
+	// font-thin, font-extralight and font-light. Each was a render-blocking
+	// stylesheet and a woff2 fetch for a weight that never painted.
 	import '@fontsource/koho/400.css';
 	import '@fontsource/koho/500.css';
 	import '@fontsource/koho/600.css';
 	import '@fontsource/koho/700.css';
+	// ?url so Vite resolves the hashed build path; preloaded in <svelte:head>
+	// below because the LCP element on / is the hero <h1>, which is font-bold, so
+	// this file sits directly on the LCP path.
+	import koho700 from '@fontsource/koho/files/koho-latin-700-normal.woff2?url';
 	import '../app.css';
 
 	import { afterNavigate } from '$app/navigation';
@@ -151,6 +156,10 @@
 	});
 </script>
 
+<svelte:head>
+	<link rel="preload" href={koho700} as="font" type="font/woff2" crossorigin="anonymous" />
+</svelte:head>
+
 {#if isPrintRoute}
 	{@render children()}
 {:else}
@@ -166,6 +175,22 @@
 			<Particles id="tsparticles" options={buildParticlesConfig(mode.current === 'light')} />
 		{/key}
 	{/if}
+
+	<!--
+		First focusable element on the page, which is the whole point: anything
+		focusable before it defeats it. With a sticky header and a full-viewport
+		hero, a keyboard visitor previously had to tab through the entire nav on
+		every route before reaching the content.
+
+		Hidden with sr-only rather than display:none, which would take it out of
+		the tab order along with everything else.
+	-->
+	<a
+		href="#main"
+		class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:bg-primary-500 focus:px-6 focus:py-3 focus:font-medium focus:text-white focus:outline-2 focus:outline-offset-2 focus:outline-warning-500"
+	>
+		Skip to main content
+	</a>
 
 	<Toast />
 	<!-- Inside the non-print branch: a printed resume has no pointer, and the

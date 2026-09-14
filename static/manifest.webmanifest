@@ -1,0 +1,27 @@
+{
+	"name": "Ayomide Odewale",
+	"short_name": "Ayomide",
+	"description": "Fullstack engineer. TypeScript, Go, AWS.",
+	"start_url": "/",
+	"display": "browser",
+	"background_color": "#20234d",
+	"theme_color": "#20234d",
+	"icons": [
+		{
+			"src": "/icon-192.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		},
+		{
+			"src": "/icon-512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		},
+		{
+			"src": "/icon-mask.png",
+			"type": "image/png",
+			"sizes": "512x512",
+			"purpose": "maskable"
+		}
+	]
+}

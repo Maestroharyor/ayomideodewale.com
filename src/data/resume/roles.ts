@@ -126,7 +126,7 @@ export const resumeRoles: ResumeRole[] = [
 			show: true,
 			order: 2,
 			description:
-				'Led User Interface design and frontend development for the internal platform, and built the responsive component set used across the product.',
+				'Designed and built responsive component and UI sets used across the product and related platforms.',
 			stacks: ['Figma', 'JavaScript', 'VueJS', 'SASS']
 		}
 	},

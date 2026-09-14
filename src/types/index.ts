@@ -43,7 +43,10 @@ export interface Testimonial {
 
 export interface Design {
 	label: string;
+	/** 1000px-wide WebP: 2x of the 500px box the card renders it in. */
 	image: string;
+	/** 500px-wide WebP for 1x displays. Both built by scripts/build-design-images.mjs. */
+	imageSmall: string;
 	link?: string;
 	desc?: string;
 }

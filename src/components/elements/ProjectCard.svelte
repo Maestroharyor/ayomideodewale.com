@@ -11,8 +11,16 @@
 	let {
 		project,
 		eager = false,
-		wide = false
-	}: { project: Project; eager?: boolean; wide?: boolean } = $props();
+		wide = false,
+		headingLevel = 3
+	}: { project: Project; eager?: boolean; wide?: boolean; headingLevel?: 2 | 3 } = $props();
+
+	/**
+	 * The card sits under a section <h2> on the home page but directly under the
+	 * page <h1> on /projects and the tag pages, where a fixed h3 skipped a level.
+	 * The listing sections pass 2; the home page keeps the default.
+	 */
+	const heading = $derived(`h${headingLevel}` as 'h2' | 'h3');
 </script>
 
 <div
@@ -35,33 +43,6 @@
 			height="508"
 		/>
 	</div>
-	<!-- {#if project.inDevelopment}
-		<div
-			class="w-full relative rounded-xl border-gray-400 dark:border-gray-600 border-2 p-2 transition hover:scale-95 hover:rotate-6 hover:-translate-y-2 hover:border-primary-hov dark:hover:border-warning-500"
-		>
-			<img
-				class="w-[300px] h-auto hover:opacity-75 transition rounded-md"
-				src={project.img}
-				alt={project.title || ''}
-				width={500}
-				height={300}
-			/>
-		</div>
-	{:else}
-		<a
-			href={project.link || project.github}
-			target="_blank"
-			class="w-full relative rounded-xl border-gray-400 dark:border-gray-600 border-2 p-2 transition hover:scale-95 hover:rotate-6 hover:-translate-y-2 hover:border-primary-hov dark:hover:border-warning-500"
-			rel="noreferrer"
-			aria-label="project link"
-		>
-			<img
-				class="w-[300px] h-auto hover:opacity-75 transition rounded-md"
-				src={project.img}
-				alt={project.title || ''}
-			/>
-		</a>
-	{/if} -->
 
 	<div class="w-full flex-1">
 		<div class="flex projects-center justify-between mb-1">
@@ -69,10 +50,32 @@
 				href={project.caseStudy ? `/projects/${project.caseStudy}` : project.link || project.github}
 				target={project.caseStudy ? undefined : '_blank'}
 				rel={project.caseStudy ? undefined : 'noreferrer'}
-				aria-label={project.caseStudy ? `Read the ${project.title} case study` : 'Project link'}
 				class="after:absolute after:inset-0 after:rounded-[16px] after:content-['']"
 			>
-				<h3 class="text-primary-500 dark:text-warning-500 text-xl font-bold">{project.title}</h3>
+				<!--
+					The accessible name is the visible title plus a hidden suffix, not an
+					aria-label replacing it. An aria-label that does not contain the
+					visible text fails WCAG 2.5.3 Label in Name, breaks voice control
+					("click MosesTab" would no longer match), is skipped by browser
+					translation, and is ignored entirely by Edge Read Aloud, Chrome
+					reader-mode TTS and Safari Speech.
+				-->
+				<svelte:element
+					this={heading}
+					class="text-primary-500 dark:text-warning-500 text-xl font-bold"
+				>
+					{project.title}
+				</svelte:element>
+				<!--
+					Inside the link but outside the heading. Within the heading it also
+					changed the heading's own text, so screen-reader heading navigation
+					and the document outline read "Braandly — read the case study" for
+					all 18 cards. Out here the link's accessible name is identical and
+					the outline stays clean.
+				-->
+				<span class="sr-only"
+					>{project.caseStudy ? ' — read the case study' : ' — open the project'}</span
+				>
 			</a>
 
 			<div
@@ -101,9 +104,8 @@
 					<a
 						href={`/projects/tag/${tagSlug(tag)}`}
 						class="relative z-10 block cursor-pointer rounded-lg bg-primary-500 px-2 py-1 text-sm text-white hover:text-white hover:opacity-75 dark:bg-primary-hov"
-						aria-label="Project Category link"
 					>
-						{tag}
+						{tag}<span class="sr-only"> — see all projects using it</span>
 					</a>
 				</li>
 			{/each}

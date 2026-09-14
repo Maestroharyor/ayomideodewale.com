@@ -28,4 +28,12 @@ export interface CaseStudy {
 	stats: CaseStudyStat[];
 	sections: CaseStudySection[];
 	metadescription: string;
+	/**
+	 * ISO date the study was last meaningfully revised, for `dateModified` in
+	 * structured data and `<lastmod>` in the sitemap. Optional and hand-set: a
+	 * date derived from the build would claim every study changed on every
+	 * deploy, which is a signal crawlers learn to discount. Studies without one
+	 * simply omit the property.
+	 */
+	updated?: string;
 }

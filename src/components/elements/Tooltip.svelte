@@ -8,9 +8,19 @@
 	let { tooltip = '', children }: { tooltip?: string; children?: Snippet } = $props();
 </script>
 
-<button data-tooltip={tooltip}>
+<!--
+	A span, not a button. This wrapped its children in a <button>, and the only
+	place it is used wraps a link — so every social icon was an <a> nested inside
+	a <button>: invalid HTML, two interactive controls where there is one action,
+	and a button with no accessible name in the tab order.
+
+	The tooltip itself is a CSS ::before on the data-attribute, so it is purely
+	visual and is never announced. That is correct here: it repeats the link's own
+	accessible name, and announcing it twice would be worse than not at all.
+-->
+<span data-tooltip={tooltip}>
 	{@render children?.()}
-</button>
+</span>
 
 <svelte:head>
 	<style>
