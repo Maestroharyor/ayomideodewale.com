@@ -17,12 +17,27 @@
 	const detailLabels = ['Shortest', 'Short', 'Mid', 'Long', 'Longest'];
 
 	/**
-	 * The portrait tracks the detail control, so picking more detail visibly does
-	 * something on both sides of the row rather than only growing the text.
-	 * Ranges 430px to 670px; the source is 800x1270, so even the tallest crop is
-	 * well inside the image and never upscales.
+	 * The portrait answers to the detail control in shape, and to the prose in
+	 * height.
+	 *
+	 * At the two shortest settings the bio is a couple of lines, and any full
+	 * portrait beside it leaves most of the row empty however it is sized. Those
+	 * get the circular crop at avatar size, which is what two lines of text want
+	 * next to them, centred against it rather than hung from its top edge: the
+	 * circle is taller than the prose at those levels, so aligning tops leaves the
+	 * text floating at the top of a much taller cell.
+	 *
+	 * Beyond that it takes a 3:4 crop, which lands within a few pixels of the
+	 * prose height at level three and stays shorter than it above that.
+	 *
+	 * It is a ratio rather than `h-full` because `h-full` never resolved: the grid
+	 * row is sized by its content and the image is that content, so the height was
+	 * circular and the image fell back to its natural 1:1.59, rendering 576px tall
+	 * against 469px of text. Sticky covers the longer levels, where the text is
+	 * taller than the image by design.
 	 */
-	const photoHeight = $derived(370 + value * 60);
+	const isCompact = $derived(value <= 2);
+	const avatarSize = $derived(180 + value * 50);
 </script>
 
 <div
@@ -34,10 +49,14 @@
 		<SectionHeading title="So, who am I?" />
 	</div>
 
-	<div
-		class="mx-auto grid w-full max-w-[1200px] grid-cols-1 items-start justify-between gap-5 md:grid-cols-12 md:gap-8 lg:gap-14"
-	>
-		<div class="md:col-span-8">
+	<!--
+		The control sits above the row, not inside the text column. While it was the
+		first child of that column, `items-start` aligned the portrait's top edge to
+		the control rather than to the prose beside it. `md:w-2/3` keeps it over the
+		text column, matching the 8-of-12 split below.
+	-->
+	<div class="mx-auto w-full max-w-[1200px]">
+		<div class="md:w-2/3">
 			<div class="profile__selector relative mx-auto mb-10 w-full pb-10 md:max-w-[300px]">
 				<p
 					id="profile-detail-label"
@@ -65,7 +84,15 @@
 				<p class="absolute bottom-0 left-0 tracking-widest">Shortest</p>
 				<p class="absolute right-0 bottom-0 tracking-widest">Longest</p>
 			</div>
+		</div>
+	</div>
 
+	<div
+		class={`mx-auto grid w-full max-w-[1200px] grid-cols-1 justify-between gap-5 md:grid-cols-12 md:gap-8 lg:gap-14 ${
+			isCompact ? 'md:items-center' : 'md:items-stretch'
+		}`}
+	>
+		<div class="md:col-span-8">
 			<div
 				class="text-xl font-medium first-letter:text-6xl first-letter:font-bold leading-[45px] profile__details"
 			>
@@ -97,18 +124,32 @@
 			column. object-top keeps the face in frame as the crop height changes.
 		-->
 		<div class="hidden md:col-span-4 md:block">
-			<div class="md:sticky md:top-28">
-				<img
-					alt="Ayomide Odewale"
-					src="/personal/ayomide-odewale.webp"
-					width="800"
-					height="1270"
-					loading="lazy"
-					decoding="async"
-					style={`height: ${photoHeight}px`}
-					class="w-full rounded-2xl object-cover object-top shadow-lg ring-1 ring-gray-200 transition-[height] duration-500 ease-out motion-reduce:transition-none dark:ring-primary-600"
-				/>
-			</div>
+			{#if isCompact}
+				<div class="md:sticky md:top-28">
+					<img
+						alt="Ayomide Odewale"
+						src="/personal/profile.webp"
+						width="1024"
+						height="1024"
+						loading="lazy"
+						decoding="async"
+						style={`width: ${avatarSize}px; height: ${avatarSize}px`}
+						class="mx-auto rounded-full object-cover shadow-lg transition-[width,height] duration-500 ease-out motion-reduce:transition-none"
+					/>
+				</div>
+			{:else}
+				<div class="md:sticky md:top-28">
+					<img
+						alt="Ayomide Odewale"
+						src="/personal/ayomide-odewale.webp"
+						width="800"
+						height="1270"
+						loading="lazy"
+						decoding="async"
+						class="aspect-[3/4] w-full rounded-2xl object-cover object-top shadow-lg ring-1 ring-gray-200 dark:ring-primary-600"
+					/>
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>
