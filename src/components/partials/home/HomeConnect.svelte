@@ -33,7 +33,11 @@
 	/>
 	<div class="pt-14 pb-28 flex flex-col justify-center items-center">
 		<div class="max-w-[600px] mx-auto text-center">
-			<h2 class="text-4xl md:text-5xl font-bold mb-3 text-primary-500 dark:text-warning-500">
+			<!-- Same scale as SectionHeading and HomeSkills; this one was a step larger
+			     at every breakpoint. -->
+			<h2
+				class="mb-3 text-3xl font-bold text-primary-500 sm:text-4xl lg:text-5xl dark:text-warning-500"
+			>
 				Connect With Me
 			</h2>
 			<p class="text-xl mb-8">
