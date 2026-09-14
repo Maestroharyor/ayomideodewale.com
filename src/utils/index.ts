@@ -83,3 +83,25 @@ export function displayName(name: string): string {
 				: word
 		);
 }
+
+/**
+ * Entity-encodes every character, so the value never appears as a plain string
+ * in the HTML source.
+ *
+ * The email and phone number render on the home page, /contact and /resume, and
+ * /resume is prerendered and in the sitemap — so both were sitting in the markup
+ * for any scraper running a regex over it.
+ *
+ * Entities rather than JavaScript assembly because /resume and /r/[variant] set
+ * `csr = false`: there is no client bundle on the pages that render the resume,
+ * and a JS-assembled address would come out blank there and in the generated
+ * PDF. The browser decodes entities before first paint, so the text reads,
+ * copies and prints normally.
+ *
+ * Honest about the threat model: this defeats the regex harvesters, not a
+ * scraper that parses the DOM or decodes entities. That is the trade being made
+ * to keep the address visible and copyable.
+ */
+export function obfuscate(value: string): string {
+	return [...value].map((char) => `&#${char.codePointAt(0)};`).join('');
+}

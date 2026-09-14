@@ -9,7 +9,7 @@
 	import { graph, personNode, webPageNode, webSiteNode } from '../lib/schema';
 	import { resumeRoles } from '../data/resume/roles';
 	import { resumeEducation } from '../data/resume/shared';
-	import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, OG_IMAGE } from '../data/site';
+	import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, OG_IMAGE, SOCIAL_DESCRIPTION } from '../data/site';
 
 	/**
 	 * Only the roles this page actually shows.
@@ -37,7 +37,7 @@
 	]);
 </script>
 
-<SeoMeta path="/" ogType="profile" {schema} />
+<SeoMeta path="/" ogType="profile" socialDescription={SOCIAL_DESCRIPTION} {schema} />
 <main id="main" tabindex="-1" class="scroll-smooth">
 	<HomeHero />
 	<HomeAbout />

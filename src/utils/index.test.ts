@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { displayName } from './index';
+import { displayName, obfuscate } from './index';
 
 /**
  * Lives here rather than in the email suite because the function formats a
@@ -77,5 +77,34 @@ describe('displayName', () => {
 		const ctrl = String.fromCharCode(1, 2, 3);
 		expect(displayName(`ben${ctrl}smith`)).toBe('Ben Smith');
 		expect(displayName(String.fromCharCode(1, 2, 3, 4, 5))).toBe('');
+	});
+});
+
+describe('obfuscate', () => {
+	it('leaves no plain-text run of the original in the output', () => {
+		const email = 'ayomide.odewale1@gmail.com';
+		const encoded = obfuscate(email);
+		expect(encoded).not.toContain('@');
+		expect(encoded).not.toContain('gmail');
+		expect(encoded).not.toContain('ayomide');
+	});
+
+	it('decodes back to exactly the input', () => {
+		for (const value of ['ayomide.odewale1@gmail.com', '+234 903 245 4463', 'a+b@c.dev']) {
+			const decoded = obfuscate(value).replace(/&#(\d+);/g, (_, code) =>
+				String.fromCodePoint(Number(code))
+			);
+			expect(decoded).toBe(value);
+		}
+	});
+
+	it('encodes the characters a harvester keys on', () => {
+		// '@' is 64 and '+' is 43; a regex looking for either finds neither.
+		expect(obfuscate('@')).toBe('&#64;');
+		expect(obfuscate('+')).toBe('&#43;');
+	});
+
+	it('handles an empty string', () => {
+		expect(obfuscate('')).toBe('');
 	});
 });
