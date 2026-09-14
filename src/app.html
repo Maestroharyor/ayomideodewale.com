@@ -16,8 +16,14 @@
 		<link rel="icon" href="%sveltekit.assets%/icon.svg" type="image/svg+xml" />
 		<link rel="apple-touch-icon" href="%sveltekit.assets%/apple-touch-icon.png" />
 		<link rel="manifest" href="%sveltekit.assets%/manifest.webmanifest" />
-		<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
-		<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#20234d" />
+		<!--
+			One value, not a prefers-color-scheme pair. The theme here is dark by
+			default regardless of the OS (see the script below), so keying the
+			browser chrome on the OS gave a light-mode visitor a dark page with white
+			chrome, which is the common case rather than an edge one. The script
+			rewrites this from the same decision that sets the class.
+		-->
+		<meta name="theme-color" content="#20234d" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<script>
 			// Blocking, before first paint. mode-watcher only applies .dark after
@@ -35,6 +41,9 @@
 				}
 				document.documentElement.classList.toggle('dark', dark);
 				document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+				// Same decision, so the browser chrome cannot disagree with the page.
+				var themeColor = document.querySelector('meta[name="theme-color"]');
+				if (themeColor) themeColor.setAttribute('content', dark ? '#20234d' : '#ffffff');
 			})();
 		</script>
 		%sveltekit.head%

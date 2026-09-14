@@ -1,5 +1,5 @@
 import { caseStudies } from '../../data/case-studies';
-import { LAST_MODIFIED, SITE_URL } from '../../data/site';
+import { SITE_URL } from '../../data/site';
 import type { RequestHandler } from './$types';
 
 export const prerender = true;
@@ -12,16 +12,20 @@ const staticRoutes = ['/', '/projects', '/designs', '/cloud', '/resume', '/conta
 
 export const GET: RequestHandler = () => {
 	/**
-	 * `lastmod` comes from the hand-set `updated` field on a case study, falling
-	 * back to a build-time constant. Deliberately not `new Date()`: a sitemap that
-	 * claims every URL changed on every crawl is telling the crawler its own dates
-	 * are worthless, and it stops reading them.
+	 * `lastmod` is emitted only where a real date exists — the hand-set `updated`
+	 * on a case study. No fallback constant, and deliberately not `new Date()`.
+	 *
+	 * Both of those would put the same date on all 24 URLs, which tells a crawler
+	 * the field is not tracking anything real; once it concludes that, it ignores
+	 * lastmod for the whole sitemap. Omitting it is strictly better than filling
+	 * it in with a number nobody maintains, so a URL with no recorded date simply
+	 * carries changefreq and priority as before.
 	 */
 	const urls = [
-		...staticRoutes.map((path) => ({ path, lastmod: LAST_MODIFIED })),
+		...staticRoutes.map((path) => ({ path, lastmod: undefined as string | undefined })),
 		...caseStudies.map((study) => ({
 			path: `/projects/${study.slug}`,
-			lastmod: study.updated ?? LAST_MODIFIED
+			lastmod: study.updated
 		}))
 	];
 
@@ -30,8 +34,12 @@ export const GET: RequestHandler = () => {
 ${urls
 	.map(
 		({ path, lastmod }) => `	<url>
-		<loc>${SITE_URL}${path === '/' ? '/' : path}</loc>
-		<lastmod>${lastmod}</lastmod>
+		<loc>${SITE_URL}${path === '/' ? '/' : path}</loc>${
+			lastmod
+				? `
+		<lastmod>${lastmod}</lastmod>`
+				: ''
+		}
 		<changefreq>${path === '/' ? 'weekly' : 'monthly'}</changefreq>
 		<priority>${path === '/' ? '1.0' : '0.7'}</priority>
 	</url>`

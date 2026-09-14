@@ -95,12 +95,5 @@ export const LOCATION = { locality: 'Lagos', country: 'NG' } as const;
  */
 export const SOCIAL_PROFILES = socialMenu.map((profile) => profile.link);
 
-/**
- * Fallback `lastmod` for pages with no per-item date. A build-time constant, not
- * `new Date()` at request time: a sitemap that claims every URL changed on every
- * crawl is a signal crawlers learn to discount.
- */
-export const LAST_MODIFIED = '2026-09-14';
-
 /** Absolute URL for a root-relative path. */
 export const absoluteUrl = (path: string) => new URL(path, SITE_URL).href;

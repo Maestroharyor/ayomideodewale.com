@@ -11,10 +11,21 @@
 	import { resumeEducation } from '../data/resume/shared';
 	import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, OG_IMAGE } from '../data/site';
 
+	/**
+	 * Only the roles this page actually shows.
+	 *
+	 * `resumeRoles` holds eight; `experiences` filters to the five with
+	 * `site.show`, so passing the full list asserted three roles the page never
+	 * renders — including one deliberately withheld from the site. Structured
+	 * data should describe the page it sits on. /resume lists every role, so it
+	 * passes the unfiltered set.
+	 */
+	const visibleRoles = resumeRoles.filter((role) => role.site?.show);
+
 	// The home page is one of the two places the Person is defined in full
 	// rather than referenced; see src/lib/schema.ts for why both.
 	const schema = graph([
-		personNode(resumeRoles, resumeEducation),
+		personNode(visibleRoles, resumeEducation),
 		webSiteNode(),
 		webPageNode({
 			path: '/',

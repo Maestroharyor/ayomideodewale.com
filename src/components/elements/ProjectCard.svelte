@@ -64,10 +64,18 @@
 					this={heading}
 					class="text-primary-500 dark:text-warning-500 text-xl font-bold"
 				>
-					{project.title}<span class="sr-only">
-						{project.caseStudy ? ' — read the case study' : ' — open the project'}</span
-					>
+					{project.title}
 				</svelte:element>
+				<!--
+					Inside the link but outside the heading. Within the heading it also
+					changed the heading's own text, so screen-reader heading navigation
+					and the document outline read "Braandly — read the case study" for
+					all 18 cards. Out here the link's accessible name is identical and
+					the outline stays clean.
+				-->
+				<span class="sr-only"
+					>{project.caseStudy ? ' — read the case study' : ' — open the project'}</span
+				>
 			</a>
 
 			<div

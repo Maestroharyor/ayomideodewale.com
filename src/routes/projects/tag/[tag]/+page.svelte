@@ -3,6 +3,7 @@
 	import ProjectsSection from '../../../../components/partials/projects/ProjectsSection.svelte';
 	import SeoMeta from '../../../../components/elements/SEOMeta.svelte';
 	import { page } from '$app/state';
+	import { absoluteUrl } from '../../../../data/site';
 
 	import type { PageData } from './$types';
 
@@ -17,6 +18,7 @@
 	title={`${data.title} Projects`}
 	metadescription={`Projects Ayomide Odewale has built with ${data.title}.`}
 	path={page.url.pathname}
+	image={absoluteUrl('/og/projects.png')}
 	imageAlt={`Projects built with ${data.title}`}
 	noindex
 />

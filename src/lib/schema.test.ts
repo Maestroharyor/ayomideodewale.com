@@ -164,6 +164,18 @@ describe('graph', () => {
 		}
 	});
 
+	it('survives a case study containing a closing script tag', () => {
+		// The failure this guards: JSON.stringify does not escape `<`, and the graph
+		// now carries every study's title, tagline and description. A `</script` in
+		// any of that prose would close the element early and spill the rest of the
+		// graph into the page body. SEOMeta escapes `<` before injecting.
+		const hostile = study({ tagline: 'Closes the tag: </script><img src=x>' });
+		const serialised = JSON.stringify(graph([caseStudyNode(hostile)])).replace(/</g, '\\u003c');
+		expect(serialised).not.toContain('</script');
+		expect(serialised).not.toContain('<');
+		expect(JSON.parse(serialised.replace(/\\u003c/g, '<'))).toBeTruthy();
+	});
+
 	it('produces a unique @id per node so nothing silently overwrites', () => {
 		const ids = graph([
 			personNode(resumeRoles, resumeEducation),

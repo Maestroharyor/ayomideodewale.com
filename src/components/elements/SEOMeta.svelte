@@ -58,7 +58,13 @@
 			: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
 	);
 
-	const jsonLd = $derived(schema ? JSON.stringify(schema) : '');
+	/**
+	 * `<` is escaped because JSON.stringify does not escape it and this block now
+	 * carries every case study title, tagline and description. A single `</script`
+	 * anywhere in that prose would close the element early and dump the rest of
+	 * the graph into the page body. \u003c is valid JSON and parses back to `<`.
+	 */
+	const jsonLd = $derived(schema ? JSON.stringify(schema).replace(/</g, '\\u003c') : '');
 </script>
 
 <svelte:head>
