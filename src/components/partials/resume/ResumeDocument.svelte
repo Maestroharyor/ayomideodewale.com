@@ -1,12 +1,24 @@
 <script lang="ts">
 	import type { ResumeDocument } from '../../../types';
 	import '../../../styles/resume-print.css';
+	import ObfuscatedContact from '../../elements/ObfuscatedContact.svelte';
 
 	let { doc }: { doc: ResumeDocument } = $props();
 
+	/**
+	 * A rendering concern, not a data one: `obfuscate` says how this component
+	 * should emit the entry, so it lives here rather than on ResumeLink, which
+	 * describes what a link *is* and is shared with the PDF builders.
+	 */
+	type ContactLink = { href: string; display: string; obfuscate?: boolean };
+
 	/** Email, site and profiles as one list, so the separator logic is uniform. */
-	const contactLinks = $derived([
-		{ href: `mailto:${doc.contact.email}`, display: doc.contact.email },
+	const contactLinks: ContactLink[] = $derived([
+		// The address is entity-encoded rather than written into the markup: this
+		// page is prerendered and in the sitemap, so a plain string here is a
+		// scraper target. Flagged per-entry because only this one needs it — the
+		// website and profile URLs are meant to be read by machines.
+		{ href: `mailto:${doc.contact.email}`, display: doc.contact.email, obfuscate: true },
 		{ href: `https://${doc.contact.website}`, display: doc.contact.website },
 		...doc.contact.links
 	]);
@@ -21,7 +33,13 @@
 		<h1 class="text-[17pt] font-bold leading-tight tracking-tight">{doc.contact.name}</h1>
 		<p class="text-[10.5pt] font-semibold text-[color:var(--resume-accent)]">{doc.titleLine}</p>
 		<p class="mt-1.5 text-[8.2pt] text-[color:var(--resume-muted)]">
-			{doc.contact.phone} · {doc.contact.location}
+			<!-- Encoded for the same reason as the address above. tel: so a phone
+			     reader can still dial it straight from the PDF. -->
+			<ObfuscatedContact
+				value={doc.contact.phone}
+				scheme="tel"
+				target={doc.contact.phone.replace(/[^+\d]/g, '')}
+			/> · {doc.contact.location}
 		</p>
 		<!--
 			The separator is its own element rather than loose text between an anchor
@@ -32,7 +50,10 @@
 		<p class="text-[8.2pt] text-[color:var(--resume-muted)]">
 			{#each contactLinks as link, i (link.href)}{#if i > 0}<span class="resume-sep">
 						·
-					</span>{/if}<a href={link.href}>{link.display}</a>{/each}
+					</span>{/if}{#if link.obfuscate}<ObfuscatedContact
+						value={link.display}
+						scheme="mailto"
+					/>{:else}<a href={link.href}>{link.display}</a>{/if}{/each}
 		</p>
 	</header>
 

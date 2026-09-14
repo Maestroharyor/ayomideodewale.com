@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ObfuscatedContact from '../../elements/ObfuscatedContact.svelte';
 	import { Icon } from 'svelte-icons-pack';
 	import {
 		FaBrandsGithub,
@@ -102,12 +103,11 @@
 						</a>
 					{/each}
 				</div>
-				<a
-					href={`mailto:${resumeContact.email}`}
+				<ObfuscatedContact
+					value={resumeContact.email}
+					scheme="mailto"
 					class="mt-5 inline-block text-[15px] text-gray-600 underline underline-offset-4 transition duration-300 hover:text-primary-500 dark:text-gray-300 dark:hover:text-warning-500"
-				>
-					{resumeContact.email}
-				</a>
+				/>
 			</div>
 		</div>
 

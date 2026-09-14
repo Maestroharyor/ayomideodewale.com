@@ -11,6 +11,7 @@
 	import BraandlyIcon from '../../components/elements/BraandlyIcon.svelte';
 	import ContactForm from '../../components/elements/ContactForm.svelte';
 	import SeoMeta from '../../components/elements/SEOMeta.svelte';
+	import ObfuscatedContact from '../../components/elements/ObfuscatedContact.svelte';
 	import { breadcrumbNode, graph, webPageNode, webSiteNode } from '../../lib/schema';
 	import { absoluteUrl } from '../../data/site';
 	import { socialMenu } from '../../data/menu';
@@ -70,12 +71,11 @@
 						Email
 					</dt>
 					<dd class="mt-1.5">
-						<a
-							href={`mailto:${resumeContact.email}`}
+						<ObfuscatedContact
+							value={resumeContact.email}
+							scheme="mailto"
 							class="text-lg text-gray-700 underline underline-offset-4 transition duration-300 hover:text-primary-500 dark:text-gray-200 dark:hover:text-warning-500"
-						>
-							{resumeContact.email}
-						</a>
+						/>
 					</dd>
 				</div>
 				<div>
