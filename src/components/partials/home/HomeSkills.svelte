@@ -56,8 +56,11 @@
 	class="relative mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-14 px-5 pt-24 pb-24 md:grid-cols-2 md:gap-10"
 >
 	<div>
-		<div>
-			<h2 class="mb-2 text-4xl font-bold text-primary-500 lg:text-5xl dark:text-warning-500">
+		<!-- Centred on mobile to match SectionHeading, which every other band uses. -->
+		<div class="text-center md:text-left">
+			<h2
+				class="mb-2 text-3xl font-bold text-primary-500 sm:text-4xl lg:text-5xl dark:text-warning-500"
+			>
 				{fullSkills ? 'The Top Tech Stacks I use' : 'My Favourite Dev. Stacks'}
 			</h2>
 			<p class="text-lg text-gray-600 dark:text-gray-300">
