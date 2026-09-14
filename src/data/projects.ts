@@ -55,6 +55,7 @@ export const projects: Project[] = [
 		desc: 'A Nigerian payments product: wallets, transfers on bank rails, bill payments, virtual cards and escrow with dispute resolution. I am the primary author of four of the backend services behind it, and wrote the request-encryption layer shared across its clients. Shipped to the App Store and Play Store',
 		img: '/projects/xedla.webp',
 		link: 'https://www.xedla.com',
+		featured: true,
 		caseStudy: 'xedla-pay',
 		tags: ['TypeScript', 'NodeJS', 'ExpressJS', 'MongoDB', 'Redis', 'Flutter', 'Docker']
 	},

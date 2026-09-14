@@ -4,7 +4,11 @@
 	import ProjectCard from '../../elements/ProjectCard.svelte';
 	import SectionHeading from '../../elements/SectionHeading.svelte';
 
-	const featured = projects.filter((project) => project.featured).slice(0, 4);
+	/**
+	 * Five, not four: the lead card spans both columns, so an even count leaves the
+	 * last card alone with a gap beside it. Odd counts fill the grid.
+	 */
+	const featured = projects.filter((project) => project.featured).slice(0, 5);
 </script>
 
 <div class=" pt-20 pb-20 relative bg-dark/[0.02] dark:bg-dark-background/20">
