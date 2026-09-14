@@ -100,7 +100,7 @@
 		description="Seven years building systems, now going deeper on how they're run. I'm a fullstack engineer specialising in cloud architecture and platform work: provisioning with Terraform, operating what I build, and understanding the failure modes before they find me."
 	/>
 
-	<div class="mx-auto max-w-[1100px] px-5 pb-28">
+	<div class="mx-auto max-w-[1200px] px-5 pb-28">
 		<!-- Stack strip, directly under the intro, so the page states its subject
 			 visually before anyone reads a paragraph. -->
 		<ul class="flex flex-wrap items-center justify-center gap-8 md:gap-14 pb-20">

@@ -11,7 +11,7 @@
 	const featured = projects.filter((project) => project.featured).slice(0, 5);
 </script>
 
-<div class=" pt-20 pb-20 relative bg-dark/[0.02] dark:bg-dark-background/20">
+<div class="relative pt-24 pb-24 bg-dark/[0.02] dark:bg-dark-background/20">
 	<div class="flex flex-col text-left justify-between px-5 max-w-[1200px] mx-auto">
 		<div>
 			<SectionHeading title="Here are some of my favourite projects" />

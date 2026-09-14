@@ -18,7 +18,7 @@
 </script>
 
 <div
-	class=" w-full pt-20 pb-40 px-5 bg-dark/[0.02] dark:bg-dark-background/40"
+	class="w-full px-5 pt-24 pb-24 bg-dark/[0.02] dark:bg-dark-background/40"
 	id="about"
 	use:reveal
 >

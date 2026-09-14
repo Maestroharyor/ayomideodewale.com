@@ -31,7 +31,7 @@
 
 <SeoMeta title="Get In Touch" {metadescription} path="/contact" />
 
-<main class="mx-auto max-w-[1100px] px-5 py-20 md:py-28">
+<main class="mx-auto max-w-[1200px] px-5 py-20 md:py-28">
 	<div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
 		<div>
 			<h1 class="text-4xl font-bold text-primary-500 md:text-5xl dark:text-warning-500">

@@ -126,7 +126,7 @@ export const resumeRoles: ResumeRole[] = [
 			show: true,
 			order: 2,
 			description:
-				'Led User Interface design and frontend development for the internal platform, and built server-side features in Django alongside it.',
+				'Led User Interface design and frontend development for the internal platform, and built the responsive component set used across the product.',
 			stacks: ['Figma', 'JavaScript', 'VueJS', 'SASS']
 		}
 	},
@@ -134,7 +134,7 @@ export const resumeRoles: ResumeRole[] = [
 		id: 'helppo',
 		role: 'Senior Software Developer',
 		company: 'Helppo Africa',
-		location: 'Lagos, Nigeria',
+		location: 'Lagos, Nigeria · Remote',
 		link: 'https://www.linkedin.com/company/helppo-africa-limited',
 		start: '2023-05',
 		end: '2023-11',
@@ -193,7 +193,7 @@ export const resumeRoles: ResumeRole[] = [
 		id: 'veendhq',
 		role: 'Frontend Developer',
 		company: 'VeendHQ',
-		location: 'Wyoming, USA',
+		location: 'Wyoming, USA · Remote',
 		link: 'https://veendhq.com',
 		start: '2022-02',
 		end: '2022-10',

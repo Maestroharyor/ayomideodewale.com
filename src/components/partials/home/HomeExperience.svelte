@@ -20,7 +20,7 @@
 	);
 </script>
 
-<div class="pt-20 pb-20 relative" id="experience">
+<div class="relative pt-24 pb-24" id="experience">
 	<div class="flex flex-col text-left justify-between px-5 max-w-[900px] mx-auto">
 		<div>
 			<SectionHeading title="Some Recent Work Experience" />
