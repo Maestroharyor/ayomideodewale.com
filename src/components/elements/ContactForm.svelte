@@ -161,7 +161,7 @@
 			>
 			<input
 				placeholder="Ada Lovelace"
-				class="w-full rounded-xl border border-gray-300 bg-white/60 px-4 py-3 text-base text-primary-900 transition duration-200 outline-none placeholder:text-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/30 dark:border-primary-600 dark:bg-primary-900/40 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-warning-500 dark:focus:ring-warning-500/25"
+				class="w-full rounded-xl border border-gray-300 bg-white/60 px-4 py-3 text-base text-primary-900 transition duration-200 outline-none placeholder:text-gray-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/30 dark:border-primary-400/40 dark:bg-primary-900/40 dark:text-white dark:placeholder:text-gray-300 dark:focus:border-warning-500 dark:focus:ring-warning-500/25"
 				id="name"
 				name="name"
 				autocomplete="name"
@@ -181,7 +181,7 @@
 			<input
 				type="email"
 				placeholder="you@company.com"
-				class="w-full rounded-xl border border-gray-300 bg-white/60 px-4 py-3 text-base text-primary-900 transition duration-200 outline-none placeholder:text-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/30 dark:border-primary-600 dark:bg-primary-900/40 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-warning-500 dark:focus:ring-warning-500/25"
+				class="w-full rounded-xl border border-gray-300 bg-white/60 px-4 py-3 text-base text-primary-900 transition duration-200 outline-none placeholder:text-gray-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/30 dark:border-primary-400/40 dark:bg-primary-900/40 dark:text-white dark:placeholder:text-gray-300 dark:focus:border-warning-500 dark:focus:ring-warning-500/25"
 				id="email"
 				name="email"
 				autocomplete="email"
@@ -204,7 +204,7 @@
 				name="message"
 				id="message"
 				rows="6"
-				class="w-full rounded-xl border border-gray-300 bg-white/60 px-4 py-3 text-base text-primary-900 transition duration-200 outline-none placeholder:text-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/30 dark:border-primary-600 dark:bg-primary-900/40 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-warning-500 dark:focus:ring-warning-500/25 resize-y"
+				class="w-full rounded-xl border border-gray-300 bg-white/60 px-4 py-3 text-base text-primary-900 transition duration-200 outline-none placeholder:text-gray-500 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/30 dark:border-primary-400/40 dark:bg-primary-900/40 dark:text-white dark:placeholder:text-gray-300 dark:focus:border-warning-500 dark:focus:ring-warning-500/25 resize-y"
 				aria-invalid={submitted && !!errors.message}
 				aria-describedby={submitted && errors.message ? 'message-error' : undefined}
 				bind:value={formData.message}></textarea>

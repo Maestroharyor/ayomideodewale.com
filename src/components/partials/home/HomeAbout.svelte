@@ -27,17 +27,22 @@
 	 * circle is taller than the prose at those levels, so aligning tops leaves the
 	 * text floating at the top of a much taller cell.
 	 *
-	 * Beyond that it takes a 3:4 crop, which lands within a few pixels of the
-	 * prose height at level three and stays shorter than it above that.
+	 * Beyond that the portrait grows with the bio. The heights below are measured
+	 * against the actual prose at 1280px — 469px, 534px and 914px at levels three,
+	 * four and five — so the image finishes with the text rather than overshooting
+	 * it. Level five is deliberately short of its 914px: past about 680px the
+	 * portrait becomes a column of its own, so it stops there and sticks instead.
 	 *
-	 * It is a ratio rather than `h-full` because `h-full` never resolved: the grid
-	 * row is sized by its content and the image is that content, so the height was
-	 * circular and the image fell back to its natural 1:1.59, rendering 576px tall
-	 * against 469px of text. Sticky covers the longer levels, where the text is
-	 * taller than the image by design.
+	 * Explicit numbers rather than `h-full`, which never resolved: the grid row is
+	 * sized by its content and the image is that content, so the height was
+	 * circular and the image fell back to its natural 1:1.59 and rendered 576px
+	 * against 469px of text. Worth re-measuring if the bios in profile.ts change
+	 * length materially.
 	 */
 	const isCompact = $derived(value <= 2);
 	const avatarSize = $derived(180 + value * 50);
+	const PORTRAIT_HEIGHT: Record<number, number> = { 3: 480, 4: 545, 5: 680 };
+	const portraitHeight = $derived(PORTRAIT_HEIGHT[value] ?? 480);
 </script>
 
 <div
@@ -146,7 +151,8 @@
 						height="1270"
 						loading="lazy"
 						decoding="async"
-						class="aspect-[3/4] w-full rounded-2xl object-cover object-top shadow-lg ring-1 ring-gray-200 dark:ring-primary-600"
+						style={`height: ${portraitHeight}px`}
+						class="w-full rounded-2xl object-cover object-top shadow-lg ring-1 ring-gray-200 transition-[height] duration-500 ease-out motion-reduce:transition-none dark:ring-primary-600"
 					/>
 				</div>
 			{/if}
