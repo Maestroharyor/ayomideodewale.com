@@ -16,6 +16,7 @@
 	let {
 		title,
 		metadescription = '',
+		socialDescription = '',
 		path = '/',
 		noindex = false,
 		ogType = 'website',
@@ -27,6 +28,8 @@
 	}: {
 		title?: string;
 		metadescription?: string;
+		/** Shorter variant for og/twitter, which truncate near 125 rather than 155. */
+		socialDescription?: string;
 		path?: string;
 		noindex?: boolean;
 		/** `article` on case studies, `profile` on pages that are about the person. */
@@ -42,6 +45,9 @@
 
 	const titleView = $derived(title ? `${title} | ${SITE_NAME}` : DEFAULT_TITLE);
 	const description = $derived(metadescription || DEFAULT_DESCRIPTION);
+	// Falls back to the search description rather than truncating it: a sentence
+	// cut at 125 characters reads worse than one that is merely long.
+	const socialDesc = $derived(socialDescription || description);
 	const canonical = $derived(absoluteUrl(path));
 	const cardImage = $derived(image ?? OG_IMAGE);
 	const cardImageAlt = $derived(imageAlt ?? DEFAULT_TITLE);
@@ -77,7 +83,7 @@
 	<meta property="og:site_name" content={SITE_NAME} />
 	<meta property="og:locale" content={SITE_LOCALE} />
 	<meta property="og:title" content={titleView} />
-	<meta property="og:description" content={description} />
+	<meta property="og:description" content={socialDesc} />
 	<!-- Absolute, not relative: Open Graph ignores relative URLs outright. -->
 	<meta property="og:url" content={canonical} />
 	<meta property="og:image" content={cardImage} />
@@ -106,7 +112,7 @@
 	<meta name="twitter:site" content={TWITTER_HANDLE} />
 	<meta name="twitter:creator" content={TWITTER_HANDLE} />
 	<meta name="twitter:title" content={titleView} />
-	<meta name="twitter:description" content={description} />
+	<meta name="twitter:description" content={socialDesc} />
 	<meta name="twitter:image" content={cardImage} />
 	<meta name="twitter:image:alt" content={cardImageAlt} />
 

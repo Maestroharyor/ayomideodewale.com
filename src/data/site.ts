@@ -32,6 +32,17 @@ export const DEFAULT_TITLE = 'Ayomide Odewale — Fullstack Engineer (TypeScript
 export const DEFAULT_DESCRIPTION =
 	'Fullstack engineer, 7 years in fintech and enterprise platforms. TypeScript, Go and Python; Node, React and Next.js; AWS and Terraform. Remote from Lagos.';
 
+/**
+ * The social variant, 107 characters.
+ *
+ * Search results truncate near 155 and social previews near 125, so one string
+ * cannot serve both: at 154 the full description is right for Google and gets
+ * cut mid-clause on a phone. This one is emitted as og:description and
+ * twitter:description; DEFAULT_DESCRIPTION stays on <meta name="description">.
+ */
+export const SOCIAL_DESCRIPTION =
+	'Fullstack engineer, 7 years in fintech and enterprise platforms. TypeScript, Go and AWS. Remote from Lagos.';
+
 export const JOB_TITLE = 'Fullstack Engineer';
 
 /**
