@@ -72,11 +72,11 @@
 
 		{#each doodles as doodle (doodle.class)}
 			<div
-				class="_floating hidden opacity-90 md:block {doodle.class}"
+				class="_floating hidden text-primary-500 opacity-90 md:block dark:text-primary-400 {doodle.class}"
 				style={`animation-delay: ${doodle.delay};`}
 				aria-hidden="true"
 			>
-				<Icon src={doodle.icon} size="50" color="#4F46E5" />
+				<Icon src={doodle.icon} size="50" color="currentColor" />
 			</div>
 		{/each}
 	</div>
