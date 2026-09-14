@@ -6,6 +6,8 @@ interface EmailMessage {
 	subject: string;
 	text?: string;
 	html?: string;
+	/** Where a reply should go, when that is not the sending mailbox. */
+	replyTo?: string;
 }
 
 interface NodeMailerEmail {
@@ -14,6 +16,7 @@ interface NodeMailerEmail {
 	subject: string;
 	text?: string;
 	html?: string;
+	replyTo?: string;
 }
 
 let transporter: Transporter | null = null;
@@ -61,11 +64,11 @@ function getTransporter(): Transporter {
 	return transporter;
 }
 
-const sendEmail = async ({ to, subject, text, html }: EmailMessage) => {
+const sendEmail = async ({ to, subject, text, html, replyTo }: EmailMessage) => {
 	const mailer = getTransporter();
 
 	const message: NodeMailerEmail = {
-		from: `"${env.EMAIL_NAME} 🇧" <${env.EMAIL_ADDRESS}>`,
+		from: `"${env.EMAIL_NAME}" <${env.EMAIL_ADDRESS}>`,
 		to,
 		subject
 	};
@@ -76,6 +79,10 @@ const sendEmail = async ({ to, subject, text, html }: EmailMessage) => {
 
 	if (text) {
 		message.text = text;
+	}
+
+	if (replyTo) {
+		message.replyTo = replyTo;
 	}
 
 	const info = await mailer.sendMail(message);
