@@ -111,13 +111,13 @@
 
 			aria-hidden and pointer-events-none: they are paint, not content.
 		-->
-		<div class="relative">
+		<div class="relative isolate">
 			<div
-				class="pointer-events-none absolute -top-10 -right-6 -z-10 h-64 w-64 rounded-full bg-primary-500/40 blur-3xl dark:bg-primary-400/25"
+				class="pointer-events-none absolute top-0 right-0 -z-10 h-64 w-64 rounded-full bg-primary-500/40 blur-3xl dark:bg-primary-400/25"
 				aria-hidden="true"
 			></div>
 			<div
-				class="pointer-events-none absolute -bottom-12 -left-10 -z-10 h-72 w-72 rounded-full bg-warning-500/25 blur-3xl dark:bg-warning-500/15"
+				class="pointer-events-none absolute bottom-0 left-0 -z-10 h-72 w-72 rounded-full bg-warning-500/25 blur-3xl dark:bg-warning-500/15"
 				aria-hidden="true"
 			></div>
 
