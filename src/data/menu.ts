@@ -66,12 +66,32 @@ export const footerMenu: Menus[] = [
 		hasSubmenu: false
 	},
 	{
+		/**
+		 * Footer only, deliberately. /cloud was in the sitemap but linked from
+		 * nowhere, which is how a page gets crawled last and ranked lowest. It
+		 * stays out of the header so the primary nav keeps reading as fullstack
+		 * rather than leading with an infrastructure specialism.
+		 */
+		title: 'Cloud & Platform',
+		link: '/cloud',
+		hasSubmenu: false
+	},
+	{
 		title: 'Get in Touch',
 		link: '/contact',
 		hasSubmenu: false
 	}
 ];
 
+/**
+ * The single source of truth for every profile this site claims as mine.
+ * `SOCIAL_PROFILES` in site.ts is derived from it, so the footer links and the
+ * `sameAs` array in the Person schema cannot disagree — they did, and Facebook
+ * was linked from every page while being absent from the structured data.
+ *
+ * Facebook is deliberately absent from both now: it is a personal profile, and
+ * `sameAs` is the property recruiters and Google's entity pipeline follow.
+ */
 export const socialMenu: Menus[] = [
 	{
 		title: 'Braandly',
@@ -108,12 +128,6 @@ export const socialMenu: Menus[] = [
 	{
 		title: 'TikTok',
 		link: 'https://www.tiktok.com/@maestroharyor',
-		hasSubmenu: false,
-		external: true
-	},
-	{
-		title: 'Facebook',
-		link: 'https://web.facebook.com/ayomide.odewale.125',
 		hasSubmenu: false,
 		external: true
 	}
