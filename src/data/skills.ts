@@ -76,6 +76,7 @@ export const skillsFull: Skill[] = [
 
 	{ skill: 'AWS', src: '/svgs/aws.svg' },
 	{ skill: 'Terraform', src: '/svgs/terraform.svg' },
+	{ skill: 'Ansible', src: '/svgs/ansible.svg' },
 	{ skill: 'Docker', src: '/svgs/docker.svg' },
 	{ skill: 'GitHub Actions', src: '/svgs/github_actions.svg' },
 

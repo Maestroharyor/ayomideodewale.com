@@ -1,7 +1,12 @@
 <script lang="ts">
 	/**
-	 * An unplugged cable, for errors that are not a 404: something was connected
-	 * and is not any more. Same stroke language as the doodles in static/doodles.
+	 * A server rack with one unit dropped out of it and sparking.
+	 *
+	 * Replaces an unplugged cable, which at display size read as two unrelated
+	 * hooks either side of a lightning bolt: nothing in the outline said "cable",
+	 * so the drawing carried no meaning the heading was not already carrying.
+	 * A rack with a gap in it is legible as a silhouette, which is the test an
+	 * illustration at 220px has to pass.
 	 *
 	 * `currentColor` throughout, so the parent's text colour drives it and it
 	 * follows the theme.
@@ -21,19 +26,26 @@
 	aria-hidden="true"
 	focusable="false"
 >
-	<!-- socket, left -->
-	<path d="M16 96h34c9.9 0 18-8.1 18-18v-8c0-9.9-8.1-18-18-18H16" />
-	<path d="M44 66v6M44 84v6" opacity="0.7" />
+	<!-- cabinet -->
+	<path d="M46 22h84a6 6 0 0 1 6 6v104a6 6 0 0 1-6 6H46a6 6 0 0 1-6-6V28a6 6 0 0 1 6-6Z" />
 
-	<!-- plug, right, pulled clear -->
-	<path d="M184 96h-30c-9.9 0-18-8.1-18-18v-8c0-9.9 8.1-18 18-18h30" />
-	<path d="M136 62h-14M136 86h-14" opacity="0.7" />
+	<!-- healthy units: a status lamp and vent lines -->
+	<path d="M54 40h68" opacity="0.5" />
+	<circle cx="60" cy="54" r="3" />
+	<path d="M74 54h48" opacity="0.5" />
+	<circle cx="60" cy="76" r="3" />
+	<path d="M74 76h48" opacity="0.5" />
 
-	<!-- the gap, with a spark -->
-	<path d="M86 74h10M104 74h10" opacity="0.5" />
-	<path d="m100 50-8 16h14l-8 16" />
+	<!-- the failed unit: pulled proud of the rack and tilted -->
+	<g transform="rotate(-7 96 104)">
+		<path d="M52 92h74a5 5 0 0 1 5 5v16a5 5 0 0 1-5 5H52a5 5 0 0 1-5-5V97a5 5 0 0 1 5-5Z" />
+		<path d="m88 98-7 9h10l-7 9" />
+		<path d="M104 105h18" opacity="0.5" />
+	</g>
 
-	<!-- slack cable falling away -->
-	<path d="M16 96c-8 14 6 26 22 22s18 14 30 12" opacity="0.45" />
-	<path d="M184 96c8 14-6 26-22 22s-18 14-30 12" opacity="0.45" />
+	<!-- feet -->
+	<path d="M56 138v8M120 138v8" opacity="0.6" />
+
+	<!-- sparks escaping the gap -->
+	<path d="M148 78h10M152 62l8-6M152 94l8 6" opacity="0.65" />
 </svg>

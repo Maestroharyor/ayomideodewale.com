@@ -47,16 +47,13 @@
 	$effect(() => {
 		if (!active) return;
 
-		// The class, not a global style, so the native cursor returns the moment
-		// this component is not running — including on the print routes.
-		document.documentElement.classList.add('has-cursor-trail');
-
 		let pointerX = window.innerWidth / 2;
 		let pointerY = window.innerHeight / 2;
 		let ringX = pointerX;
 		let ringY = pointerY;
 		let visible = false;
 		let frame = 0;
+		let lastTarget: Element | null = null;
 
 		for (const dot of tail) {
 			dot.x = pointerX;
@@ -92,11 +89,10 @@
 				}
 			}
 
-			const target = event.target;
-			overInteractive =
-				target instanceof Element &&
-				target.closest('a, button, [role="button"], input, textarea, select, label, summary') !==
-					null;
+			// Stashed, not resolved. `closest()` walks the ancestor chain against a
+			// seven-selector list, and pointermove fires around 120 times a second;
+			// the frame loop needs the answer at most 60 times a second.
+			lastTarget = event.target instanceof Element ? event.target : null;
 		};
 
 		const onLeave = () => {
@@ -108,7 +104,11 @@
 		const onDown = () => (pressed = true);
 		const onUp = () => (pressed = false);
 
+		const INTERACTIVE = 'a, button, [role="button"], input, textarea, select, label, summary';
+
 		const tick = () => {
+			overInteractive = lastTarget !== null && lastTarget.closest(INTERACTIVE) !== null;
+
 			// Each follower eases toward the one in front. A single lerp factor per
 			// layer is what produces the tail without storing a position history.
 			ringX += (pointerX - ringX) * 0.18;
@@ -132,6 +132,10 @@
 
 		frame = requestAnimationFrame(tick);
 		window.addEventListener('pointermove', onMove, { passive: true });
+		// Added only once the listeners are attached and the loop is running: if
+		// anything above threw, `cursor: none` would be left applied with nothing
+		// drawing a replacement.
+		document.documentElement.classList.add('has-cursor-trail');
 		window.addEventListener('pointerdown', onDown, { passive: true });
 		window.addEventListener('pointerup', onUp, { passive: true });
 		document.addEventListener('pointerleave', onLeave);

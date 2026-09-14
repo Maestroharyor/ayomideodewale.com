@@ -20,7 +20,7 @@
 	// Solid black marks: legible on white, invisible on the navy. Inverting them
 	// unconditionally was the old bug, which made them vanish in light mode
 	// instead, so the inversion is dark-mode only.
-	const MONOCHROME_MARKS = new Set(['nextjs', 'solidity', 'expressjs', 'prisma']);
+	const MONOCHROME_MARKS = new Set(['nextjs', 'solidity', 'expressjs', 'prisma', 'ansible']);
 
 	// Dark but coloured marks, which inverting would wreck: Django is #004d40,
 	// Postgres #336791, Node a mix down to #2e7d32. All of them read as mud

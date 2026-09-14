@@ -2,7 +2,7 @@ import { sendEmail } from '../../../middlewares/mail.js';
 import { toJSONString } from '../../../utils/index.js';
 import { createRateLimiter } from '../../../middlewares/rate-limit.js';
 import { clientKey } from '../../../middlewares/client-key.js';
-import { hasTrustedOrigin, looksAutomated, looksLikeSpam } from '../../../middlewares/spam.js';
+import { classifySubmission, hasTrustedOrigin, looksLikeSpam } from '../../../middlewares/spam.js';
 import { isContactValid, validateContact } from '../../../lib/contact-rules.js';
 import { confirmationEmail, notificationEmail } from '../../../lib/server/email/index.js';
 import type { ContactErrorResponse } from '../../../types/index.js';
@@ -61,9 +61,23 @@ export const POST: RequestHandler = async (event) => {
 	const body = isRecord(raw) ? raw : {};
 	const { name, email, message } = body;
 
-	// Accepted and dropped, never rejected — see SILENT_SUCCESS.
-	if (looksAutomated(body)) {
+	const verdict = classifySubmission(body);
+
+	// Only the bot verdict is dropped silently. A stale page belongs to a person
+	// who left a tab open, and telling them it sent while binning the message is
+	// the worst outcome available — so they get an error they can act on.
+	if (verdict === 'bot') {
 		return json(SILENT_SUCCESS);
+	}
+
+	if (verdict === 'stale') {
+		return json(
+			{
+				success: false,
+				message: 'This page has been open a while. Please refresh and send again.'
+			},
+			409
+		);
 	}
 
 	// Narrow at the boundary. Without this a truthy non-string (say `name: {}`)

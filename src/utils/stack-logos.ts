@@ -20,6 +20,9 @@ const LOGOS: Record<string, string> = {
 	docker: 'docker',
 	express: 'express',
 	expressjs: 'express',
+	laravel: 'laravel',
+	// The studies name it "Laravel API"; the mark is the framework's either way.
+	laravelapi: 'laravel',
 	figma: 'figma',
 	firebase: 'firebase',
 	flutter: 'flutter',
@@ -41,6 +44,11 @@ const LOGOS: Record<string, string> = {
 	reactjs: 'react',
 	reactnative: 'react_native',
 	redis: 'redis',
+	redux: 'redux',
+	// Redux Saga ships no mark of its own and is always shown under Redux's.
+	reduxsaga: 'redux',
+	socketio: 'socketio',
+	stripe: 'stripe',
 	sass: 'sass',
 	scss: 'sass',
 	supabase: 'supabase',
@@ -49,8 +57,13 @@ const LOGOS: Record<string, string> = {
 	tailwindcss: 'tailwindcss',
 	terraform: 'terraform',
 	typescript: 'typescript',
+	vercel: 'vercel',
+	vite: 'vite',
+	vitejs: 'vite',
+	vitest: 'vitest',
 	vue: 'vue',
-	vuejs: 'vue'
+	vuejs: 'vue',
+	wordpress: 'wordpress'
 };
 
 /** Lowercases and drops dots, spaces and hyphens: 'Next.js' -> 'nextjs'. */
@@ -65,7 +78,16 @@ export function stackLogo(name: string): string | undefined {
  * Marks that are solid black and vanish on a dark background. Same set the
  * skills grid inverts, for the same reason.
  */
-const MONOCHROME = new Set(['nextjs', 'next', 'express', 'expressjs', 'prisma']);
+const MONOCHROME = new Set([
+	'nextjs',
+	'next',
+	'express',
+	'expressjs',
+	'prisma',
+	'stripe',
+	'vercel',
+	'socketio'
+]);
 
 export function stackNeedsInvert(name: string): boolean {
 	return MONOCHROME.has(normalise(name));
