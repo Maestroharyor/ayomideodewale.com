@@ -326,3 +326,107 @@ html.dark .profile__details a:hover {
 .profile__details p {
 	margin-bottom: 20px;
 }
+
+/* Custom cursor, mounted by CursorTrail.svelte.
+   `has-cursor-trail` is added by that component once it decides to run, so a
+   visitor without JS, on a touch device, or with reduced motion set never loses
+   their pointer to a `cursor: none` that nothing replaces. */
+.has-cursor-trail,
+.has-cursor-trail a,
+.has-cursor-trail button,
+.has-cursor-trail [role='button'],
+.has-cursor-trail label,
+.has-cursor-trail summary {
+	cursor: none;
+}
+
+/* Text entry keeps its I-beam: the caret position is real information, and a dot
+   hovering over a textarea does not convey it. */
+.has-cursor-trail input,
+.has-cursor-trail textarea,
+.has-cursor-trail [contenteditable='true'] {
+	cursor: text;
+}
+
+.cursor-layer {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	pointer-events: none;
+}
+
+.cursor-layer > * {
+	position: fixed;
+	top: 0;
+	left: 0;
+	border-radius: 9999px;
+	/* Centres on the pointer. The rAF loop writes the independent `translate`
+	   property, so this stays untouched and `scale` below is free to transition. */
+	transform: translate(-50%, -50%);
+	will-change: translate, scale;
+}
+
+.cursor-dot {
+	width: 7px;
+	height: 7px;
+	background: var(--primary-accent-color);
+	scale: 1;
+	transition: scale 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cursor-dot.is-pressed {
+	scale: 0.55;
+}
+
+.cursor-ring {
+	width: 30px;
+	height: 30px;
+	border: 1.5px solid var(--primary-color);
+	opacity: 0.65;
+	scale: 1;
+	/* Slight overshoot on the way out, so growing over a link reads as a response
+	   rather than a jump. */
+	transition:
+		scale 260ms cubic-bezier(0.34, 1.56, 0.64, 1),
+		opacity 200ms ease-out,
+		border-color 200ms ease-out,
+		background-color 200ms ease-out;
+}
+
+.cursor-ring.is-over {
+	scale: 1.9;
+	opacity: 0.9;
+	border-color: var(--primary-accent-color);
+	background: color-mix(in srgb, var(--primary-accent-color) 12%, transparent);
+}
+
+.cursor-ring.is-pressed {
+	scale: 0.8;
+}
+
+/* Pressing while over a link should still shrink from the enlarged size, not
+   from the resting one. */
+.cursor-ring.is-over.is-pressed {
+	scale: 1.55;
+}
+
+.cursor-tail {
+	background: var(--primary-color);
+}
+
+html.dark .cursor-dot {
+	background: var(--warning);
+}
+
+html.dark .cursor-ring {
+	border-color: var(--warning);
+}
+
+html.dark .cursor-ring.is-over {
+	border-color: var(--warning);
+	background: color-mix(in srgb, var(--warning) 14%, transparent);
+}
+
+html.dark .cursor-tail {
+	background: var(--warning);
+}

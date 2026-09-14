@@ -16,6 +16,7 @@
 	import Header from '../components/partials/headers/Header.svelte';
 	import Footer from '../components/partials/footers/Footer.svelte';
 	import Toast from '../components/ui/Toast.svelte';
+	import CursorTrail from '../components/ui/CursorTrail.svelte';
 
 	let { children } = $props();
 
@@ -141,6 +142,9 @@
 	{/if}
 
 	<Toast />
+	<!-- Inside the non-print branch: a printed resume has no pointer, and the
+	     component's own class is what applies `cursor: none`. -->
+	<CursorTrail />
 	<Header />
 	{@render children()}
 	<Footer />
