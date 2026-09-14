@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { confirmationEmail, notificationEmail } from './index';
+import { confirmationEmail, displayName, notificationEmail } from './index';
 
 /**
  * Exercises the real generated templates through the real builders.
@@ -97,7 +97,9 @@ describe('confirmationEmail', () => {
 			origin: sender.origin
 		});
 		expect(mail.subject).not.toMatch(/[\r\n]/);
-		expect(mail.subject).toBe('Thanks for getting in touch, Grace Bcc: victim@evil.com');
+		// displayName capitalises the lowercase words, payload included; what
+		// matters is that the newlines are gone and it is one inert line.
+		expect(mail.subject).toBe('Thanks for getting in touch, Grace Bcc: Victim@evil.com');
 	});
 
 	it('collapses a multi-line name into one readable line', () => {
@@ -132,5 +134,55 @@ describe('confirmationEmail', () => {
 		expect(mail.html).toContain('<table');
 		expect(mail.html).not.toMatch(/display:\s*flex/);
 		expect(mail.html).not.toMatch(/\d(\.\d+)?rem/);
+	});
+});
+
+describe('displayName', () => {
+	it('capitalises a name typed in lowercase', () => {
+		expect(displayName('ben smith')).toBe('Ben Smith');
+	});
+
+	it('treats hyphens and apostrophes as word boundaries', () => {
+		expect(displayName('mary-jane watson')).toBe('Mary-Jane Watson');
+		expect(displayName("o'brien")).toBe("O'Brien");
+	});
+
+	/**
+	 * The reason this is conservative rather than a blanket first-letter
+	 * uppercase: that turns "McDonald" into "Mcdonald" and "IBM" into "Ibm".
+	 * A name someone capitalised deliberately is left exactly as typed.
+	 */
+	it('leaves any word already carrying a capital alone', () => {
+		for (const name of ['McDonald', "O'Brien", 'IBM', 'Ayomide Odewale', 'LaTeX']) {
+			expect(displayName(name), name).toBe(name);
+		}
+	});
+
+	/**
+	 * A known limitation, recorded rather than worked around. The rule is
+	 * per-word, so the lowercase particles in "van der Berg" are capitalised
+	 * too. Detecting nobiliary particles reliably means a list that is wrong for
+	 * somebody either way, and this is a contact email rather than a registry.
+	 */
+	it('capitalises lowercase particles, which is the accepted trade-off', () => {
+		expect(displayName('van der berg')).toBe('Van Der Berg');
+	});
+
+	it('capitalises only the lowercase words in a mixed name', () => {
+		expect(displayName('ben McDonald')).toBe('Ben McDonald');
+	});
+
+	it('preserves the spacing it was given', () => {
+		expect(displayName('  ben   smith ')).toBe('  Ben   Smith ');
+	});
+
+	it('reaches the subject and both body parts', () => {
+		const mail = confirmationEmail({ name: 'ben smith', origin: sender.origin });
+		expect(mail.subject).toBe('Thanks for getting in touch, Ben Smith');
+		expect(mail.html).toContain('Ben Smith');
+		expect(mail.text).toContain('Ben Smith');
+
+		const notice = notificationEmail({ ...sender, name: 'ben smith' });
+		expect(notice.html).toContain('Ben Smith');
 	});
 });
